@@ -35,12 +35,12 @@ type
     Edit2: TEdit;
     Rectangle7: TRectangle;
     Label7: TLabel;
-    Image3: TImage;
-    Image1: TImage;
-    Image2: TImage;
-    procedure Image3Click(Sender: TObject);
+    imgAba1: TImage;
+    imgAba2: TImage;
+    imgAba3: TImage;
+    procedure imgAba1Click(Sender: TObject);
   private
-    procedure mudarAba(indice: integer);
+    procedure mudarAba(img: TImage);
     { Private declarations }
   public
     { Public declarations }
@@ -53,14 +53,19 @@ implementation
 
 {$R *.fmx}
 
-procedure TfrmPrincipal.mudarAba(indice: integer);
+procedure TfrmPrincipal.mudarAba(img: TImage);
 begin
-  TabControl.GotoVisibleTab(indice, TTabTransition.Slide);
+  imgAba1.Opacity := 0.4;
+  imgAba2.Opacity := 0.4;
+  imgAba3.Opacity := 0.4;
+
+  img.Opacity := 1;
+  TabControl.GotoVisibleTab(img.tag, TTabTransition.Slide);
 end;
 
-procedure TfrmPrincipal.Image3Click(Sender: TObject);
+procedure TfrmPrincipal.imgAba1Click(Sender: TObject);
 begin
-  mudarAba(Sender.tag)
+  mudarAba(TImage(Sender));
 end;
 
 end.

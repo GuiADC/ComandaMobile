@@ -3,7 +3,7 @@ object frmAddItem: TfrmAddItem
   Top = 0
   Caption = 'Form1'
   ClientHeight = 480
-  ClientWidth = 495
+  ClientWidth = 405
   Fill.Kind = Solid
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -11,7 +11,7 @@ object frmAddItem: TfrmAddItem
   DesignerMasterStyle = 3
   object TabControl1: TTabControl
     Align = Client
-    Size.Width = 495.000000000000000000
+    Size.Width = 405.000000000000000000
     Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
@@ -19,9 +19,9 @@ object frmAddItem: TfrmAddItem
     TabOrder = 0
     TabPosition = None
     Sizes = (
-      495s
+      405s
       480s
-      495s
+      405s
       480s)
     object TabItem1: TTabItem
       CustomIcon = <
@@ -38,14 +38,14 @@ object frmAddItem: TfrmAddItem
         Align = Top
         Fill.Color = claWhite
         Sides = [Bottom]
-        Size.Width = 495.000000000000000000
+        Size.Width = 405.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFCFCFCF
         object Label3: TLabel
           Align = Contents
           StyledSettings = [Family]
-          Size.Width = 495.000000000000000000
+          Size.Width = 405.000000000000000000
           Size.Height = 50.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Size = 18.000000000000000000
@@ -115,7 +115,7 @@ object frmAddItem: TfrmAddItem
         HeaderAppearanceClassName = 'TListHeaderObjects'
         FooterAppearanceClassName = 'TListHeaderObjects'
         Align = Client
-        Size.Width = 495.000000000000000000
+        Size.Width = 405.000000000000000000
         Size.Height = 430.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
@@ -136,14 +136,14 @@ object frmAddItem: TfrmAddItem
         Align = Top
         Fill.Color = claWhite
         Sides = [Bottom]
-        Size.Width = 495.000000000000000000
+        Size.Width = 405.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
-        Stroke.Color = xFFCFCFCF
+        Stroke.Kind = None
         object Label1: TLabel
           Align = Contents
           StyledSettings = [Family]
-          Size.Width = 495.000000000000000000
+          Size.Width = 405.000000000000000000
           Size.Height = 50.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Size = 18.000000000000000000
@@ -210,9 +210,9 @@ object frmAddItem: TfrmAddItem
       object Rectangle6: TRectangle
         Align = Top
         Fill.Color = claWhite
-        Position.Y = 50.000000000000000000
+        Position.Y = 84.000000000000000000
         Sides = [Bottom]
-        Size.Width = 495.000000000000000000
+        Size.Width = 405.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFCFCFCF
@@ -225,7 +225,7 @@ object frmAddItem: TfrmAddItem
           Margins.Left = 20.000000000000000000
           Margins.Top = 10.000000000000000000
           Margins.Right = 20.000000000000000000
-          Size.Width = 352.000000000000000000
+          Size.Width = 262.000000000000000000
           Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
           TextPrompt = 'Pesquisar...'
@@ -237,7 +237,7 @@ object frmAddItem: TfrmAddItem
           Margins.Top = 5.000000000000000000
           Margins.Right = 20.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Position.X = 392.000000000000000000
+          Position.X = 302.000000000000000000
           Position.Y = 5.000000000000000000
           Size.Width = 83.000000000000000000
           Size.Height = 40.000000000000000000
@@ -258,6 +258,39 @@ object frmAddItem: TfrmAddItem
             Text = 'Buscar'
             TabOrder = 0
           end
+        end
+      end
+      object ListView2: TListView
+        ItemAppearanceClassName = 'TListItemAppearance'
+        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Client
+        Size.Width = 405.000000000000000000
+        Size.Height = 346.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+      end
+      object Rectangle2: TRectangle
+        Align = Top
+        Fill.Color = claWhite
+        Position.Y = 50.000000000000000000
+        Sides = [Bottom]
+        Size.Width = 405.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = xFFCFCFCF
+        object Label2: TLabel
+          Align = Top
+          StyledSettings = [Family]
+          Size.Width = 405.000000000000000000
+          Size.Height = 34.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 14.000000000000000000
+          TextSettings.FontColor = xFF4A70F7
+          TextSettings.HorzAlign = Center
+          Text = 'Comanda/mesa: 32'
+          TabOrder = 0
         end
       end
     end

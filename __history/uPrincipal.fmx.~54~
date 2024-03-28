@@ -3,7 +3,7 @@ object frmPrincipal: TfrmPrincipal
   Top = 0
   Caption = 'Comanda'
   ClientHeight = 500
-  ClientWidth = 355
+  ClientWidth = 413
   Fill.Kind = Solid
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -11,7 +11,7 @@ object frmPrincipal: TfrmPrincipal
   DesignerMasterStyle = 3
   object TabControl: TTabControl
     Align = Client
-    Size.Width = 355.000000000000000000
+    Size.Width = 413.000000000000000000
     Size.Height = 445.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
@@ -19,11 +19,11 @@ object frmPrincipal: TfrmPrincipal
     TabOrder = 0
     TabPosition = None
     Sizes = (
-      355s
+      413s
       445s
-      355s
+      413s
       445s
-      355s
+      413s
       445s)
     object TabItem1: TTabItem
       CustomIcon = <
@@ -42,7 +42,7 @@ object frmPrincipal: TfrmPrincipal
         Align = Top
         Fill.Color = claWhite
         Sides = [Bottom]
-        Size.Width = 355.000000000000000000
+        Size.Width = 413.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFCFCFCF
@@ -158,7 +158,7 @@ object frmPrincipal: TfrmPrincipal
         Align = Top
         Fill.Color = claWhite
         Sides = [Bottom]
-        Size.Width = 355.000000000000000000
+        Size.Width = 413.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFCFCFCF
@@ -178,7 +178,7 @@ object frmPrincipal: TfrmPrincipal
       end
       object ListBox1: TListBox
         Align = Client
-        Size.Width = 355.000000000000000000
+        Size.Width = 413.000000000000000000
         Size.Height = 395.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'transparentlistboxstyle'
@@ -187,7 +187,7 @@ object frmPrincipal: TfrmPrincipal
         DefaultItemStyles.ItemStyle = ''
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
-        Viewport.Width = 355.000000000000000000
+        Viewport.Width = 413.000000000000000000
         Viewport.Height = 395.000000000000000000
       end
     end
@@ -208,7 +208,7 @@ object frmPrincipal: TfrmPrincipal
         Align = Top
         Fill.Color = claWhite
         Sides = [Bottom]
-        Size.Width = 355.000000000000000000
+        Size.Width = 413.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFCFCFCF
@@ -231,7 +231,7 @@ object frmPrincipal: TfrmPrincipal
         Fill.Color = claWhite
         Position.Y = 50.000000000000000000
         Sides = [Bottom]
-        Size.Width = 355.000000000000000000
+        Size.Width = 413.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFCFCFCF
@@ -244,7 +244,7 @@ object frmPrincipal: TfrmPrincipal
           Margins.Left = 20.000000000000000000
           Margins.Top = 10.000000000000000000
           Margins.Right = 20.000000000000000000
-          Size.Width = 212.000000000000000000
+          Size.Width = 270.000000000000000000
           Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
           TextPrompt = 'Pesquisar...'
@@ -256,7 +256,7 @@ object frmPrincipal: TfrmPrincipal
           Margins.Top = 5.000000000000000000
           Margins.Right = 20.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Position.X = 252.000000000000000000
+          Position.X = 310.000000000000000000
           Position.Y = 5.000000000000000000
           Size.Width = 83.000000000000000000
           Size.Height = 40.000000000000000000
@@ -285,7 +285,7 @@ object frmPrincipal: TfrmPrincipal
         HeaderAppearanceClassName = 'TListHeaderObjects'
         FooterAppearanceClassName = 'TListHeaderObjects'
         Align = Client
-        Size.Width = 355.000000000000000000
+        Size.Width = 413.000000000000000000
         Size.Height = 345.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
@@ -297,11 +297,11 @@ object frmPrincipal: TfrmPrincipal
     Fill.Color = claWhite
     Position.Y = 445.000000000000000000
     Sides = [Top]
-    Size.Width = 355.000000000000000000
+    Size.Width = 413.000000000000000000
     Size.Height = 55.000000000000000000
     Size.PlatformDefault = False
     Stroke.Color = xFFCFCFCF
-    object Image3: TImage
+    object imgAba1: TImage
       MultiResBitmap.Height = 64
       MultiResBitmap.Width = 64
       MultiResBitmap = <
@@ -363,14 +363,14 @@ object frmPrincipal: TfrmPrincipal
             'le\Images\cart.png'
         end>
       Align = Scale
-      Position.X = -0.855425655841827400
+      Position.X = 1.140878319740295000
       Position.Y = 6.000000000000000000
-      Size.Width = 118.333343505859400000
+      Size.Width = 136.905670166015600000
       Size.Height = 46.000000000000000000
       Size.PlatformDefault = False
-      OnClick = Image3Click
+      OnClick = imgAba1Click
     end
-    object Image1: TImage
+    object imgAba2: TImage
       Tag = 1
       MultiResBitmap.Height = 64
       MultiResBitmap.Width = 64
@@ -403,14 +403,15 @@ object frmPrincipal: TfrmPrincipal
             'le\Images\tables.png'
         end>
       Align = Scale
-      Position.X = 109.000000000000000000
-      Position.Y = 8.000000000000000000
-      Size.Width = 118.000000000000000000
+      Opacity = 0.400000005960464500
+      Position.X = 138.640457153320300000
+      Position.Y = 6.000000000000000000
+      Size.Width = 136.968917846679700000
       Size.Height = 46.000000000000000000
       Size.PlatformDefault = False
-      OnClick = Image3Click
+      OnClick = imgAba1Click
     end
-    object Image2: TImage
+    object imgAba3: TImage
       Tag = 2
       MultiResBitmap.Height = 64
       MultiResBitmap.Width = 64
@@ -448,12 +449,13 @@ object frmPrincipal: TfrmPrincipal
             'le\Images\prod.png'
         end>
       Align = Scale
-      Position.X = 234.515258789062500000
+      Opacity = 0.400000005960464500
+      Position.X = 274.777923583984400000
       Position.Y = 6.000000000000000000
-      Size.Width = 118.333038330078100000
+      Size.Width = 137.386932373046900000
       Size.Height = 46.000000000000000000
       Size.PlatformDefault = False
-      OnClick = Image3Click
+      OnClick = imgAba1Click
     end
   end
 end

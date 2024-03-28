@@ -13,7 +13,7 @@ type
   TfrmPrincipal = class(TForm)
     Rectangle1: TRectangle;
     Label1: TLabel;
-    TabControl1: TTabControl;
+    TabControl: TTabControl;
     TabItem1: TTabItem;
     TabItem2: TTabItem;
     TabItem3: TTabItem;
@@ -35,8 +35,12 @@ type
     Edit2: TEdit;
     Rectangle7: TRectangle;
     Label7: TLabel;
-    Image1: TImage;
+    imgAba1: TImage;
+    imgAba2: TImage;
+    imgAba3: TImage;
+    procedure imgAba1Click(Sender: TObject);
   private
+    procedure mudarAba(img: TImage);
     { Private declarations }
   public
     { Public declarations }
@@ -48,5 +52,20 @@ var
 implementation
 
 {$R *.fmx}
+
+procedure TfrmPrincipal.mudarAba(img: TImage);
+begin
+  imgAba1.Opacity := 0.4
+  imgAba2.Opacity := 0.4
+  imgAba3.Opacity := 0.4
+
+  img.Opacity := 1;
+  TabControl.GotoVisibleTab(img.tag, TTabTransition.Slide);
+end;
+
+procedure TfrmPrincipal.imgAba1Click(Sender: TObject);
+begin
+  mudarAba(TImage(Sender));
+end;
 
 end.
