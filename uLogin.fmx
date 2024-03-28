@@ -37,6 +37,7 @@ object frmLogin: TfrmLogin
     Size.Width = 442.000000000000000000
     Size.Height = 430.000000000000000000
     Size.PlatformDefault = False
+    TabHeight = 49.000000000000000000
     TabIndex = 0
     TabOrder = 1
     TabPosition = None
@@ -56,6 +57,8 @@ object frmLogin: TfrmLogin
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabLogin'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
       object Layout1: TLayout
         Align = Center
         Margins.Bottom = 100.000000000000000000
@@ -139,6 +142,8 @@ object frmLogin: TfrmLogin
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabConfig'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
       object Layout2: TLayout
         Align = Center
         Margins.Bottom = 100.000000000000000000
