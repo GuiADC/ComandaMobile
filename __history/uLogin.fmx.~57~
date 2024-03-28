@@ -9,6 +9,7 @@ object frmLogin: TfrmLogin
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
   DesignerMasterStyle = 3
   object Rectangle1: TRectangle
     Align = Top
@@ -38,7 +39,7 @@ object frmLogin: TfrmLogin
     Size.Height = 430.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     TabPosition = None
     Sizes = (
@@ -50,7 +51,7 @@ object frmLogin: TfrmLogin
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -129,6 +130,7 @@ object frmLogin: TfrmLogin
           TextSettings.HorzAlign = Center
           Text = 'Configura'#231#245'es'
           TabOrder = 0
+          OnClick = lblConfigClick
         end
       end
     end
@@ -136,7 +138,7 @@ object frmLogin: TfrmLogin
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -191,6 +193,7 @@ object frmLogin: TfrmLogin
           object Label5: TLabel
             Align = Center
             StyledSettings = [Family]
+            Locked = True
             Size.Width = 247.000000000000000000
             Size.Height = 27.000000000000000000
             Size.PlatformDefault = False

@@ -60,7 +60,7 @@ end;
 
 procedure TfrmPrincipal.Image3Click(Sender: TObject);
 begin
-  mudarAba(TImage(Sender).tag);
+  mudarAba(Sender.tag)
 end;
 
 end.
