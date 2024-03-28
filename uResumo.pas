@@ -15,15 +15,17 @@ type
     Rectangle1: TRectangle;
     Layout1: TLayout;
     Label1: TLabel;
-    Label2: TLabel;
+    labComanda: TLabel;
     Rectangle2: TRectangle;
     Label5: TLabel;
     Rectangle4: TRectangle;
     Label3: TLabel;
-    Image1: TImage;
-    Image2: TImage;
+    imgFechar: TImage;
+    imgAddItem: TImage;
     rectLogin: TRectangle;
     Label4: TLabel;
+    procedure imgFecharClick(Sender: TObject);
+    procedure imgAddItemClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,6 +37,18 @@ var
 
 implementation
 
+uses uPrincipal;
+
 {$R *.fmx}
+
+procedure TfrmResumo.imgAddItemClick(Sender: TObject);
+begin
+  frmPrincipal.addItem(labComanda.text.ToInteger);
+end;
+
+procedure TfrmResumo.imgFecharClick(Sender: TObject);
+begin
+  close;
+end;
 
 end.
