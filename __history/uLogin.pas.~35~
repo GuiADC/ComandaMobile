@@ -24,8 +24,9 @@ type
     Edit2: TEdit;
     Rectangle3: TRectangle;
     Label5: TLabel;
-    Label6: TLabel;
+    lblConfig: TLabel;
     procedure rectLoginClick(Sender: TObject);
+    procedure lblConfigClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,6 +42,11 @@ implementation
 
 
 
+procedure TfrmLogin.lblConfigClick(Sender: TObject);
+begin
+  tabControl.GotoVisibleTab(1, TTabTransition.Slide);
+end;
+
 procedure TfrmLogin.rectLoginClick(Sender: TObject);
 begin
   if not Assigned(frmPrincipal) then
@@ -48,9 +54,8 @@ begin
 
     frmPrincipal.Show;
     Application.MainForm := frmPrincipal;
-    frmLogin.close;
 
-
+    freeandnil(frmLogin);
 
 end;
 

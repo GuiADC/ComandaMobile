@@ -24,8 +24,10 @@ type
     Edit2: TEdit;
     Rectangle3: TRectangle;
     Label5: TLabel;
-    Label6: TLabel;
+    lblConfig: TLabel;
     procedure rectLoginClick(Sender: TObject);
+    procedure lblConfigClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,6 +42,16 @@ implementation
 {$R *.fmx}
 
 
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+begin
+  TabControl.ActiveTab := tabLogin;
+end;
+
+procedure TfrmLogin.lblConfigClick(Sender: TObject);
+begin
+  tabControl.GotoVisibleTab(1, TTabTransition.Slide);
+end;
 
 procedure TfrmLogin.rectLoginClick(Sender: TObject);
 begin

@@ -24,7 +24,7 @@ type
     Edit2: TEdit;
     Rectangle3: TRectangle;
     Label5: TLabel;
-    Label6: TLabel;
+    lblConfig: TLabel;
     procedure rectLoginClick(Sender: TObject);
   private
     { Private declarations }
@@ -48,6 +48,8 @@ begin
 
     frmPrincipal.Show;
     Application.MainForm := frmPrincipal;
+
+    freeandnil(frmLogin);
 
 end;
 

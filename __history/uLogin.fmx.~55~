@@ -1,7 +1,7 @@
 object frmLogin: TfrmLogin
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Acesso'
   ClientHeight = 480
   ClientWidth = 442
   Fill.Color = xFFF2F4FC
@@ -9,6 +9,7 @@ object frmLogin: TfrmLogin
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
   DesignerMasterStyle = 3
   object Rectangle1: TRectangle
     Align = Top
@@ -57,6 +58,8 @@ object frmLogin: TfrmLogin
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabLogin'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
       object Layout1: TLayout
         Align = Center
         Margins.Bottom = 100.000000000000000000
@@ -88,7 +91,7 @@ object frmLogin: TfrmLogin
           Size.PlatformDefault = False
           StyledSettings = [Family, Size, Style]
         end
-        object Rectangle2: TRectangle
+        object rectLogin: TRectangle
           Align = Top
           Fill.Color = xFF4A70F7
           Margins.Top = 20.000000000000000000
@@ -99,7 +102,7 @@ object frmLogin: TfrmLogin
           Stroke.Kind = None
           XRadius = 4.000000000000000000
           YRadius = 4.000000000000000000
-          OnClick = Rectangle2Click
+          OnClick = rectLoginClick
           object Label3: TLabel
             Align = Center
             StyledSettings = [Family]
@@ -114,9 +117,10 @@ object frmLogin: TfrmLogin
             TabOrder = 0
           end
         end
-        object Label6: TLabel
+        object lblConfig: TLabel
           Align = Bottom
           StyledSettings = [Family]
+          HitTest = True
           Position.Y = 175.000000000000000000
           Size.Width = 247.000000000000000000
           Size.Height = 27.000000000000000000
@@ -126,6 +130,7 @@ object frmLogin: TfrmLogin
           TextSettings.HorzAlign = Center
           Text = 'Configura'#231#245'es'
           TabOrder = 0
+          OnClick = lblConfigClick
         end
       end
     end
@@ -140,6 +145,8 @@ object frmLogin: TfrmLogin
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabConfig'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
       object Layout2: TLayout
         Align = Center
         Margins.Bottom = 100.000000000000000000
@@ -182,7 +189,7 @@ object frmLogin: TfrmLogin
           Stroke.Kind = None
           XRadius = 4.000000000000000000
           YRadius = 4.000000000000000000
-          OnClick = Rectangle2Click
+          OnClick = rectLoginClick
           object Label5: TLabel
             Align = Center
             StyledSettings = [Family]

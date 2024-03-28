@@ -1,7 +1,7 @@
-object Form1: TForm1
+object frmLogin: TfrmLogin
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Acesso'
   ClientHeight = 480
   ClientWidth = 442
   Fill.Color = xFFF2F4FC
@@ -57,11 +57,13 @@ object Form1: TForm1
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabLogin'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
       object Layout1: TLayout
         Align = Center
         Margins.Bottom = 100.000000000000000000
         Size.Width = 247.000000000000000000
-        Size.Height = 159.000000000000000000
+        Size.Height = 202.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object Label2: TLabel
@@ -88,7 +90,7 @@ object Form1: TForm1
           Size.PlatformDefault = False
           StyledSettings = [Family, Size, Style]
         end
-        object Rectangle2: TRectangle
+        object rectLogin: TRectangle
           Align = Top
           Fill.Color = xFF4A70F7
           Margins.Top = 20.000000000000000000
@@ -99,10 +101,11 @@ object Form1: TForm1
           Stroke.Kind = None
           XRadius = 4.000000000000000000
           YRadius = 4.000000000000000000
-          OnClick = Rectangle2Click
+          OnClick = rectLoginClick
           object Label3: TLabel
             Align = Center
             StyledSettings = [Family]
+            Locked = True
             Size.Width = 247.000000000000000000
             Size.Height = 27.000000000000000000
             Size.PlatformDefault = False
@@ -116,7 +119,8 @@ object Form1: TForm1
         object Label6: TLabel
           Align = Bottom
           StyledSettings = [Family]
-          Position.Y = 132.000000000000000000
+          HitTest = True
+          Position.Y = 175.000000000000000000
           Size.Width = 247.000000000000000000
           Size.Height = 27.000000000000000000
           Size.PlatformDefault = False
@@ -139,6 +143,8 @@ object Form1: TForm1
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabConfig'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
       object Layout2: TLayout
         Align = Center
         Margins.Bottom = 100.000000000000000000
@@ -181,7 +187,7 @@ object Form1: TForm1
           Stroke.Kind = None
           XRadius = 4.000000000000000000
           YRadius = 4.000000000000000000
-          OnClick = Rectangle2Click
+          OnClick = rectLoginClick
           object Label5: TLabel
             Align = Center
             StyledSettings = [Family]
