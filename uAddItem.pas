@@ -25,10 +25,10 @@ type
     edtBuscaProduto: TEdit;
     rectBuscaProduto: TRectangle;
     Label7: TLabel;
-    ListView2: TListView;
     Rectangle2: TRectangle;
     lblComanda: TLabel;
     imgIcone: TImage;
+    lvProduto: TListView;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);

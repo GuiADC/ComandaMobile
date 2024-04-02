@@ -297,17 +297,6 @@ object frmAddItem: TfrmAddItem
           end
         end
       end
-      object ListView2: TListView
-        ItemAppearanceClassName = 'TListItemAppearance'
-        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
-        HeaderAppearanceClassName = 'TListHeaderObjects'
-        FooterAppearanceClassName = 'TListHeaderObjects'
-        Align = Client
-        Size.Width = 405.000000000000000000
-        Size.Height = 346.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 2
-      end
       object Rectangle2: TRectangle
         Align = Top
         Fill.Color = claWhite
@@ -329,6 +318,48 @@ object frmAddItem: TfrmAddItem
           Text = 'Comanda/mesa: 32'
           TabOrder = 0
         end
+      end
+      object lvProduto: TListView
+        ItemAppearanceClassName = 'TDynamicAppearance'
+        ItemEditAppearanceClassName = 'TDynamicAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        ItemSpaces.Left = 0.000000000000000000
+        ItemSpaces.Right = 0.000000000000000000
+        Align = Client
+        Size.Width = 405.000000000000000000
+        Size.Height = 346.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        ItemAppearanceObjects.ItemObjects.ObjectsCollection = <
+          item
+            AppearanceObjectName = 'txtDescricao'
+            AppearanceClassName = 'TTextObjectAppearance'
+            Appearance.Font.Size = 14.000000000000000000
+            Appearance.TextAlign = Leading
+            Appearance.TextColor = xFFB0BAC9
+            Appearance.Width = 292.000000000000000000
+            Appearance.Height = 44.000000000000000000
+            Appearance.PlaceOffset.X = 5.000000000000000000
+          end
+          item
+            AppearanceObjectName = 'txtPreco'
+            AppearanceClassName = 'TTextObjectAppearance'
+            Appearance.Font.Size = 14.000000000000000000
+            Appearance.TextAlign = Trailing
+            Appearance.TextColor = xFF4A70F7
+            Appearance.Width = 112.000000000000000000
+            Appearance.Height = 44.000000000000000000
+            Appearance.Align = Trailing
+            Appearance.PlaceOffset.X = -5.000000000000000000
+          end>
+        ItemAppearanceObjects.ItemEditObjects.ObjectsCollection = <
+          item
+            AppearanceObjectName = 'Text1'
+            AppearanceClassName = 'TTextObjectAppearance'
+          end>
+        CanSwipeDelete = False
+        ShowSelection = False
       end
     end
   end
