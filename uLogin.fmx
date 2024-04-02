@@ -19,7 +19,7 @@ object frmLogin: TfrmLogin
     Size.Height = 50.000000000000000000
     Size.PlatformDefault = False
     Stroke.Color = xFFCFCFCF
-    object Label1: TLabel
+    object lblTitulo: TLabel
       Align = Center
       StyledSettings = [Family]
       Size.Width = 120.000000000000000000
@@ -178,7 +178,7 @@ object frmLogin: TfrmLogin
           Size.PlatformDefault = False
           StyledSettings = [Family, Size, Style]
         end
-        object Rectangle3: TRectangle
+        object rectSave: TRectangle
           Align = Top
           Fill.Color = xFF4A70F7
           Margins.Top = 20.000000000000000000
@@ -189,10 +189,11 @@ object frmLogin: TfrmLogin
           Stroke.Kind = None
           XRadius = 4.000000000000000000
           YRadius = 4.000000000000000000
-          OnClick = rectLoginClick
+          OnClick = rectSaveClick
           object Label5: TLabel
             Align = Center
             StyledSettings = [Family]
+            Locked = True
             Size.Width = 247.000000000000000000
             Size.Height = 27.000000000000000000
             Size.PlatformDefault = False

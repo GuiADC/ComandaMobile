@@ -1,0 +1,149 @@
+unit uPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.TabControl,
+  FMX.Edit, FMX.Layouts, FMX.ListBox, FMX.ListView.Types,
+  FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView;
+
+type
+  TfrmPrincipal = class(TForm)
+    Rectangle1: TRectangle;
+    Label1: TLabel;
+    TabControl: TTabControl;
+    TabItem1: TTabItem;
+    TabItem2: TTabItem;
+    TabItem3: TTabItem;
+    rect_abas: TRectangle;
+    Rectangle3: TRectangle;
+    Label2: TLabel;
+    Rectangle4: TRectangle;
+    Label3: TLabel;
+    Layout1: TLayout;
+    Label4: TLabel;
+    edtComanda: TEdit;
+    rectAddItem: TRectangle;
+    Label5: TLabel;
+    rectDetalhes: TRectangle;
+    Label6: TLabel;
+    lbMapa: TListBox;
+    Rectangle6: TRectangle;
+    ListView1: TListView;
+    Edit2: TEdit;
+    Rectangle7: TRectangle;
+    Label7: TLabel;
+    imgAba1: TImage;
+    imgAba2: TImage;
+    imgAba3: TImage;
+    procedure imgAba1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure rectDetalhesClick(Sender: TObject);
+    procedure rectAddItemClick(Sender: TObject);
+  private
+    procedure mudarAba(img: TImage);
+    procedure detalhesComanda(comanda: integer);
+    procedure addMapa(comanda: integer; status: string; valorTotal: double);
+    { Private declarations }
+  public
+    { Public declarations }
+
+    procedure addItem(comanda: integer);
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+uses uAddItem, uResumo;
+
+{$R *.fmx}
+
+procedure TfrmPrincipal.detalhesComanda(comanda: integer);
+begin
+  if NOT Assigned(frmAddItem) then
+    Application.CreateForm(TfrmResumo, frmResumo);
+
+  frmResumo.labComanda.text := comanda.tostring;
+  frmResumo.Show;
+end;
+
+procedure TfrmPrincipal.addMapa(comanda: integer; status: string; valorTotal: double);
+var
+  item: TListBoxItem;
+  rect: TRectangle;
+begin
+  item := TListBoxItem.create(lbMapa);
+  item.text := comanda.tostring;
+  item.height := 110;
+  item.Tag := comanda;
+  item.Selectable := false;
+
+  rect := TRectangle.Create(item);
+  rect.Parent := item;
+  rect.Align := TAlignLayout.Client;
+  rect.Margins.Top := 10;
+  rect.Margins.Bottom := 10;
+  rect.Margins.Left := 10;
+  rect.Margins.Right := 10;
+
+  rect.Fill.Kind := TBrushKind.Solid;
+  rect.Fill.Color := $FF4A70F7;
+  rect.XRadius := 10;
+  rect.YRadius := 10;
+  rect.Stroke.Kind := TBrushKind.none;
+
+  lbMapa.AddObject(item);
+
+end;
+
+procedure TfrmPrincipal.addItem(comanda: integer);
+begin
+  if NOT Assigned(frmAddItem) then
+    Application.CreateForm(TfrmAddItem, frmAddItem);
+
+  frmAddItem.TabControl.ActiveTab := frmAddItem.tabCategoria;
+  frmAddItem.Show;
+
+end;
+
+procedure TfrmPrincipal.mudarAba(img: TImage);
+begin
+  imgAba1.Opacity := 0.4;
+  imgAba2.Opacity := 0.4;
+  imgAba3.Opacity := 0.4;
+
+  img.Opacity := 1;
+  TabControl.GotoVisibleTab(img.tag, TTabTransition.Slide);
+end;
+
+procedure TfrmPrincipal.rectAddItemClick(Sender: TObject);
+begin
+  if edtComanda.text <> '' then
+    addItem(edtComanda.Text.ToInteger);
+end;
+
+procedure TfrmPrincipal.rectDetalhesClick(Sender: TObject);
+begin
+  if edtComanda.text <> '' then
+   detalhesComanda(edtComanda.Text.ToInteger);
+end;
+
+procedure TfrmPrincipal.FormShow(Sender: TObject);
+begin
+  mudarAba(imgAba1);
+  addMapa(1, '', 0);
+  addMapa(2, '', 0);
+  addMapa(3, '', 0);
+  addMapa(4, '', 0);
+end;
+
+procedure TfrmPrincipal.imgAba1Click(Sender: TObject);
+begin
+  mudarAba(TImage(Sender));
+end;
+
+end.

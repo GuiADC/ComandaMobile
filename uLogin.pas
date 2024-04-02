@@ -1,4 +1,4 @@
-unit uLogin;
+﻿unit uLogin;
 
 interface
 
@@ -10,7 +10,7 @@ uses
 type
   TfrmLogin = class(TForm)
     Rectangle1: TRectangle;
-    Label1: TLabel;
+    lblTitulo: TLabel;
     Layout1: TLayout;
     Label2: TLabel;
     Edit1: TEdit;
@@ -22,12 +22,13 @@ type
     Layout2: TLayout;
     Label4: TLabel;
     Edit2: TEdit;
-    Rectangle3: TRectangle;
+    rectSave: TRectangle;
     Label5: TLabel;
     lblConfig: TLabel;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure rectSaveClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,8 +42,6 @@ implementation
 
 {$R *.fmx}
 
-
-
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   TabControl.ActiveTab := tabLogin;
@@ -51,6 +50,15 @@ end;
 procedure TfrmLogin.lblConfigClick(Sender: TObject);
 begin
   tabControl.GotoVisibleTab(1, TTabTransition.Slide);
+
+  lblTitulo.Text := 'Configurações';
+end;
+
+procedure TfrmLogin.rectSaveClick(Sender: TObject);
+begin
+  tabControl.GotoVisibleTab(0, TTabTransition.Slide);
+
+  lblTitulo.Text := 'Acesso';
 end;
 
 procedure TfrmLogin.rectLoginClick(Sender: TObject);
