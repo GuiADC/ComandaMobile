@@ -31,7 +31,7 @@ type
     Label6: TLabel;
     lbMapa: TListBox;
     Rectangle6: TRectangle;
-    ListView1: TListView;
+    lvProduto: TListView;
     Edit2: TEdit;
     Rectangle7: TRectangle;
     Label7: TLabel;
