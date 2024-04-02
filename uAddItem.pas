@@ -14,26 +14,34 @@ type
     Rectangle4: TRectangle;
     Label3: TLabel;
     imgFechar: TImage;
-    ListView1: TListView;
+    lvCategoria: TListView;
     TabControl: TTabControl;
     tabCategoria: TTabItem;
     tabProduto: TTabItem;
     Rectangle1: TRectangle;
-    Label1: TLabel;
+    lblTitulo: TLabel;
     imgVoltar: TImage;
     Rectangle6: TRectangle;
-    Edit2: TEdit;
-    Rectangle7: TRectangle;
+    edtBuscaProduto: TEdit;
+    rectBuscaProduto: TRectangle;
     Label7: TLabel;
     ListView2: TListView;
     Rectangle2: TRectangle;
-    Label2: TLabel;
+    lblComanda: TLabel;
+    imgIcone: TImage;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure lvCategoriaItemClick(const Sender: TObject;
+      const AItem: TListViewItem);
   private
+    procedure addCategoriaLv(idCategoria: integer; descricao: string;
+      icone: TStream);
+    procedure listarCategoria;
     { Private declarations }
   public
     { Public declarations }
+    comanda: integer;
   end;
 
 var
@@ -42,6 +50,58 @@ var
 implementation
 
 {$R *.fmx}
+
+procedure TfrmAddItem.addCategoriaLv(idCategoria: integer; descricao: string; icone: TStream);
+var
+  bmp: TBitmap;
+begin
+  with lvCategoria.Items.add do
+  begin
+    Tag := idCategoria;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
+
+    if icone <> nil then
+    begin
+      bmp := TBitmap.Create;
+      bmp.LoadFromStream(icone);
+
+      TListItemImage(Objects.FindDrawable('imgIcone')).OwnsBitmap := true;
+      TListItemImage(Objects.FindDrawable('imgIcone')).bitmap := bmp;
+    end;
+  end;
+
+end;
+
+procedure TfrmAddItem.listarCategoria;
+var
+  x: integer;
+  icone: TStream;
+begin
+    lvCategoria.Items.clear;
+
+   icone := TMemoryStream.create;
+   imgIcone.Bitmap.SaveToStream(icone);
+   icone.Position := 0;
+
+  for x := 1 to 10 do
+    addCategoriaLv(x, 'categoria ' + x.ToString, icone);
+
+  freeandnil(icone);
+
+end;
+
+procedure TfrmAddItem.lvCategoriaItemClick(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+  lblTitulo.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
+  lblComanda.text := 'Comanda / Mesa: ' + comanda.ToString;
+  TabControl.GotoVisibleTab(1, TTabTransition.slide);
+end;
+
+procedure TfrmAddItem.FormShow(Sender: TObject);
+begin
+  listarCategoria;
+end;
 
 procedure TfrmAddItem.imgFecharClick(Sender: TObject);
 begin

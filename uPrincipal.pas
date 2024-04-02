@@ -157,6 +157,7 @@ begin
   if NOT Assigned(frmAddItem) then
     Application.CreateForm(TfrmAddItem, frmAddItem);
 
+  frmAddItem.comanda := comanda;
   frmAddItem.TabControl.ActiveTab := frmAddItem.tabCategoria;
   frmAddItem.Show;
 
