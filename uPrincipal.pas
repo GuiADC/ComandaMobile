@@ -32,8 +32,8 @@ type
     lbMapa: TListBox;
     Rectangle6: TRectangle;
     lvProduto: TListView;
-    Edit2: TEdit;
-    Rectangle7: TRectangle;
+    edtBuscaProduto: TEdit;
+    rectBuscar: TRectangle;
     Label7: TLabel;
     imgAba1: TImage;
     imgAba2: TImage;
@@ -45,10 +45,13 @@ type
     procedure lbMapaItemClick(const Sender: TCustomListBox;
       const Item: TListBoxItem);
     procedure FormResize(Sender: TObject);
+    procedure rectBuscarClick(Sender: TObject);
   private
     procedure mudarAba(img: TImage);
     procedure detalhesComanda(comanda: integer);
     procedure addMapa(comanda: integer; status: string; valorTotal: double);
+    procedure addProdutoLv(idProduto: integer; descricao: string; preco: double);
+    procedure listarProduto(indClear: boolean; busca: string);
     { Private declarations }
   public
     { Public declarations }
@@ -175,6 +178,11 @@ begin
     addItem(edtComanda.Text.ToInteger);
 end;
 
+procedure TfrmPrincipal.rectBuscarClick(Sender: TObject);
+begin
+  listarProduto(true, edtBuscaProduto.text);
+end;
+
 procedure TfrmPrincipal.rectDetalhesClick(Sender: TObject);
 begin
   if edtComanda.text <> '' then
@@ -204,6 +212,29 @@ procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
   detalhesComanda(item.Tag);
+end;
+
+procedure TfrmPrincipal.addProdutoLv(idProduto: integer; descricao: string; preco: double);
+begin
+  with lvProduto.Items.add do
+  begin
+    Tag := idProduto;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
+    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00', preco);
+  end;
+
+end;
+
+procedure TfrmPrincipal.listarProduto(indClear: boolean; busca: string);
+var
+  x: integer;
+begin
+  if indClear then
+    lvProduto.Items.clear;
+
+  for x := 1 to 10 do
+   addProdutoLv(x, 'Produto ' + x.ToString, x);
+
 end;
 
 end.
