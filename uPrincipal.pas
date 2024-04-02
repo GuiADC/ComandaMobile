@@ -42,6 +42,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure rectDetalhesClick(Sender: TObject);
     procedure rectAddItemClick(Sender: TObject);
+    procedure lbMapaItemClick(const Sender: TCustomListBox;
+      const Item: TListBoxItem);
+    procedure FormResize(Sender: TObject);
   private
     procedure mudarAba(img: TImage);
     procedure detalhesComanda(comanda: integer);
@@ -91,7 +94,13 @@ begin
   rect.Margins.Left := 10;
   rect.Margins.Right := 10;
   rect.Fill.Kind := TBrushKind.Solid;
-  rect.Fill.Color := $FF4A70F7;
+  rect.HitTest := false;
+
+  if (status.ToUpper = 'LIVRE') then
+    rect.Fill.Color := $FF4A70F7
+  else
+    rect.Fill.Color := $FFEC6E73;
+
   rect.XRadius := 10;
   rect.YRadius := 10;
   rect.Stroke.Kind := TBrushKind.none;
@@ -111,12 +120,29 @@ begin
   lbl := TLabel.Create(rect);
   lbl.Parent := rect;
   lbl.Align := TAlignLayout.bottom;
-  lbl.Text := FormatFloat('#.##0,00', valorTotal);
-  lbl.Margins.left := 5;
-  lbl.Margins.top := 5;
+
+  if (status.ToUpper = 'LIVRE') then
+  lbl.Text := ''
+  else
+   lbl.Text := FormatFloat('#,##0.00', valorTotal);
+
+  lbl.Margins.right := 5;
+  lbl.Margins.bottom := 5;
   lbl.Height := 15;
   lbl.StyledSettings := lbl.StyledSettings - [TstyledSetting.fontColor];
   lbl.FontColor := $FFFFFFFF;
+  lbl.TextAlign := TTextAlign.Trailing;
+
+  {labComanda}
+  lbl := TLabel.Create(rect);
+  lbl.Parent := rect;
+  lbl.Align := TAlignLayout.client;
+  lbl.Text := comanda.tostring;
+  lbl.StyledSettings := lbl.StyledSettings - [TstyledSetting.fontColor, TstyledSetting.Size] ;
+  lbl.FontColor := $FFFFFFFF;
+  lbl.font.size := 30;
+  lbl.TextAlign := TTextAlign.center;
+  lbl.VertTextAlign := TTextAlign.center;
 
   lbMapa.AddObject(item);
 
@@ -154,18 +180,29 @@ begin
    detalhesComanda(edtComanda.Text.ToInteger);
 end;
 
+procedure TfrmPrincipal.FormResize(Sender: TObject);
+begin
+  lbMapa.Columns := trunc(lbMapa.Width / 110);
+end;
+
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
   mudarAba(imgAba1);
-  addMapa(1, 'livre', 0);
-  addMapa(2, 'ocupada', 0);
-  addMapa(3, 'llimpa', 0);
-  addMapa(4, 'llimpa', 0);
+  addMapa(1, 'livre', 123);
+  addMapa(2, 'ocupada', 333);
+  addMapa(3, 'llimpa', 432);
+  addMapa(4, 'llimpa', 22);
 end;
 
 procedure TfrmPrincipal.imgAba1Click(Sender: TObject);
 begin
   mudarAba(TImage(Sender));
+end;
+
+procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
+  const Item: TListBoxItem);
+begin
+  detalhesComanda(item.Tag);
 end;
 
 end.
