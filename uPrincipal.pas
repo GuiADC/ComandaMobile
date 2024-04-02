@@ -72,6 +72,7 @@ begin
 
   frmResumo.labComanda.text := comanda.tostring;
   frmResumo.Show;
+
 end;
 
 procedure TfrmPrincipal.addMapa(comanda: integer; status: string; valorTotal: double);
