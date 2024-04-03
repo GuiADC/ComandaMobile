@@ -11,7 +11,6 @@ uses
 
 type
   TfrmResumo = class(TForm)
-    ListView1: TListView;
     Rectangle1: TRectangle;
     Layout1: TLayout;
     Label1: TLabel;
@@ -24,10 +23,16 @@ type
     imgAddItem: TImage;
     rectEncerrar: TRectangle;
     Label4: TLabel;
+    lvProduto: TListView;
+    imgDelete: TImage;
     procedure imgFecharClick(Sender: TObject);
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
+    procedure addProdutoResumo(idProduto, qtd: integer; descricao: string;
+      preco: double);
+    procedure listarProduto;
     { Private declarations }
   public
     { Public declarations }
@@ -41,6 +46,32 @@ implementation
 uses uPrincipal;
 
 {$R *.fmx}
+
+procedure TfrmResumo.addProdutoResumo(idProduto: integer; qtd: integer; descricao: string; preco: double);
+begin
+  with lvProduto.Items.add do
+  begin
+    Tag := idProduto;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := FormatFloat('00', qtd) + ' x ' + descricao;
+    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00',  qtd * preco);
+    TListItemImage(Objects.FindDrawable('imgDelete')).bitmap := imgDelete.bitmap;
+  end;
+end;
+
+procedure TfrmResumo.listarProduto;
+var
+  x: integer;
+begin
+  lvProduto.Items.clear;
+
+  for x := 1 to 10 do
+    addProdutoResumo(x, 01,  ' Produto ' + x.ToString, x);
+end;
+
+procedure TfrmResumo.FormShow(Sender: TObject);
+begin
+  listarProduto;
+end;
 
 procedure TfrmResumo.imgAddItemClick(Sender: TObject);
 begin

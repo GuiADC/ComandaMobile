@@ -33,11 +33,22 @@ type
     layoutQtd: TLayout;
     Rectangle3: TRectangle;
     Rectangle5: TRectangle;
+    lblDescricao: TLabel;
+    rectEncerrar: TRectangle;
+    Label4: TLabel;
+    lblQtd: TLabel;
+    imgMenos: TImage;
+    imgMais: TImage;
+    imgFecharQtd: TImage;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lvCategoriaItemClick(const Sender: TObject;
       const AItem: TListViewItem);
+    procedure imgMenosClick(Sender: TObject);
+    procedure lvProdutoItemClick(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure imgFecharQtdClick(Sender: TObject);
   private
     procedure addCategoriaLv(idCategoria: integer; descricao: string;
       icone: TStream);
@@ -131,8 +142,17 @@ begin
   TabControl.GotoVisibleTab(1, TTabTransition.slide);
 end;
 
+procedure TfrmAddItem.lvProdutoItemClick(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+  lblQtd.text := '01';
+  lblDescricao.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
+  layoutQtd.Visible := true;
+end;
+
 procedure TfrmAddItem.FormShow(Sender: TObject);
 begin
+  layoutQtd.Visible := false;
   listarCategoria;
 end;
 
@@ -140,6 +160,19 @@ end;
 procedure TfrmAddItem.imgFecharClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfrmAddItem.imgFecharQtdClick(Sender: TObject);
+begin
+  layoutQtd.Visible := false;
+end;
+
+procedure TfrmAddItem.imgMenosClick(Sender: TObject);
+begin
+  if (strtoint(lblQtd.text) = 0) and (TImage(sender).Tag = -1) then
+    exit;
+
+  lblQtd.text := formatfloat('00', lblQtd. text.ToInteger + TImage(sender).Tag);
 end;
 
 procedure TfrmAddItem.imgVoltarClick(Sender: TObject);
