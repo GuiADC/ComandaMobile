@@ -29,6 +29,10 @@ type
     lblComanda: TLabel;
     imgIcone: TImage;
     lvProduto: TListView;
+    imgAdd: TImage;
+    layoutQtd: TLayout;
+    Rectangle3: TRectangle;
+    Rectangle5: TRectangle;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -38,6 +42,9 @@ type
     procedure addCategoriaLv(idCategoria: integer; descricao: string;
       icone: TStream);
     procedure listarCategoria;
+    procedure addProdutoLv(idProduto: integer; descricao: string;
+      preco: double);
+    procedure listarProduto(idCategoria: integer; busca: string);
     { Private declarations }
   public
     { Public declarations }
@@ -90,11 +97,37 @@ begin
 
 end;
 
+procedure TfrmAddItem.addProdutoLv(idProduto: integer; descricao: string; preco: double);
+begin
+  with lvProduto.Items.add do
+  begin
+    Tag := idProduto;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
+    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00', preco);
+    TListItemImage(Objects.FindDrawable('imgAdd')).bitmap := imgAdd.bitmap;
+  end;
+
+end;
+
+procedure TfrmAddItem.listarProduto(idCategoria: integer; busca: string);
+var
+  x: integer;
+begin
+  lvProduto.Items.clear;
+
+  for x := 1 to 10 do
+   addProdutoLv(x, 'Produto ' + x.ToString, x);
+
+end;
+
 procedure TfrmAddItem.lvCategoriaItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
   lblTitulo.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
   lblComanda.text := 'Comanda / Mesa: ' + comanda.ToString;
+
+  listarProduto(AItem.tag, '');
+
   TabControl.GotoVisibleTab(1, TTabTransition.slide);
 end;
 
@@ -102,6 +135,7 @@ procedure TfrmAddItem.FormShow(Sender: TObject);
 begin
   listarCategoria;
 end;
+
 
 procedure TfrmAddItem.imgFecharClick(Sender: TObject);
 begin
