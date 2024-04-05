@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/19 20:11:16.000.313,=C:\projectsDelphi11\Unit1.pas</Transaction>
+    <Transaction>2024/03/27 12:06:50.000.980,=C:\projectsDelphi11\Unit1.pas</Transaction>
+    <Transaction>2024/03/27 12:12:55.000.836,C:\projectsDelphi11\Unit1.fmx=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uLogin.fmx</Transaction>
+    <Transaction>2024/03/27 12:12:55.000.836,C:\projectsDelphi11\Unit1.pas=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uLogin.pas</Transaction>
+    <Transaction>2024/03/27 12:13:16.000.122,C:\projectsDelphi11\Project1.dproj=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\comanda.dproj</Transaction>
+    <Transaction>2024/03/27 12:37:51.000.588,=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit2.pas</Transaction>
+    <Transaction>2024/03/27 12:38:21.000.718,C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uPrincipal.pas=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit2.pas</Transaction>
+    <Transaction>2024/03/27 12:38:21.000.718,C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uPrincipal.fmx=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit2.fmx</Transaction>
+    <Transaction>2024/03/27 13:30:31.000.670,=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit1.pas</Transaction>
+    <Transaction>2024/03/27 13:30:41.000.503,C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uResumo.pas=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit1.pas</Transaction>
+    <Transaction>2024/03/27 13:30:41.000.503,C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uResumo.fmx=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit1.fmx</Transaction>
+    <Transaction>2024/03/27 13:31:37.000.253,=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit1.pas</Transaction>
+    <Transaction>2024/03/27 13:32:36.000.434,C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uAddItem.pas=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit1.pas</Transaction>
+    <Transaction>2024/03/27 13:32:36.000.434,C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\uAddItem.fmx=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\comandaMobile\Unit1.fmx</Transaction>
+  </Transactions>
+</BorlandProject>
