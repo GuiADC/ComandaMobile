@@ -22,14 +22,14 @@ object frmLogin: TfrmLogin
     object lblTitulo: TLabel
       Align = Center
       StyledSettings = [Family]
-      Size.Width = 120.000000000000000000
+      Size.Width = 160.000000000000000000
       Size.Height = 27.000000000000000000
       Size.PlatformDefault = False
       TextSettings.Font.Size = 18.000000000000000000
       TextSettings.Font.StyleExt = {00060000000000000004000000}
       TextSettings.FontColor = xFFB0BAC9
       TextSettings.HorzAlign = Center
-      Text = 'Acesso'
+      Text = 'Acesso do chayb'
       TabOrder = 0
     end
   end
@@ -39,7 +39,7 @@ object frmLogin: TfrmLogin
     Size.Height = 430.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     TabPosition = None
     Sizes = (
@@ -51,7 +51,7 @@ object frmLogin: TfrmLogin
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -138,7 +138,7 @@ object frmLogin: TfrmLogin
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
