@@ -1,0 +1,57 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'Server'
+  ClientHeight = 480
+  ClientWidth = 584
+  Fill.Kind = Solid
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Label1: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 56.000000000000000000
+    Position.Y = 56.000000000000000000
+    TextSettings.Font.Size = 16.000000000000000000
+    Text = 'Server ativo'
+    TabOrder = 1
+    object Swtich: TSwitch
+      IsChecked = True
+      Position.X = 112.000000000000000000
+      TabOrder = 4
+      OnSwitch = SwtichSwitch
+    end
+  end
+  object RESTDWIdServicePooler: TRESTDWIdServicePooler
+    Active = False
+    CORS = False
+    CORS_CustomHeaders.Strings = (
+      'Access-Control-Allow-Origin=*'
+      
+        'Access-Control-Allow-Methods=GET, POST, PATCH, PUT, DELETE, OPTI' +
+        'ONS'
+      
+        'Access-Control-Allow-Headers=Content-Type, Origin, Accept, Autho' +
+        'rization, X-CUSTOM-HEADER')
+    PathTraversalRaiseError = True
+    RequestTimeout = -1
+    ServicePort = 8080
+    ProxyOptions.ProxyPort = 0
+    AuthenticationOptions.AuthorizationOption = rdwAONone
+    Encoding = esUtf8
+    RootPath = '/'
+    ForceWelcomeAccess = False
+    CriptOptions.Use = False
+    CriptOptions.Key = 'RDWBASEKEY256'
+    EncodeErrors = False
+    SSLVersions = []
+    SSLVerifyMode = []
+    SSLVerifyDepth = 0
+    SSLMode = sslmUnassigned
+    SSLMethod = sslvSSLv2
+    Left = 376
+    Top = 184
+  end
+end
