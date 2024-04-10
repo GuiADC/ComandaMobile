@@ -9,7 +9,7 @@ uses
   FireDAC.FMXUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, uRESTDWComponentBase, uRESTDWServerEvents, uRESTDWParams,
   uRESTDWAboutForm, uRESTDWJSONObject, FireDAC.Stan.Param, FireDAC.DatS,
-  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, system.JSON;
 
 type
   Tdm = class(TServerMethodDataModule)
@@ -35,11 +35,37 @@ implementation
 
 procedure Tdm.DWEventsEventsValidarLoginReplyEvent(var Params: TRESTDWParams;
   var Result: string);
+var
+  json: TJsonObject;
 begin
-  if Params.ItemsString['usuario'].AsString = 'Heber' then
-    result :=  '{"Retorno": "OK"}'
-  else
-    result :=  '{"usuario": "invalido"}';
+  try
+    json := TJSONObject.create;
+
+    if Params.ItemsString['usuario'].AsString = '' then
+    begin
+      json.AddPair('retorno', 'Usuário nao informado');
+      Result := json.ToString;
+      exit;
+    end;
+
+    with dm do
+    begin
+      qryLogin.Active := false;
+      qryLogin.SQL.Clear;
+      qryLogin.SQL.Add('SELECT * from TAB_USUARIO WHERE COD_USUARIO=:USUARIO');
+      qryLogin.ParamByName('USUARIO').Value := Params.ItemsString['usuario'].AsString;
+      qryLogin.Active := true;
+
+      if qryLogin.RecordCount > 0 then
+        json.AddPair('retorno', 'OK')
+      else
+        json.AddPair('retorno', 'Usuário invalido');
+
+      Result := json.tostring;
+    end;
+  finally
+    json.DisposeOf;
+  end;
 end;
 
 end.
