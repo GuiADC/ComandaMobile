@@ -70,7 +70,7 @@ begin
     Application.MainForm := frmPrincipal;
 
     freeandnil(frmLogin);
-
 end;
+
 
 end.
