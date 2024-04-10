@@ -29,7 +29,7 @@ object dm: Tdm
             ParamName = 'usuario'
             Encoded = False
           end>
-        DataMode = dmDataware
+        DataMode = dmRAW
         Name = 'ValidarLogin'
         EventName = 'ValidarLogin'
         BaseURL = '/'
@@ -37,6 +37,18 @@ object dm: Tdm
         CallbackEvent = False
         OnlyPreDefinedParams = False
         OnReplyEvent = DWEventsEventsValidarLoginReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <>
+        DataMode = dmRAW
+        Name = 'ListarComanda'
+        EventName = 'ListarComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
       end>
     Left = 264
     Top = 168
