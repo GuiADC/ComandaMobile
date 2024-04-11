@@ -28,6 +28,8 @@ type
       var Params: TRESTDWParams; var Result: string);
     procedure DWEventsEventsListarProdutoComandaReplyEvent(
       var Params: TRESTDWParams; var Result: string);
+    procedure DWEventsEventsExcluirProdutoComandaReplyEvent(
+      var Params: TRESTDWParams; var Result: string);
   private
     { Private declarations }
   public
@@ -93,6 +95,47 @@ begin
     end;
 
     Result := json.tostring;
+
+  finally
+    json.DisposeOf;
+    qry.DisposeOf;
+  end;
+end;
+
+procedure Tdm.DWEventsEventsExcluirProdutoComandaReplyEvent(
+  var Params: TRESTDWParams; var Result: string);
+var
+  qry: TFDQuery;
+  json: TJSONObject;
+begin
+  try
+    json := TJSONObject.Create;
+    qry := TFDQuery.create(nil);
+    qry.Connection := dm.conn;
+
+    if (params.itemsString['id_comanda'].asString = '') or
+       (params.itemsString['id_consumo'].asString = '') then
+    begin
+      json.addPair('retorno', 'Parametros não informados');
+      result := json.tostring;
+      exit;
+    end;
+
+    try
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('DELETE FROM TAB_COMANDA_CONSUMO');
+      qry.SQL.add('WHERE ID_CONSUMO = :ID_CONSUMO AND ID_COMANDA = :ID_COMANDA');
+
+      qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
+      qry.ParamByName('ID_CONSUMO').value := Params.ItemsString['id_comanda'].AsInteger;
+      qry.ExecSQL;
+
+      json.AddPair('retorno','ok');
+    except on
+      Ex: Exception do
+      json.AddPair('retorno', ex.Message);
+    end;
 
   finally
     json.DisposeOf;
@@ -257,6 +300,12 @@ end;
 
 procedure Tdm.DWEventsEventsValidarLoginReplyEvent(var Params: TRESTDWParams;
   var Result: string);
+
+
+
+
+
+
 var
   json: TJsonObject;
 begin

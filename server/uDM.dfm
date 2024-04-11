@@ -158,6 +158,33 @@ object dm: Tdm
         CallbackEvent = False
         OnlyPreDefinedParams = False
         OnReplyEvent = DWEventsEventsListarProdutoComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_consumo'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'ExcluirProdutoComanda'
+        EventName = 'ExcluirProdutoComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsExcluirProdutoComandaReplyEvent
       end>
     Left = 376
     Top = 80
