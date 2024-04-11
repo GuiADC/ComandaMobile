@@ -49,13 +49,61 @@ object dm: Tdm
         DefaultContentType = 'application/json'
         CallbackEvent = False
         OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_categoria'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'termo_busca'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'pagina'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'ListarProduto'
+        EventName = 'ListarProduto'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarProdutoReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <>
+        DataMode = dmRAW
+        Name = 'ListarCategoria'
+        EventName = 'ListarCategoria'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarCategoriaReplyEvent
       end>
-    Left = 264
-    Top = 168
+    Left = 376
+    Top = 80
   end
   object qryLogin: TFDQuery
     Connection = conn
-    Left = 352
+    Left = 264
     Top = 80
   end
 end
