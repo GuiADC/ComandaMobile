@@ -24,6 +24,10 @@ type
       var Result: string);
     procedure DWEventsEventsListarProdutoReplyEvent(var Params: TRESTDWParams;
       var Result: string);
+    procedure DWEventsEventsAdicionarProdutoComandaReplyEvent(
+      var Params: TRESTDWParams; var Result: string);
+    procedure DWEventsEventsListarProdutoComandaReplyEvent(
+      var Params: TRESTDWParams; var Result: string);
   private
     { Private declarations }
   public
@@ -38,6 +42,63 @@ implementation
 {%CLASSGROUP 'FMX.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure Tdm.DWEventsEventsAdicionarProdutoComandaReplyEvent(
+  var Params: TRESTDWParams; var Result: string);
+var
+  json: TJSONObject;
+  qry: TFDQuery;
+begin
+  try
+    json := TJSONObject.create;
+    qry :=  TFDQuery.create(nil);
+    qry.Connection := dm.conn;
+
+    if (Params.itemsString['id_comanda'].AsString = '') or
+       (Params.itemsString['id_produto'].AsString = '') or
+       (Params.itemsString['qtd'].AsString = '') or
+       (Params.itemsString['vl_total'].AsString = '') then
+    begin
+      json.AddPair('retorno', 'Parametros não informados');
+      result := json.ToString;
+    end;
+
+    try
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('update');
+      qry.SQL.add('    tab_comanda set STATUS = ''A'',');
+      qry.SQL.add('    DT_ABERTURA = COALESCE(DT_ABERTURA, current_timestamp)');
+      qry.SQL.add('WHERE');
+      qry.SQL.add('ID_COMANDA = :ID_COMANDA');
+      qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
+      qry.ExecSQL;
+
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('INSERT INTO TAB_COMANDA_CONSUMO(ID_COMANDA, ID_PRODUTO, QTD, VALOR_TOTAL)');
+      qry.SQL.add('VALUES (:ID_COMANDA, :ID_PRODUTO, :QTD, VALOR_TOTAL)');
+      qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
+      qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].AsInteger;
+      qry.ParamByName('QTD').value := Params.ItemsString['qtd'].AsInteger;
+      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat;
+      qry.ExecSQL;
+
+      json.AddPair('retorno', 'ok');
+
+    except on
+      Ex: Exception do
+      json.AddPair('retorno', ex.Message);
+
+    end;
+
+    Result := json.tostring;
+
+  finally
+    json.DisposeOf;
+    qry.DisposeOf;
+  end;
+end;
 
 procedure Tdm.DWEventsEventsListarCategoriaReplyEvent(var Params: TRESTDWParams;
   var Result: string);
@@ -98,6 +159,46 @@ begin
     json.LoadFromDataset('', qry, false, dmRAW);
 
     result := json.ToJSON;
+  finally
+    json.DisposeOf;
+    qry.DisposeOf;
+  end;
+
+end;
+
+procedure Tdm.DWEventsEventsListarProdutoComandaReplyEvent(
+  var Params: TRESTDWParams; var Result: string);
+var
+  qry: TFDQuery;
+  json: uRESTDWJSONObject.TJSONValue;
+begin
+  try
+    qry := TFDQuery.create(nil);
+    qry.Connection := dm.conn;
+
+    json := uRESTDWJSONObject.TJSONValue.Create;
+
+    qry.Active := false;
+    qry.SQL.clear;
+    qry.SQL.add('select');
+    qry.SQL.add('   P.ID_PRODUTO,');
+    qry.SQL.add('   P.DESCRICAO,');
+    qry.SQL.add('   C.QTD,');
+    qry.SQL.add('   C.VALOR_TOTAL');
+    qry.SQL.add('from');
+    qry.SQL.add('    TAB_COMANDA_CONSUMO C');
+    qry.SQL.add('     JOIN TAB_PRODUTO P ON (P.ID_PRODUTO = C.ID_PRODUTO)');
+    qry.SQL.add('where');
+    qry.SQL.add('    C.ID_COMANDA = :ID_COMANDA');
+    qry.SQL.add('    ORDER BY P.DESCRICAO');
+    qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
+
+    qry.active := true;
+
+    json.LoadFromDataset('', qry, false, dmRAW);
+
+    result := json.ToJSON;
+
   finally
     json.DisposeOf;
     qry.DisposeOf;

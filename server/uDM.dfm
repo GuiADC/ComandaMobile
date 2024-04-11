@@ -97,6 +97,67 @@ object dm: Tdm
         CallbackEvent = False
         OnlyPreDefinedParams = False
         OnReplyEvent = DWEventsEventsListarCategoriaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_produto'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'qtd'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'vl_total'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'AdicionarProdutoComanda'
+        EventName = 'AdicionarProdutoComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsAdicionarProdutoComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = True
+          end>
+        DataMode = dmRAW
+        Name = 'ListarProdutoComanda'
+        EventName = 'ListarProdutoComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarProdutoComandaReplyEvent
       end>
     Left = 376
     Top = 80
