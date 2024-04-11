@@ -30,6 +30,8 @@ type
       var Params: TRESTDWParams; var Result: string);
     procedure DWEventsEventsExcluirProdutoComandaReplyEvent(
       var Params: TRESTDWParams; var Result: string);
+    procedure DWEventsEventsEncerrarComandaReplyEvent(var Params: TRESTDWParams;
+      var Result: string);
   private
     { Private declarations }
   public
@@ -95,6 +97,48 @@ begin
     end;
 
     Result := json.tostring;
+
+  finally
+    json.DisposeOf;
+    qry.DisposeOf;
+  end;
+end;
+
+procedure Tdm.DWEventsEventsEncerrarComandaReplyEvent(var Params: TRESTDWParams;
+  var Result: string);
+var
+  qry: TFDQuery;
+  json: TJSONObject;
+begin
+  try
+    json := TJSONObject.Create;
+    qry := TFDQuery.create(nil);
+    qry.Connection := dm.conn;
+
+    if (params.itemsString['id_comanda'].asString = '') then
+    begin
+      json.addPair('retorno', 'Parametro id_comanda não informado');
+      result := json.tostring;
+      exit;
+    end;
+
+    try
+    // colocar os dados da comanda na tebela de vendas do ERP do restaurante aqui
+
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('UPDATE TAB_COMANDA SET STATUS = ''F'', DT_ABERTURA = NULL');
+      qry.SQL.add('WHERE ID_COMANDA = :ID_COMANDA');
+      qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
+      qry.ExecSQL;
+
+      json.addPair('retorno', 'OK');
+    except on
+      ex: exception do
+      json.AddPair('retorno', ex.message);
+    end;
+
+    result := json.tostring;
 
   finally
     json.DisposeOf;
@@ -300,12 +344,6 @@ end;
 
 procedure Tdm.DWEventsEventsValidarLoginReplyEvent(var Params: TRESTDWParams;
   var Result: string);
-
-
-
-
-
-
 var
   json: TJsonObject;
 begin
@@ -336,6 +374,7 @@ begin
     end;
   finally
     json.DisposeOf;
+    qry.DisposeOf;
   end;
 end;
 
