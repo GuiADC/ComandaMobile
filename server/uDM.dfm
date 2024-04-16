@@ -29,7 +29,7 @@ object dm: Tdm
             ParamName = 'usuario'
             Encoded = False
           end>
-        DataMode = dmDataware
+        DataMode = dmRAW
         Name = 'ValidarLogin'
         EventName = 'ValidarLogin'
         BaseURL = '/'
@@ -37,13 +37,181 @@ object dm: Tdm
         CallbackEvent = False
         OnlyPreDefinedParams = False
         OnReplyEvent = DWEventsEventsValidarLoginReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <>
+        DataMode = dmRAW
+        Name = 'ListarComanda'
+        EventName = 'ListarComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_categoria'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'termo_busca'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'pagina'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'ListarProduto'
+        EventName = 'ListarProduto'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarProdutoReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <>
+        DataMode = dmRAW
+        Name = 'ListarCategoria'
+        EventName = 'ListarCategoria'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarCategoriaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_produto'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'qtd'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'vl_total'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'AdicionarProdutoComanda'
+        EventName = 'AdicionarProdutoComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsAdicionarProdutoComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = True
+          end>
+        DataMode = dmRAW
+        Name = 'ListarProdutoComanda'
+        EventName = 'ListarProdutoComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsListarProdutoComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_consumo'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'ExcluirProdutoComanda'
+        EventName = 'ExcluirProdutoComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsExcluirProdutoComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda'
+            Encoded = True
+          end>
+        DataMode = dmRAW
+        Name = 'EncerrarComanda'
+        EventName = 'EncerrarComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsEncerrarComandaReplyEvent
       end>
-    Left = 264
-    Top = 168
+    Left = 376
+    Top = 80
   end
   object qryLogin: TFDQuery
     Connection = conn
-    Left = 352
+    Left = 264
     Top = 80
   end
 end
