@@ -374,7 +374,6 @@ begin
     end;
   finally
     json.DisposeOf;
-    qry.DisposeOf;
   end;
 end;
 
