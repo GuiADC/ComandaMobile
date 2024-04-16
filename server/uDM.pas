@@ -9,7 +9,8 @@ uses
   FireDAC.FMXUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, uRESTDWComponentBase, uRESTDWServerEvents, uRESTDWParams,
   uRESTDWAboutForm, uRESTDWJSONObject, FireDAC.Stan.Param, FireDAC.DatS,
-  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, system.JSON, uRESTDWConsts;
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, system.JSON, uRESTDWConsts,
+  REST.Types, REST.Client, Data.Bind.Components, Data.Bind.ObjectScope;
 
 type
   Tdm = class(TServerMethodDataModule)

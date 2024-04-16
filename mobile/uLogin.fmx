@@ -9,7 +9,7 @@ object frmLogin: TfrmLogin
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = FormCreate
+  OnShow = FormShow
   DesignerMasterStyle = 3
   object Rectangle1: TRectangle
     Align = Top
@@ -79,7 +79,7 @@ object frmLogin: TfrmLogin
           Text = 'Usu'#225'rio'
           TabOrder = 1
         end
-        object Edit1: TEdit
+        object edtUsuario: TEdit
           Touch.InteractiveGestures = [LongTap, DoubleTap]
           Align = Top
           StyleLookup = 'transparentedit'
@@ -166,7 +166,7 @@ object frmLogin: TfrmLogin
           Text = 'Servidor'
           TabOrder = 0
         end
-        object Edit2: TEdit
+        object edtServidor: TEdit
           Touch.InteractiveGestures = [LongTap, DoubleTap]
           Align = Top
           StyleLookup = 'transparentedit'
