@@ -1,4 +1,4 @@
-unit uDM;
+﻿unit uDM;
 
 interface
 
@@ -19,12 +19,16 @@ type
     RESTClient: TRESTClient;
     RequestLogin: TRESTRequest;
     RESTResponse1: TRESTResponse;
+    RequestListarComanda: TRESTRequest;
+    RequestListarProduto: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
     function validaLogin(usuario: string; out erro: string): boolean;
+    function ListarComanda(out jsonArray: TJSONArray; out erro: string): boolean;
+    function ListarProduto(id_categoria: integer; termo_busca: string; pagina: integer; out jsonArray: TJSONArray; out erro: string): boolean;
   end;
 
 var
@@ -70,6 +74,63 @@ begin
     end;
   end;
 end;
+
+function Tdm.ListarComanda(out jsonArray: TJSONArray; out erro: string): boolean;
+var
+  json: string;
+begin
+  erro := '';
+
+  RequestListarComanda.Params.clear;
+  RequestListarComanda.Execute;
+
+  if dm.RequestListarComanda.Response.StatusCode <> 200 then
+  begin
+    result := false;
+    erro := 'Erro ao listar comandas:' + dm.RequestListarComanda.Response.StatusCode.ToString;
+
+  end
+  else
+  begin
+    json := RequestListarComanda.Response.JSONValue.ToString;
+    jsonArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONArray;
+    result := true;
+  end;
+end;
+
+function Tdm.ListarProduto(id_categoria: integer; termo_busca: string; pagina: integer; out jsonArray: TJSONArray; out erro: string): boolean;
+var
+  json: string;
+begin
+  erro := '';
+  try
+    RequestListarProduto.Params.clear;
+    RequestListarProduto.AddParameter('id_categoria', id_categoria.ToString, TRESTRequestParameterKind.pkGETorPOST);
+    RequestListarProduto.AddParameter('termo_busca', termo_busca, TRESTRequestParameterKind.pkGETorPOST);
+    RequestListarProduto.AddParameter('pagina', pagina.ToString, TRESTRequestParameterKind.pkGETorPOST);
+    RequestListarProduto.Execute;
+  except on ex: exception do
+      begin
+        Result := false;
+        erro := 'Erro ao listar produto:' + ex.message;
+        exit;
+      end;
+  end;
+
+  if dm.RequestListarProduto.Response.StatusCode <> 200 then
+  begin
+    result := false;
+    erro := 'Erro ao listar produto:' + dm.RequestListarProduto.Response.StatusCode.ToString;
+  end
+  else
+  begin
+    json := RequestListarProduto.Response.JSONValue.ToString;
+    jsonArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONArray;
+    result := true;
+  end;
+end;
+
+
 
 procedure Tdm.DataModuleCreate(Sender: TObject);
 begin

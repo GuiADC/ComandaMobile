@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.TabControl,
   FMX.Edit, FMX.Layouts, FMX.ListBox, FMX.ListView.Types,
-  FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView;
+  FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView, System.JSON;
 
 type
   TfrmPrincipal = class(TForm)
@@ -48,15 +48,16 @@ type
     procedure rectBuscarClick(Sender: TObject);
   private
     procedure mudarAba(img: TImage);
-    procedure detalhesComanda(comanda: integer);
-    procedure addMapa(comanda: integer; status: string; valorTotal: double);
+    procedure detalhesComanda(comanda: string);
+    procedure addMapa(comanda: string; status: string; valorTotal: double);
     procedure addProdutoLv(idProduto: integer; descricao: string; preco: double);
     procedure listarProduto(indClear: boolean; busca: string);
+    procedure CarregarComanda;
     { Private declarations }
   public
     { Public declarations }
 
-    procedure addItem(comanda: integer);
+    procedure addItem(comanda: string);
   end;
 
 var
@@ -64,21 +65,42 @@ var
 
 implementation
 
-uses uAddItem, uResumo;
+uses uAddItem, uResumo, uDM;
 
 {$R *.fmx}
 
-procedure TfrmPrincipal.detalhesComanda(comanda: integer);
+procedure TfrmPrincipal.CarregarComanda;
+var
+  jsonArray: TJSONArray;
+  erro: string;
+begin
+
+  lbMapa.Items.clear;
+
+  if not (dm.ListarComanda(jsonArray, erro)) then
+  begin
+    ShowMessage(erro);
+    exit;
+  end;
+
+  for var iintIndex := 0 to jsonArray.Size -1 do
+  begin
+    addMapa(jsonArray.Get(iintIndex).GetValue<string>('ID_COMANDA'), jsonArray.Get(iintIndex).GetValue<string>('STATUS'), jsonArray.Get(iintIndex).GetValue<double>('VALOR_TOTAL'));
+  end;
+
+end;
+
+procedure TfrmPrincipal.detalhesComanda(comanda: string);
 begin
   if NOT Assigned(frmAddItem) then
     Application.CreateForm(TfrmResumo, frmResumo);
 
-  frmResumo.labComanda.text := comanda.tostring;
+  frmResumo.labComanda.text := comanda;
   frmResumo.Show;
 
 end;
 
-procedure TfrmPrincipal.addMapa(comanda: integer; status: string; valorTotal: double);
+procedure TfrmPrincipal.addMapa(comanda: string; status: string; valorTotal: double);
 var
   item: TListBoxItem;
   rect: TRectangle;
@@ -87,7 +109,7 @@ begin
   item := TListBoxItem.create(lbMapa);
   item.text := '';
   item.height := 110;
-  item.Tag := comanda;
+  item.TagString := comanda;
   item.Selectable := false;
 
   rect := TRectangle.Create(item);
@@ -100,7 +122,7 @@ begin
   rect.Fill.Kind := TBrushKind.Solid;
   rect.HitTest := false;
 
-  if (status.ToUpper = 'LIVRE') then
+  if (status.ToUpper = 'F') then
     rect.Fill.Color := $FF4A70F7
   else
     rect.Fill.Color := $FFEC6E73;
@@ -113,7 +135,12 @@ begin
   lbl := TLabel.Create(rect);
   lbl.Parent := rect;
   lbl.Align := TAlignLayout.top;
-  lbl.Text := status;
+
+  if status = 'F' then
+    lbl.Text := 'Livre'
+  else
+    lbl.Text := 'Ocupada';
+
   lbl.Margins.left := 5;
   lbl.Margins.top := 5;
   lbl.Height := 15;
@@ -125,7 +152,7 @@ begin
   lbl.Parent := rect;
   lbl.Align := TAlignLayout.bottom;
 
-  if (status.ToUpper = 'LIVRE') then
+  if (status.ToUpper = 'F') then
   lbl.Text := ''
   else
    lbl.Text := FormatFloat('#,##0.00', valorTotal);
@@ -141,7 +168,7 @@ begin
   lbl := TLabel.Create(rect);
   lbl.Parent := rect;
   lbl.Align := TAlignLayout.client;
-  lbl.Text := comanda.tostring;
+  lbl.Text := comanda;
   lbl.StyledSettings := lbl.StyledSettings - [TstyledSetting.fontColor, TstyledSetting.Size] ;
   lbl.FontColor := $FFFFFFFF;
   lbl.font.size := 30;
@@ -152,7 +179,7 @@ begin
 
 end;
 
-procedure TfrmPrincipal.addItem(comanda: integer);
+procedure TfrmPrincipal.addItem(comanda: string);
 begin
   if NOT Assigned(frmAddItem) then
     Application.CreateForm(TfrmAddItem, frmAddItem);
@@ -176,7 +203,7 @@ end;
 procedure TfrmPrincipal.rectAddItemClick(Sender: TObject);
 begin
   if edtComanda.text <> '' then
-    addItem(edtComanda.Text.ToInteger);
+    addItem(edtComanda.Text);
 end;
 
 procedure TfrmPrincipal.rectBuscarClick(Sender: TObject);
@@ -187,7 +214,7 @@ end;
 procedure TfrmPrincipal.rectDetalhesClick(Sender: TObject);
 begin
   if edtComanda.text <> '' then
-   detalhesComanda(edtComanda.Text.ToInteger);
+   detalhesComanda(edtComanda.Text);
 end;
 
 procedure TfrmPrincipal.FormResize(Sender: TObject);
@@ -198,10 +225,7 @@ end;
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
   mudarAba(imgAba1);
-  addMapa(1, 'livre', 123);
-  addMapa(2, 'ocupada', 333);
-  addMapa(3, 'llimpa', 432);
-  addMapa(4, 'llimpa', 22);
+  CarregarComanda;
 end;
 
 procedure TfrmPrincipal.imgAba1Click(Sender: TObject);
@@ -212,7 +236,7 @@ end;
 procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
-  detalhesComanda(item.Tag);
+  detalhesComanda(item.Tag.tostring);
 end;
 
 procedure TfrmPrincipal.addProdutoLv(idProduto: integer; descricao: string; preco: double);

@@ -13,7 +13,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(Tdm, dm);
+  Application.CreateForm(TfrmLogin, frmLogin);
   Application.Run;
 end.

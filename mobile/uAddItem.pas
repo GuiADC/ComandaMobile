@@ -59,7 +59,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    comanda: integer;
+    comanda: string;
   end;
 
 var
@@ -135,7 +135,7 @@ procedure TfrmAddItem.lvCategoriaItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
   lblTitulo.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
-  lblComanda.text := 'Comanda / Mesa: ' + comanda.ToString;
+  lblComanda.text := 'Comanda / Mesa: ' + comanda;
 
   listarProduto(AItem.tag, '');
 

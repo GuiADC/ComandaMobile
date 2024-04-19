@@ -36,11 +36,39 @@ object dm: Tdm
     Resource = 'ValidarLogin'
     Response = RESTResponse1
     SynchronizedEvents = False
-    Left = 8
+    Left = 104
     Top = 208
   end
   object RESTResponse1: TRESTResponse
     Left = 104
+    Top = 144
+  end
+  object RequestListarComanda: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'ListarComanda'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 184
+    Top = 208
+  end
+  object RequestListarProduto: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'ListarProduto'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 288
     Top = 208
   end
 end

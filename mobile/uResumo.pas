@@ -75,7 +75,7 @@ end;
 
 procedure TfrmResumo.imgAddItemClick(Sender: TObject);
 begin
-  frmPrincipal.addItem(labComanda.text.ToInteger);
+  frmPrincipal.addItem(labComanda.text);
 end;
 
 procedure TfrmResumo.imgFecharClick(Sender: TObject);
