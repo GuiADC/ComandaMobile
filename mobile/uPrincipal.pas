@@ -88,6 +88,7 @@ begin
     addMapa(jsonArray.Get(iintIndex).GetValue<string>('ID_COMANDA'), jsonArray.Get(iintIndex).GetValue<string>('STATUS'), jsonArray.Get(iintIndex).GetValue<double>('VALOR_TOTAL'));
   end;
 
+  jsonArray.DisposeOf;
 end;
 
 procedure TfrmPrincipal.detalhesComanda(comanda: string);
@@ -252,13 +253,27 @@ end;
 
 procedure TfrmPrincipal.listarProduto(indClear: boolean; busca: string);
 var
-  x: integer;
+  jsonArray: TJSONArray;
+  erro: string;
+  total: double;
 begin
   if indClear then
-    lvProduto.Items.clear;
+  lvProduto.Items.Clear;
 
-  for x := 1 to 10 do
-   addProdutoLv(x, 'Produto ' + x.ToString, x);
+  if NOT dm.ListarProduto(0, edtBuscaProduto.text, 0, jsonArray, erro) then
+  begin
+      showmessage(erro);
+      exit;
+  end;
+
+  for var iIntIndex := 0 to jsonArray.Size - 1 do
+  begin
+      AddProdutoLv(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
+                   jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
+                   jsonArray.Get(iIntIndex).GetValue<double>('PRECO'));
+  end;
+
+  jsonArray.DisposeOf;
 
 end;
 

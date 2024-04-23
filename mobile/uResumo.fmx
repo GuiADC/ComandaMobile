@@ -67,7 +67,7 @@ object frmResumo: TfrmResumo
     Size.Height = 50.000000000000000000
     Size.PlatformDefault = False
     Stroke.Kind = None
-    object Label5: TLabel
+    object lblTotal: TLabel
       Align = Bottom
       StyledSettings = [Family]
       Margins.Right = 20.000000000000000000

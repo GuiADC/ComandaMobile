@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
-  FMX.ListView, fmx.DialogService;
+  FMX.ListView, fmx.DialogService, system.JSON;
 
 type
   TfrmResumo = class(TForm)
@@ -16,7 +16,7 @@ type
     Label1: TLabel;
     labComanda: TLabel;
     Rectangle2: TRectangle;
-    Label5: TLabel;
+    lblTotal: TLabel;
     Rectangle4: TRectangle;
     Label3: TLabel;
     imgFechar: TImage;
@@ -43,7 +43,7 @@ var
 
 implementation
 
-uses uPrincipal;
+uses uPrincipal, uDM;
 
 {$R *.fmx}
 
@@ -60,12 +60,33 @@ end;
 
 procedure TfrmResumo.listarProduto;
 var
-  x: integer;
+  jsonArray: TJSONArray;
+  erro: string;
+  total: double;
 begin
+  total := 0;
   lvProduto.Items.clear;
 
-  for x := 1 to 10 do
-    addProdutoResumo(x, 01,  ' Produto ' + x.ToString, x);
+  if (not dm.listarProdutoComanda(labComanda.text, jsonArray, erro)) then
+  begin
+    ShowMessage(erro);
+    exit;
+  end;
+
+
+  for var iIntIndex := 0 to jsonArray.Size do
+  begin
+    addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
+                     jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
+                     jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'));
+
+
+    total := total + jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL');
+  end;
+
+  lblTotal.text := FormatFloat('#,##0,00', total);
+  jsonArray.DisposeOf;
 end;
 
 procedure TfrmResumo.FormShow(Sender: TObject);

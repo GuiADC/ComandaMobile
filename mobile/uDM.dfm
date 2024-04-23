@@ -1,7 +1,7 @@
 object dm: Tdm
   OnCreate = DataModuleCreate
-  Height = 357
-  Width = 508
+  Height = 609
+  Width = 555
   object conn: TFDConnection
     Params.Strings = (
       
@@ -36,7 +36,7 @@ object dm: Tdm
     Resource = 'ValidarLogin'
     Response = RESTResponse1
     SynchronizedEvents = False
-    Left = 104
+    Left = 32
     Top = 208
   end
   object RESTResponse1: TRESTResponse
@@ -54,7 +54,7 @@ object dm: Tdm
     Resource = 'ListarComanda'
     Response = RESTResponse1
     SynchronizedEvents = False
-    Left = 184
+    Left = 368
     Top = 208
   end
   object RequestListarProduto: TRESTRequest
@@ -68,7 +68,77 @@ object dm: Tdm
     Resource = 'ListarProduto'
     Response = RESTResponse1
     SynchronizedEvents = False
-    Left = 288
-    Top = 208
+    Left = 32
+    Top = 272
+  end
+  object RequestListarCategoria: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'ListarCategoria'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 32
+    Top = 344
+  end
+  object RequestAdicionarProdutoComanda: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'AdicionarProdutoComanda'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 32
+    Top = 408
+  end
+  object RequestListarProdutoComanda: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'AdicionarProdutoComanda'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 368
+    Top = 424
+  end
+  object RequestExcluirProdutoComanda: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'AdicionarProdutoComanda'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 368
+    Top = 280
+  end
+  object RequestEncerrarComanda: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'AdicionarProdutoComanda'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 368
+    Top = 352
   end
 end
