@@ -29,7 +29,9 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
         android:resizeableActivity="false"
-        android:requestLegacyExternalStorage="true">
+        android:requestLegacyExternalStorage="true"
+	android:usesCleartextTraffic="true"
+>
 
 
 
