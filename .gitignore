@@ -1,7 +1,7 @@
 \__history
-\__.exe
-\__.bpl
-\__.dcu
-\__.res
-\__.local
-\__.identcache
+**/*.exe
+**/*.bpl
+**/*.dcu
+**/*.res
+**/*.local
+**/*.identcache
