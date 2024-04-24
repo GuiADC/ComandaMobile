@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
-  FMX.ListView, FMX.TabControl, FMX.Edit;
+  FMX.ListView, FMX.TabControl, FMX.Edit, system.JSON;
 
 type
   TfrmAddItem = class(TForm)
@@ -49,6 +49,8 @@ type
     procedure lvProdutoItemClick(const Sender: TObject;
       const AItem: TListViewItem);
     procedure imgFecharQtdClick(Sender: TObject);
+    procedure rectEncerrarClick(Sender: TObject);
+    procedure rectBuscaProdutoClick(Sender: TObject);
   private
     procedure addCategoriaLv(idCategoria: integer; descricao: string;
       icone: TStream);
@@ -56,6 +58,7 @@ type
     procedure addProdutoLv(idProduto: integer; descricao: string;
       preco: double);
     procedure listarProduto(idCategoria: integer; busca: string);
+    function converteValor(vl: string): double;
     { Private declarations }
   public
     { Public declarations }
@@ -66,6 +69,8 @@ var
   frmAddItem: TfrmAddItem;
 
 implementation
+
+uses uDM;
 
 {$R *.fmx}
 
@@ -94,18 +99,33 @@ procedure TfrmAddItem.listarCategoria;
 var
   x: integer;
   icone: TStream;
+  erro: string;
+  jsonArray: TJsonArray;
 begin
+  try
     lvCategoria.Items.clear;
 
-   icone := TMemoryStream.create;
-   imgIcone.Bitmap.SaveToStream(icone);
-   icone.Position := 0;
+    if not dm.listarCategoria(jsonArray, erro) then
+    begin
+      ShowMessage(erro);
+      exit;
+    end;
 
-  for x := 1 to 10 do
-    addCategoriaLv(x, 'categoria ' + x.ToString, icone);
+    for x := 0 to jsonArray.size -1 do
+    begin
+      icone := TMemoryStream.create;
+      imgIcone.Bitmap.SaveToStream(icone);
+      icone.Position := 0;
 
-  freeandnil(icone);
+      addCategoriaLv(jsonArray.get(x).GetValue<integer>('ID_CATEGORIA'), jsonArray.get(x).GetValue<string>('DESCRICAO'), icone);
 
+      icone.DisposeOf
+    end;
+
+  finally
+    icone.DisposeOf;
+    jsonArray.DisposeOf;
+  end;
 end;
 
 procedure TfrmAddItem.addProdutoLv(idProduto: integer; descricao: string; preco: double);
@@ -123,12 +143,24 @@ end;
 procedure TfrmAddItem.listarProduto(idCategoria: integer; busca: string);
 var
   x: integer;
+  jsonArray: TJSONArray;
+  erro: string;
 begin
-  lvProduto.Items.clear;
+  try
+    lvProduto.Items.clear;
 
-  for x := 1 to 10 do
-   addProdutoLv(x, 'Produto ' + x.ToString, x);
+    if not (dm.ListarProduto(idCategoria, busca, 0, jsonArray, erro)) then
+    begin
+      ShowMessage(erro);
+      exit;
+    end;
 
+    for x := 0 to jsonArray.size do
+      addProdutoLv(jsonArray.Get(x).GetValue<integer>('ID_PRODUTO'), jsonArray.Get(x).GetValue<string>('DESCRICAO'), jsonArray.Get(x).GetValue<double>('PRECO'));
+
+  finally
+    jsonArray.DisposeOf;
+  end;
 end;
 
 procedure TfrmAddItem.lvCategoriaItemClick(const Sender: TObject;
@@ -137,9 +169,20 @@ begin
   lblTitulo.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
   lblComanda.text := 'Comanda / Mesa: ' + comanda;
 
+  lvProduto.tag := AItem.tag;
   listarProduto(AItem.tag, '');
 
   TabControl.GotoVisibleTab(1, TTabTransition.slide);
+end;
+
+function TfrmAddItem.converteValor(vl: string): double;
+begin
+  try
+    vl := vl.Replace(',', '').Replace('.','');
+    result := vl.ToDouble / 100;
+  except
+    result := 0;
+  end;
 end;
 
 procedure TfrmAddItem.lvProdutoItemClick(const Sender: TObject;
@@ -147,7 +190,28 @@ procedure TfrmAddItem.lvProdutoItemClick(const Sender: TObject;
 begin
   lblQtd.text := '01';
   lblDescricao.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
+  lblDescricao.tag := AItem.tag;
+
+  lblDescricao.TagFloat := converteValor(TListItemText(AItem.Objects.FindDrawable('txtPreco')).Text);
+
   layoutQtd.Visible := true;
+end;
+
+procedure TfrmAddItem.rectBuscaProdutoClick(Sender: TObject);
+begin
+  listarProduto(lvProduto.Tag, edtBuscaProduto.text);
+end;
+
+procedure TfrmAddItem.rectEncerrarClick(Sender: TObject);
+var
+  erro: string;
+begin
+
+  if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat, erro)) then
+    layoutQtd.Visible := false
+  else
+    ShowMessage(erro);
+
 end;
 
 procedure TfrmAddItem.FormShow(Sender: TObject);
