@@ -1,5 +1,7 @@
 \__history
 \__Android
 \__Android64
-mobile/*.dcu
-mobile/*.exe
+src/*.~*
+src/*.dcu
+*.exe
+mobile/Win32/Debug/uPrincipal.dcu
