@@ -86,7 +86,7 @@ begin
       qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
       qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].AsInteger;
       qry.ParamByName('QTD').value := Params.ItemsString['qtd'].AsInteger;
-      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat;
+      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat / 100;
       qry.ExecSQL;
 
       json.AddPair('retorno', 'ok');
@@ -269,6 +269,7 @@ begin
     qry.Active := false;
     qry.SQL.clear;
     qry.SQL.add('select');
+    qry.SQL.add('   C.ID_CONSUMO,');
     qry.SQL.add('   P.ID_PRODUTO,');
     qry.SQL.add('   P.DESCRICAO,');
     qry.SQL.add('   C.QTD,');

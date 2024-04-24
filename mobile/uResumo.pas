@@ -73,7 +73,6 @@ begin
     exit;
   end;
 
-
   for var iIntIndex := 0 to jsonArray.Size do
   begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
