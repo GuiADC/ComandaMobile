@@ -4,4 +4,5 @@
 src/*.~*
 src/*.dcu
 *.exe
+*.dcu
 mobile/Win32/Debug/uPrincipal.dcu
