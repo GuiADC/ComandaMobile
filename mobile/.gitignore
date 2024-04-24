@@ -1,9 +1,0 @@
-\__history
-\__Android
-\__Android64
-**/*.exe
-**/*.bpl
-**/*.dcu
-**/*.res
-**/*.local
-**/*.identcache
