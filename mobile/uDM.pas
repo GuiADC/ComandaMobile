@@ -60,11 +60,6 @@ begin
 
   RequestLogin.Params.clear;
   RequestLogin.AddParameter('usuario', usuario, TRESTRequestParameterKind.pkGETorPOST);
-
-  {$ifdef ANDROID}
-   RequestLogin.Client.BaseURL := 'http://192.168.101.4:8082';
-   {$endif}
-
   RequestLogin.Execute;
 
   if dm.RequestLogin.Response.StatusCode <> 200 then

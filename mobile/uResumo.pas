@@ -73,8 +73,9 @@ begin
     exit;
   end;
 
-  for var iIntIndex := 0 to jsonArray.Size do
+  for var iIntIndex := 0 to jsonArray.Size -1 do
   begin
+
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
@@ -84,7 +85,7 @@ begin
     total := total + jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL');
   end;
 
-  lblTotal.text := FormatFloat('#,##0,00', total);
+  lblTotal.text := FormatFloat('#,##0.00', total);
   jsonArray.DisposeOf;
 end;
 

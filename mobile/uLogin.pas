@@ -104,6 +104,7 @@ procedure TfrmLogin.rectLoginClick(Sender: TObject);
 var
   erro: string;
 begin
+  dm.RequestLogin.Client.BaseURL := edtServidor.text;
 
   if not dm.validaLogin(edtUsuario.text, erro) then
   begin
