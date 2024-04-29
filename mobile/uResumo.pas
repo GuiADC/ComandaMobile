@@ -43,7 +43,7 @@ var
 
 implementation
 
-uses uPrincipal, uDM;
+uses uPrincipal, uDM, uAddItem;
 
 {$R *.fmx}
 
@@ -96,7 +96,18 @@ end;
 
 procedure TfrmResumo.imgAddItemClick(Sender: TObject);
 begin
-  frmPrincipal.addItem(labComanda.text);
+
+  if NOT Assigned(frmAddItem) then
+    Application.CreateForm(TfrmAddItem, frmAddItem);
+
+  frmAddItem.comanda := labComanda.text;
+  frmAddItem.TabControl.ActiveTab := frmAddItem.tabCategoria;
+  frmAddItem.Showmodal(procedure(modalResult: TModalResult)
+  begin
+   if (modalResult = mrOk) then
+    frmResumo.listarProduto;
+  end);
+
 end;
 
 procedure TfrmResumo.imgFecharClick(Sender: TObject);
