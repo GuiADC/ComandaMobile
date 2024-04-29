@@ -29,9 +29,10 @@ type
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lvProdutoItemClickEx(const Sender: TObject; ItemIndex: Integer;
+      const LocalClickPos: TPointF; const ItemObject: TListItemDrawable);
   private
-    procedure addProdutoResumo(idProduto, qtd: integer; descricao: string;
-      preco: double);
+    procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
     procedure listarProduto;
     { Private declarations }
   public
@@ -47,11 +48,11 @@ uses uPrincipal, uDM, uAddItem;
 
 {$R *.fmx}
 
-procedure TfrmResumo.addProdutoResumo(idProduto: integer; qtd: integer; descricao: string; preco: double);
+procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
 begin
   with lvProduto.Items.add do
   begin
-    Tag := idProduto;
+    Tag := idConsumo;
     TListItemText(Objects.FindDrawable('txtDescricao')).text := FormatFloat('00', qtd) + ' x ' + descricao;
     TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00',  qtd * preco);
     TListItemImage(Objects.FindDrawable('imgDelete')).bitmap := imgDelete.bitmap;
@@ -75,7 +76,6 @@ begin
 
   for var iIntIndex := 0 to jsonArray.Size -1 do
   begin
-
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
@@ -87,6 +87,17 @@ begin
 
   lblTotal.text := FormatFloat('#,##0.00', total);
   jsonArray.DisposeOf;
+end;
+
+procedure TfrmResumo.lvProdutoItemClickEx(const Sender: TObject;
+  ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+  if (tlistview(sender).Selected <> nil) and (ItemObject is TListItemImage) then
+  begin
+    if TListItemImage(ItemObject).Name = 'imgDelete' then
+
+  end;
 end;
 
 procedure TfrmResumo.FormShow(Sender: TObject);
