@@ -240,7 +240,14 @@ end;
 procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
-  detalhesComanda(item.TagString);
+  if NOT Assigned(frmAddItem) then
+    Application.CreateForm(TfrmResumo, frmResumo);
+
+  frmResumo.labComanda.text := item.TagString;
+  frmResumo.Showmodal(procedure(modalResult: TModalResult)
+  begin
+    CarregarComanda;
+  end);
 end;
 
 procedure TfrmPrincipal.addProdutoLv(idProduto: integer; descricao: string; preco: double);
