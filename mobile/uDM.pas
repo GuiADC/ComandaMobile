@@ -140,7 +140,7 @@ begin
     json := RequestAdicionarProdutoComanda.Response.JSONValue.ToString;
     jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJsonObject;
 
-    if jsonObj.GetValue('retorno').Value = 'OK' then
+    if UpperCase(jsonObj.GetValue('retorno').Value) = 'OK' then
       result := true
     else
     begin
