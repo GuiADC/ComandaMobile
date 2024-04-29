@@ -207,7 +207,10 @@ var
 begin
 
   if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat, erro)) then
-    layoutQtd.Visible := false
+  begin
+    layoutQtd.Visible := false;
+    self.modalResult := mrOk;
+  end
   else
     ShowMessage(erro);
 
