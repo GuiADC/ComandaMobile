@@ -237,7 +237,7 @@ end;
 procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
-  detalhesComanda(item.Tag.tostring);
+  detalhesComanda(item.TagString);
 end;
 
 procedure TfrmPrincipal.addProdutoLv(idProduto: integer; descricao: string; preco: double);
