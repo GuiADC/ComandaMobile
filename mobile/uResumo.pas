@@ -82,7 +82,7 @@ begin
                      jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'));
 
 
-    total := total + jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL');
+    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL') * jsonArray.Get(iIntIndex).GetValue<integer>('QTD'));
   end;
 
   lblTotal.text := FormatFloat('#,##0.00', total);

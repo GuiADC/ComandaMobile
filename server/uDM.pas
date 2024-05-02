@@ -235,7 +235,7 @@ begin
     qry.SQL.add('select');
     qry.SQL.add('    C.ID_COMANDA,');
     qry.SQL.add('    C.STATUS,');
-    qry.SQL.add('    coalesce(SUM(O.VALOR_TOTAL), 0) as VALOR_TOTAL');
+    qry.SQL.add('    coalesce(SUM(O.VALOR_TOTAL * O.QTD), 0) as VALOR_TOTAL');
     qry.SQL.add('from');
     qry.SQL.add('    tab_comanda C');
     qry.SQL.add('    left join tab_comanda_consumo O ON (C.id_comanda = O.id_comanda)');
