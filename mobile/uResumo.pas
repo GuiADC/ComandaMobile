@@ -1,4 +1,4 @@
-unit uResumo;
+﻿unit uResumo;
 
 interface
 
@@ -95,7 +95,28 @@ procedure TfrmResumo.lvProdutoItemClickEx(const Sender: TObject;
 begin
   if (tlistview(sender).Selected <> nil) and (ItemObject is TListItemImage) then
   begin
-    if TListItemImage(ItemObject).Name = 'imgDelete' then
+    if (TListItemImage(ItemObject).Name = 'imgDelete') then
+    begin
+      //copio o nome do item selecionado para exibir na mensagem
+      var nomeItemSelecionado := TListItemText(TListView(Sender).Items[ItemIndex].objects.FindDrawable('txtDescricao')).text.split(['x'])[1];
+
+      TDialogService.MessageDialog('Confirmar exclusão do item:' + nomeItemSelecionado + ' ?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
+      procedure(const AResult: TModalResult)
+      var
+        erro: string;
+      begin
+        if AResult = mrYes then
+        begin
+          ShowMessage('Encerramento concluido');
+
+          if dm.EncerrarComanda(labComanda.text, erro) then
+            close
+          else
+            ShowMessage(erro);
+        end;
+      end);
+
+    end;
 
   end;
 end;
@@ -130,12 +151,19 @@ procedure TfrmResumo.rectEncerrarClick(Sender: TObject);
 begin
   TDialogService.MessageDialog('Confirmar encerramento?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
   procedure(const AResult: TModalResult)
+  var
+    erro: string;
   begin
     if AResult = mrYes then
-      ShowMessage('Encerramento concluido')
+    begin
+      ShowMessage('Encerramento concluido');
 
+      if dm.EncerrarComanda(labComanda.text, erro) then
+        close
+      else
+        ShowMessage(erro);
+    end;
   end);
-
 end;
 
 end.
