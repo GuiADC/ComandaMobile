@@ -60,11 +60,6 @@ begin
 
   RequestLogin.Params.clear;
   RequestLogin.AddParameter('usuario', usuario, TRESTRequestParameterKind.pkGETorPOST);
-
-  {$ifdef ANDROID}
-   RequestLogin.Client.BaseURL := 'http://192.168.101.4:8082';
-   {$endif}
-
   RequestLogin.Execute;
 
   if dm.RequestLogin.Response.StatusCode <> 200 then
@@ -145,7 +140,7 @@ begin
     json := RequestAdicionarProdutoComanda.Response.JSONValue.ToString;
     jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJsonObject;
 
-    if jsonObj.GetValue('retorno').Value = 'OK' then
+    if UpperCase(jsonObj.GetValue('retorno').Value) = 'OK' then
       result := true
     else
     begin

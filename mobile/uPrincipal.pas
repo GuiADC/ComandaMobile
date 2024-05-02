@@ -199,6 +199,10 @@ begin
 
   img.Opacity := 1;
   TabControl.GotoVisibleTab(img.tag, TTabTransition.Slide);
+
+  if img.tag = 1 then
+    CarregarComanda;
+
 end;
 
 procedure TfrmPrincipal.rectAddItemClick(Sender: TObject);
@@ -226,7 +230,6 @@ end;
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
   mudarAba(imgAba1);
-  CarregarComanda;
 end;
 
 procedure TfrmPrincipal.imgAba1Click(Sender: TObject);
@@ -237,7 +240,14 @@ end;
 procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
-  detalhesComanda(item.Tag.tostring);
+  if NOT Assigned(frmAddItem) then
+    Application.CreateForm(TfrmResumo, frmResumo);
+
+  frmResumo.labComanda.text := item.TagString;
+  frmResumo.Showmodal(procedure(modalResult: TModalResult)
+  begin
+    CarregarComanda;
+  end);
 end;
 
 procedure TfrmPrincipal.addProdutoLv(idProduto: integer; descricao: string; preco: double);

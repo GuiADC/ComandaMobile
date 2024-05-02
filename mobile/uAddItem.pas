@@ -123,7 +123,6 @@ begin
     end;
 
   finally
-    icone.DisposeOf;
     jsonArray.DisposeOf;
   end;
 end;
@@ -155,7 +154,7 @@ begin
       exit;
     end;
 
-    for x := 0 to jsonArray.size do
+    for x := 0 to jsonArray.size -1 do
       addProdutoLv(jsonArray.Get(x).GetValue<integer>('ID_PRODUTO'), jsonArray.Get(x).GetValue<string>('DESCRICAO'), jsonArray.Get(x).GetValue<double>('PRECO'));
 
   finally
@@ -208,10 +207,12 @@ var
 begin
 
   if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat, erro)) then
-    layoutQtd.Visible := false
+  begin
+    layoutQtd.Visible := false;
+    self.modalResult := mrOk;
+  end
   else
     ShowMessage(erro);
-
 end;
 
 procedure TfrmAddItem.FormShow(Sender: TObject);

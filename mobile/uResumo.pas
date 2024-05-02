@@ -1,4 +1,4 @@
-unit uResumo;
+﻿unit uResumo;
 
 interface
 
@@ -29,9 +29,10 @@ type
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lvProdutoItemClickEx(const Sender: TObject; ItemIndex: Integer;
+      const LocalClickPos: TPointF; const ItemObject: TListItemDrawable);
   private
-    procedure addProdutoResumo(idProduto, qtd: integer; descricao: string;
-      preco: double);
+    procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
     procedure listarProduto;
     { Private declarations }
   public
@@ -43,15 +44,15 @@ var
 
 implementation
 
-uses uPrincipal, uDM;
+uses uPrincipal, uDM, uAddItem;
 
 {$R *.fmx}
 
-procedure TfrmResumo.addProdutoResumo(idProduto: integer; qtd: integer; descricao: string; preco: double);
+procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
 begin
   with lvProduto.Items.add do
   begin
-    Tag := idProduto;
+    Tag := idConsumo;
     TListItemText(Objects.FindDrawable('txtDescricao')).text := FormatFloat('00', qtd) + ' x ' + descricao;
     TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00',  qtd * preco);
     TListItemImage(Objects.FindDrawable('imgDelete')).bitmap := imgDelete.bitmap;
@@ -73,7 +74,7 @@ begin
     exit;
   end;
 
-  for var iIntIndex := 0 to jsonArray.Size do
+  for var iIntIndex := 0 to jsonArray.Size -1 do
   begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
@@ -84,8 +85,40 @@ begin
     total := total + jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL');
   end;
 
-  lblTotal.text := FormatFloat('#,##0,00', total);
+  lblTotal.text := FormatFloat('#,##0.00', total);
   jsonArray.DisposeOf;
+end;
+
+procedure TfrmResumo.lvProdutoItemClickEx(const Sender: TObject;
+  ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+  if (tlistview(sender).Selected <> nil) and (ItemObject is TListItemImage) then
+  begin
+    if (TListItemImage(ItemObject).Name = 'imgDelete') then
+    begin
+      //copio o nome do item selecionado para exibir na mensagem
+      var nomeItemSelecionado := TListItemText(TListView(Sender).Items[ItemIndex].objects.FindDrawable('txtDescricao')).text.split(['x'])[1];
+
+      TDialogService.MessageDialog('Confirmar exclusão do item:' + nomeItemSelecionado + ' ?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
+      procedure(const AResult: TModalResult)
+      var
+        erro: string;
+      begin
+        if AResult = mrYes then
+        begin
+          ShowMessage('Encerramento concluido');
+
+          if dm.EncerrarComanda(labComanda.text, erro) then
+            close
+          else
+            ShowMessage(erro);
+        end;
+      end);
+
+    end;
+
+  end;
 end;
 
 procedure TfrmResumo.FormShow(Sender: TObject);
@@ -95,7 +128,18 @@ end;
 
 procedure TfrmResumo.imgAddItemClick(Sender: TObject);
 begin
-  frmPrincipal.addItem(labComanda.text);
+
+  if NOT Assigned(frmAddItem) then
+    Application.CreateForm(TfrmAddItem, frmAddItem);
+
+  frmAddItem.comanda := labComanda.text;
+  frmAddItem.TabControl.ActiveTab := frmAddItem.tabCategoria;
+  frmAddItem.Showmodal(procedure(modalResult: TModalResult)
+  begin
+   if (modalResult = mrOk) then
+    frmResumo.listarProduto;
+  end);
+
 end;
 
 procedure TfrmResumo.imgFecharClick(Sender: TObject);
@@ -107,12 +151,19 @@ procedure TfrmResumo.rectEncerrarClick(Sender: TObject);
 begin
   TDialogService.MessageDialog('Confirmar encerramento?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
   procedure(const AResult: TModalResult)
+  var
+    erro: string;
   begin
     if AResult = mrYes then
-      ShowMessage('Encerramento concluido')
+    begin
+      ShowMessage('Encerramento concluido');
 
+      if dm.EncerrarComanda(labComanda.text, erro) then
+        close
+      else
+        ShowMessage(erro);
+    end;
   end);
-
 end;
 
 end.

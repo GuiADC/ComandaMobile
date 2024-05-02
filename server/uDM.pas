@@ -82,11 +82,11 @@ begin
       qry.Active := false;
       qry.SQL.clear;
       qry.SQL.add('INSERT INTO TAB_COMANDA_CONSUMO(ID_COMANDA, ID_PRODUTO, QTD, VALOR_TOTAL)');
-      qry.SQL.add('VALUES (:ID_COMANDA, :ID_PRODUTO, :QTD, VALOR_TOTAL)');
+      qry.SQL.add('VALUES (:ID_COMANDA, :ID_PRODUTO, :QTD, :VALOR_TOTAL)');
       qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
       qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].AsInteger;
       qry.ParamByName('QTD').value := Params.ItemsString['qtd'].AsInteger;
-      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat / 100;
+      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat;
       qry.ExecSQL;
 
       json.AddPair('retorno', 'ok');
