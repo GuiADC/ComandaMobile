@@ -76,7 +76,7 @@ begin
 
   for var iIntIndex := 0 to jsonArray.Size -1 do
   begin
-    addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
+    addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_CONSUMO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
                      jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'));
@@ -107,10 +107,8 @@ begin
       begin
         if AResult = mrYes then
         begin
-          ShowMessage('Encerramento concluido');
-
-          if dm.EncerrarComanda(labComanda.text, erro) then
-            close
+          if dm.ExcluirProdutoComanda(labComanda.text, tlistview(sender).Selected.Tag, erro) then
+            frmResumo.listarProduto
           else
             ShowMessage(erro);
         end;
