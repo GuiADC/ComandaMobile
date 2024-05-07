@@ -173,7 +173,7 @@ begin
       qry.SQL.add('WHERE ID_CONSUMO = :ID_CONSUMO AND ID_COMANDA = :ID_COMANDA');
 
       qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
-      qry.ParamByName('ID_CONSUMO').value := Params.ItemsString['id_comanda'].AsInteger;
+      qry.ParamByName('ID_CONSUMO').value := Params.ItemsString['id_consumo'].AsInteger;
       qry.ExecSQL;
 
       json.AddPair('retorno','ok');
@@ -181,7 +181,7 @@ begin
       Ex: Exception do
       json.AddPair('retorno', ex.Message);
     end;
-
+    result := json.ToJSON;
   finally
     json.DisposeOf;
     qry.DisposeOf;
