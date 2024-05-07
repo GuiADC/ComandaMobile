@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
-  FMX.ListView, FMX.TabControl, FMX.Edit, system.JSON;
+  FMX.ListView, FMX.TabControl, FMX.Edit, system.JSON, System.NetEncoding;
 
 type
   TfrmAddItem = class(TForm)
@@ -52,8 +52,7 @@ type
     procedure rectEncerrarClick(Sender: TObject);
     procedure rectBuscaProdutoClick(Sender: TObject);
   private
-    procedure addCategoriaLv(idCategoria: integer; descricao: string;
-      icone: TStream);
+    procedure addCategoriaLv(idCategoria: integer; descricao: string; icone: string);
     procedure listarCategoria;
     procedure addProdutoLv(idProduto: integer; descricao: string;
       preco: double);
@@ -63,6 +62,8 @@ type
   public
     { Public declarations }
     comanda: string;
+
+    function bitmapFromBase64(const base64: string): TBitmap;
   end;
 
 var
@@ -74,7 +75,38 @@ uses uDM;
 
 {$R *.fmx}
 
-procedure TfrmAddItem.addCategoriaLv(idCategoria: integer; descricao: string; icone: TStream);
+function TfrmAddItem.bitmapFromBase64(const base64: string) : TBitmap;
+var
+  input: TStringStream;
+  Output: TBytesStream;
+  Encoding: TBase64Encoding;
+begin
+  input := TStringStream.Create(base64, TEncoding.ASCII);
+  try
+    Output := TBytesStream.create;
+    try
+      Encoding := TBase64Encoding.create(0);
+      Encoding.Decode(input, Output);
+
+      output.Position := 0;
+      Result := TBitmap.Create;
+      try
+        Result.LoadFromStream(Output);
+      except
+        Result.Free;
+        raise;
+      end;
+    finally
+      Encoding.DisposeOf;
+      output.Free;
+    end;
+  finally
+    input.Free;
+  end;
+
+end;
+
+procedure TfrmAddItem.addCategoriaLv(idCategoria: integer; descricao: string; icone: string);
 var
   bmp: TBitmap;
 begin
@@ -83,22 +115,19 @@ begin
     Tag := idCategoria;
     TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
 
-    if icone <> nil then
+    if icone <> '' then
     begin
-      bmp := TBitmap.Create;
-      bmp.LoadFromStream(icone);
+      bmp := bitmapFromBase64(icone);
 
       TListItemImage(Objects.FindDrawable('imgIcone')).OwnsBitmap := true;
       TListItemImage(Objects.FindDrawable('imgIcone')).bitmap := bmp;
     end;
   end;
-
 end;
 
 procedure TfrmAddItem.listarCategoria;
 var
   x: integer;
-  icone: TStream;
   erro: string;
   jsonArray: TJsonArray;
 begin
@@ -112,15 +141,7 @@ begin
     end;
 
     for x := 0 to jsonArray.size -1 do
-    begin
-      icone := TMemoryStream.create;
-      imgIcone.Bitmap.SaveToStream(icone);
-      icone.Position := 0;
-
-      addCategoriaLv(jsonArray.get(x).GetValue<integer>('ID_CATEGORIA'), jsonArray.get(x).GetValue<string>('DESCRICAO'), icone);
-
-      icone.DisposeOf
-    end;
+      addCategoriaLv(jsonArray.get(x).GetValue<integer>('ID_CATEGORIA'), jsonArray.get(x).GetValue<string>('DESCRICAO'), jsonArray.get(x).GetValue<string>('ICONE'));
 
   finally
     jsonArray.DisposeOf;
