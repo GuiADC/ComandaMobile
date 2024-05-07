@@ -324,7 +324,7 @@ begin
 
     if Params.ItemsString['termo_busca'].AsString <> '' then
     begin
-      qry.SQL.add('AND P.ID_DESCRICAO LIKE  :TERMO_BUSCA');
+      qry.SQL.add('AND P.DESCRICAO LIKE  :TERMO_BUSCA');
       qry.ParamByName('ID_CATEGORIA').value := Params.ItemsString['id_categoria'].asInteger;
       qry.ParamByName('TERMO_BUSCA').value := '%' + Params.ItemsString['id_categoria'].asString + '%';
     end;
