@@ -316,7 +316,7 @@ begin
     qry.SQL.add('where');
     qry.SQL.add('    P.ID_PRODUTO > 0');
 
-    if Params.ItemsString['id_categoria'].AsString <> '' then
+    if (Params.ItemsString['id_categoria'].AsString <> '') and (Params.ItemsString['id_categoria'].asInteger > 0) then
     begin
       qry.SQL.add('AND P.ID_CATEGORIA = :ID_CATEGORIA');
       qry.ParamByName('ID_CATEGORIA').value := Params.ItemsString['id_categoria'].asInteger;
