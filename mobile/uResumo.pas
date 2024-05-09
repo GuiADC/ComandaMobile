@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
-  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani;
+  FMX.ListView, fmx.DialogService, system.JSON;
 
 type
   TfrmResumo = class(TForm)
@@ -31,19 +31,13 @@ type
     rectMenu: TRectangle;
     lblTransferir: TLabel;
     Line1: TLine;
-    labFecharMenu: TLabel;
-    animationMenu: TFloatAnimation;
+    Label5: TLabel;
     procedure imgFecharClick(Sender: TObject);
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lvProdutoItemClickEx(const Sender: TObject; ItemIndex: Integer;
       const LocalClickPos: TPointF; const ItemObject: TListItemDrawable);
-    procedure imgOpcoesClick(Sender: TObject);
-    procedure animationMenuFinish(Sender: TObject);
-    procedure labFecharMenuClick(Sender: TObject);
-    procedure rectFundoOpacoClick(Sender: TObject);
-    procedure lblTransferirClick(Sender: TObject);
   private
     procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
     procedure listarProduto;
@@ -70,17 +64,6 @@ begin
     TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00',  qtd * preco);
     TListItemImage(Objects.FindDrawable('imgDelete')).bitmap := imgDelete.bitmap;
   end;
-end;
-
-procedure TfrmResumo.labFecharMenuClick(Sender: TObject);
-begin
-  animationMenu.Start;
-
-end;
-
-procedure TfrmResumo.lblTransferirClick(Sender: TObject);
-begin
-  animationMenu.Start;
 end;
 
 procedure TfrmResumo.listarProduto;
@@ -143,16 +126,8 @@ begin
   end;
 end;
 
-procedure TfrmResumo.animationMenuFinish(Sender: TObject);
-begin
-  animationMenu.Inverse := not(animationMenu.Inverse);
-
-  layoutMenu.Visible := rectMenu.Margins.Bottom  <> -100;
-end;
-
 procedure TfrmResumo.FormShow(Sender: TObject);
 begin
-  layoutMenu.visible := false;
   listarProduto;
 end;
 
@@ -177,14 +152,6 @@ begin
   close;
 end;
 
-procedure TfrmResumo.imgOpcoesClick(Sender: TObject);
-begin
-  layoutMenu.Visible := true;
-  rectMenu.Margins.Bottom := -100;
-
-  animationMenu.start;
-end;
-
 procedure TfrmResumo.rectEncerrarClick(Sender: TObject);
 begin
   TDialogService.MessageDialog('Confirmar encerramento?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
@@ -202,11 +169,6 @@ begin
         ShowMessage(erro);
     end;
   end);
-end;
-
-procedure TfrmResumo.rectFundoOpacoClick(Sender: TObject);
-begin
-  animationMenu.Start;
 end;
 
 end.
