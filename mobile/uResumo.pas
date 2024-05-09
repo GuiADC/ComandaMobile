@@ -25,6 +25,13 @@ type
     Label4: TLabel;
     lvProduto: TListView;
     imgDelete: TImage;
+    imgOpcoes: TImage;
+    layoutMenu: TLayout;
+    rectFundoOpaco: TRectangle;
+    rectMenu: TRectangle;
+    lblTransferir: TLabel;
+    Line1: TLine;
+    Label5: TLabel;
     procedure imgFecharClick(Sender: TObject);
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
