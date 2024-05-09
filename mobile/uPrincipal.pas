@@ -46,6 +46,8 @@ type
       const Item: TListBoxItem);
     procedure FormResize(Sender: TObject);
     procedure rectBuscarClick(Sender: TObject);
+    procedure lvProdutoPaint(Sender: TObject; Canvas: TCanvas;
+      const ARect: TRectF);
   private
     procedure mudarAba(img: TImage);
     procedure detalhesComanda(comanda: string);
@@ -53,6 +55,7 @@ type
     procedure addProdutoLv(idProduto: integer; descricao: string; preco: double);
     procedure listarProduto(indClear: boolean; busca: string);
     procedure CarregarComanda;
+    procedure ThreadEnd(sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -255,36 +258,88 @@ begin
   with lvProduto.Items.add do
   begin
     Tag := idProduto;
-    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao + ' - Pg: ' + lvProduto.Tag.ToString + ' / ' + index.ToString;
     TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00', preco);
   end;
 
 end;
 
+procedure TfrmPrincipal.ThreadEnd(sender: TObject);
+begin
+   lvProduto.EndUpdate;
+
+   if Assigned(tthread(sender).FatalException) then
+    ShowMessage('Erro ao carregar produtos: ' + exception(tthread(sender).FatalException).Message);
+end;
+
 procedure TfrmPrincipal.listarProduto(indClear: boolean; busca: string);
 var
-  jsonArray: TJSONArray;
-  erro: string;
-  total: double;
+  myThread: TThread;
 begin
+  if lvProduto.TagString = 'processando' then
+    exit;
+
+  lvProduto.TagString := 'processando';
+
   if indClear then
-  lvProduto.Items.Clear;
-
-  if NOT dm.ListarProduto(0, edtBuscaProduto.text, 0, jsonArray, erro) then
   begin
-      showmessage(erro);
+    lvProduto.ScrollTo(0);
+    lvProduto.Tag := 0;
+    lvProduto.Items.Clear;
+  end;
+
+  lvProduto.BeginUpdate;
+
+  myThread := TThread.CreateAnonymousThread(procedure
+  var
+    jsonArray: TJSONArray;
+    erro: string;
+    total: double;
+  begin
+    if lvProduto.Tag >= 0 then
+      lvProduto.Tag := lvProduto.Tag + 1;
+
+    if NOT dm.ListarProduto(0, edtBuscaProduto.text, lvProduto.tag, jsonArray, erro) then
+    begin
+      raise Exception.Create('Erro ao listar produto: ' + erro);
       exit;
-  end;
+    end;
 
-  for var iIntIndex := 0 to jsonArray.Size - 1 do
+    for var iIntIndex := 0 to jsonArray.Size - 1 do
+    begin
+        TThread.Synchronize(nil, procedure
+        begin
+          AddProdutoLv(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
+                       jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
+                       jsonArray.Get(iIntIndex).GetValue<double>('PRECO'));
+        end);
+    end;
+
+    if jsonArray.size = 0 then
+      lvProduto.Tag := -1;
+
+    jsonArray.DisposeOf;
+
+    TThread.Synchronize(nil, procedure
+    begin
+      lvProduto.EndUpdate;
+    end);
+
+    lvProduto.TagString := '';
+
+  end);
+  myThread.OnTerminate := ThreadEnd;
+  myThread.Start;
+end;
+
+procedure TfrmPrincipal.lvProdutoPaint(Sender: TObject; Canvas: TCanvas;
+  const ARect: TRectF);
+begin
+  if (lvProduto.Items.Count >= 0) and (lvProduto.tag >= 0) then
   begin
-      AddProdutoLv(jsonArray.Get(iIntIndex).GetValue<integer>('ID_PRODUTO'),
-                   jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
-                   jsonArray.Get(iIntIndex).GetValue<double>('PRECO'));
+    if (lvProduto.GetItemRect(lvProduto.Items.Count - 3).Bottom <= lvProduto.Height) then
+      listarProduto(false, edtBuscaProduto.text);
   end;
-
-  jsonArray.DisposeOf;
-
 end;
 
 end.
