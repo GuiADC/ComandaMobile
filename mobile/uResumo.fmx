@@ -228,7 +228,7 @@ object frmResumo: TfrmResumo
       Align = Right
       Margins.Right = 5.000000000000000000
       Position.X = 316.000000000000000000
-      OnClick = imgAddItemClick
+      OnClick = imgOpcoesClick
     end
   end
   object rectEncerrar: TRectangle
@@ -367,28 +367,29 @@ object frmResumo: TfrmResumo
     Position.Y = 208.000000000000000000
     Visible = False
   end
-  object rectFundoOpaco: TRectangle
-    Align = Contents
-    Fill.Color = claBlack
-    Opacity = 0.500000000000000000
-    Size.Width = 426.000000000000000000
-    Size.Height = 472.000000000000000000
-    Size.PlatformDefault = False
-    Stroke.Kind = None
-  end
   object layoutMenu: TLayout
     Align = Contents
     Size.Width = 426.000000000000000000
     Size.Height = 472.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 6
+    object rectFundoOpaco: TRectangle
+      Align = Contents
+      Fill.Color = claBlack
+      Opacity = 0.500000000000000000
+      Size.Width = 426.000000000000000000
+      Size.Height = 472.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      OnClick = rectFundoOpacoClick
+    end
     object rectMenu: TRectangle
       Align = Bottom
       Corners = [TopLeft, TopRight]
       Fill.Color = claWhite
-      Position.Y = 351.000000000000000000
+      Position.Y = 372.000000000000000000
       Size.Width = 426.000000000000000000
-      Size.Height = 121.000000000000000000
+      Size.Height = 100.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
       XRadius = 10.000000000000000000
@@ -398,30 +399,31 @@ object frmResumo: TfrmResumo
         StyledSettings = [Family, Style]
         HitTest = True
         Size.Width = 426.000000000000000000
-        Size.Height = 49.000000000000000000
+        Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Size = 16.000000000000000000
         TextSettings.FontColor = xFF4A70F7
         TextSettings.HorzAlign = Center
         Text = 'Transferir consumo para comanda...'
         TabOrder = 1
+        OnClick = lblTransferirClick
       end
       object Line1: TLine
         Align = Top
         LineType = Diagonal
-        Position.Y = 49.000000000000000000
+        Position.Y = 50.000000000000000000
         Size.Width = 426.000000000000000000
         Size.Height = 1.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFFD6D6D6
       end
-      object Label5: TLabel
+      object labFecharMenu: TLabel
         Align = Top
         StyledSettings = [Family]
         HitTest = True
-        Position.Y = 50.000000000000000000
+        Position.Y = 51.000000000000000000
         Size.Width = 426.000000000000000000
-        Size.Height = 49.000000000000000000
+        Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Size = 16.000000000000000000
         TextSettings.Font.StyleExt = {00060000000000000004000000}
@@ -429,6 +431,15 @@ object frmResumo: TfrmResumo
         TextSettings.HorzAlign = Center
         Text = 'Cancelar'
         TabOrder = 0
+        OnClick = labFecharMenuClick
+      end
+      object animationMenu: TFloatAnimation
+        Duration = 0.300000011920929000
+        Interpolation = Circular
+        OnFinish = animationMenuFinish
+        PropertyName = 'Margins.Bottom'
+        StartValue = -100.000000000000000000
+        StopValue = 0.000000000000000000
       end
     end
   end
