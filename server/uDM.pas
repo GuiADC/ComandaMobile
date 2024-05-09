@@ -300,6 +300,7 @@ procedure Tdm.DWEventsEventsListarProdutoReplyEvent(var Params: TRESTDWParams;
 var
   qry: TFDQuery;
   json: uRESTDWJSONObject.TJSONValue;
+  pg_inicio, pg_fim: integer;
 begin
   try
     qry := TFDQuery.create(nil);
@@ -330,6 +331,15 @@ begin
     end;
 
     qry.SQL.add(' ORDER BY P.DESCRICAO');
+
+    if Params.ItemsString['pagina'].AsString <> '0' then
+    begin
+      pg_inicio := (Params.ItemsString['pagina'].asInteger -1) * 10 + 1;
+      pg_fim := Params.ItemsString['pagina'].asInteger * 10;
+
+      qry.SQL.add(' ROWS ' + pg_inicio.tostring + ' TO '+ pg_fim.tostring);
+    end;
+
 
     qry.active := true;
 
