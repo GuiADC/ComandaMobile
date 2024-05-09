@@ -29,7 +29,7 @@ object frmLogin: TfrmLogin
       TextSettings.Font.StyleExt = {00060000000000000004000000}
       TextSettings.FontColor = xFFB0BAC9
       TextSettings.HorzAlign = Center
-      Text = 'Acesso do chayb'
+      Text = 'Acesso do chaybs'
       TabOrder = 0
     end
   end
