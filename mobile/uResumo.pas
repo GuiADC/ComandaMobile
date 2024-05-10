@@ -35,12 +35,12 @@ type
     animationMenu: TFloatAnimation;
     layoutTransferir: TLayout;
     rectFundoOpaco_transf: TRectangle;
-    Rectangle3: TRectangle;
-    Layout2: TLayout;
-    Label2: TLabel;
-    edtUsuario: TEdit;
+    rectTransfMesa: TRectangle;
     rectLogin: TRectangle;
     Label5: TLabel;
+    edtComandaPara: TEdit;
+    Label2: TLabel;
+    imgFecharTransferencia: TImage;
     procedure imgFecharClick(Sender: TObject);
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
