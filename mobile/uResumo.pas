@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
-  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani;
+  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani, FMX.Edit;
 
 type
   TfrmResumo = class(TForm)
@@ -33,6 +33,14 @@ type
     Line1: TLine;
     labFecharMenu: TLabel;
     animationMenu: TFloatAnimation;
+    layoutTransferir: TLayout;
+    rectFundoOpaco_transf: TRectangle;
+    Rectangle3: TRectangle;
+    Layout2: TLayout;
+    Label2: TLabel;
+    edtUsuario: TEdit;
+    rectLogin: TRectangle;
+    Label5: TLabel;
     procedure imgFecharClick(Sender: TObject);
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
