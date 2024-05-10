@@ -448,6 +448,7 @@ object frmResumo: TfrmResumo
     Size.Width = 426.000000000000000000
     Size.Height = 472.000000000000000000
     Size.PlatformDefault = False
+    Visible = False
     TabOrder = 7
     object rectFundoOpaco_transf: TRectangle
       Align = Contents
@@ -619,6 +620,7 @@ object frmResumo: TfrmResumo
         Size.Width = 49.000000000000000000
         Size.Height = 41.000000000000000000
         Size.PlatformDefault = False
+        OnClick = imgFecharTransferenciaClick
       end
     end
   end

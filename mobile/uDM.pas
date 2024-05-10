@@ -29,8 +29,6 @@ type
     RequestTransferir: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
-    function TransferirComanda(id_comanda_de, id_comanda_para: string;
-      out erro: string): boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -43,6 +41,7 @@ type
     function ExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out erro: string): boolean;
     function ListarExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out jsonArray: TJSONArray; out erro: string): boolean;
     function EncerrarComanda(id_comanda: string; out erro: string): boolean;
+    function TransferirComanda(id_comanda_de, id_comanda_para: string; out erro: string): boolean;
   end;
 
 var

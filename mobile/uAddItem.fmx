@@ -520,7 +520,6 @@ object frmAddItem: TfrmAddItem
     Size.Width = 405.000000000000000000
     Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
-    Visible = False
     TabOrder = 3
     object Rectangle3: TRectangle
       Align = Client
