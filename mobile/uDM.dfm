@@ -141,4 +141,18 @@ object dm: Tdm
     Left = 368
     Top = 352
   end
+  object RequestTransferir: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'TransferirComanda'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 216
+    Top = 496
+  end
 end

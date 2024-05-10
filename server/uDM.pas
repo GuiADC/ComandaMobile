@@ -33,6 +33,8 @@ type
       var Params: TRESTDWParams; var Result: string);
     procedure DWEventsEventsEncerrarComandaReplyEvent(var Params: TRESTDWParams;
       var Result: string);
+    procedure DWEventsEventsTransferirComandaReplyEvent(
+      var Params: TRESTDWParams; var Result: string);
   private
     { Private declarations }
   public
@@ -66,6 +68,7 @@ begin
     begin
       json.AddPair('retorno', 'Parametros não informados');
       result := json.ToString;
+      exit;
     end;
 
     try
@@ -352,6 +355,60 @@ begin
     qry.DisposeOf;
   end;
 
+end;
+
+procedure Tdm.DWEventsEventsTransferirComandaReplyEvent(
+  var Params: TRESTDWParams; var Result: string);
+var
+  json: TJSONObject;
+  qry: TFDQuery;
+begin
+  try
+    json := TJSONObject.create;
+    qry :=  TFDQuery.create(nil);
+    qry.Connection := dm.conn;
+
+    if (Params.itemsString['id_comanda_de'].AsString = '') or
+       (Params.itemsString['id_comanda_para'].AsString = '') then
+    begin
+      json.AddPair('retorno', 'Parametros não informados');
+      result := json.ToString;
+      exit;
+    end;
+
+    try
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('update');
+      qry.SQL.add('    tab_comanda_consumo set id_comanda = :ID_COMANDA_PARA');
+      qry.SQL.add('WHERE');
+      qry.SQL.add('    ID_COMANDA = :ID_COMANDA_DE');
+
+      qry.ParamByName('ID_COMANDA_DE').value := Params.ItemsString['id_comanda_de'].AsString;
+      qry.ParamByName('ID_COMANDA_PARA').value := Params.ItemsString['id_comanda_para'].AsString;
+      qry.ExecSQL;
+
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('UPDATE TAB_COMANDA SET STATUS = ''F'', DT_ABERTURA = NULL');
+      qry.SQL.add('WHERE ID_COMANDA = :ID_COMANDA_DE');
+
+      qry.ParamByName('ID_COMANDA_DE').value := Params.ItemsString['id_comanda_de'].AsString;
+      qry.ExecSQL;
+
+      json.AddPair('retorno', 'ok');
+
+    except on
+      Ex: Exception do
+      json.AddPair('retorno', ex.Message);
+    end;
+
+    Result := json.tostring;
+
+  finally
+    json.DisposeOf;
+    qry.DisposeOf;
+  end
 end;
 
 procedure Tdm.DWEventsEventsValidarLoginReplyEvent(var Params: TRESTDWParams;

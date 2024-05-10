@@ -205,6 +205,33 @@ object dm: Tdm
         CallbackEvent = False
         OnlyPreDefinedParams = False
         OnReplyEvent = DWEventsEventsEncerrarComandaReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        Params = <
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda_de'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odINOUT
+            ObjectValue = ovString
+            ParamName = 'id_comanda_para'
+            Encoded = False
+          end>
+        DataMode = dmRAW
+        Name = 'TransferirComanda'
+        EventName = 'TransferirComanda'
+        BaseURL = '/'
+        DefaultContentType = 'application/json'
+        CallbackEvent = False
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsTransferirComandaReplyEvent
       end>
     Left = 376
     Top = 80

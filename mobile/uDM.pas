@@ -26,8 +26,11 @@ type
     RequestListarProdutoComanda: TRESTRequest;
     RequestExcluirProdutoComanda: TRESTRequest;
     RequestEncerrarComanda: TRESTRequest;
+    RequestTransferir: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
+    function TransferirComanda(id_comanda_de, id_comanda_para: string;
+      out erro: string): boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -81,8 +84,45 @@ begin
     begin
       result := false;
       erro := jsonOBJ.GetValue('retorno').value;
-
     end;
+
+    jsonOBJ.DisposeOf
+  end;
+end;
+
+function Tdm.TransferirComanda(id_comanda_de: string; id_comanda_para: string; out erro: string): boolean;
+var
+  json: string;
+  jsonOBJ: tjsonObject;
+begin
+  erro := '';
+
+  RequestTransferir.Params.clear;
+  RequestTransferir.AddParameter('id_comanda_de', id_comanda_de, TRESTRequestParameterKind.pkGETorPOST);
+  RequestTransferir.AddParameter('id_comanda_para', id_comanda_para, TRESTRequestParameterKind.pkGETorPOST);
+  RequestTransferir.Execute;
+
+  if dm.RequestTransferir.Response.StatusCode <> 200 then
+  begin
+    result := false;
+    erro := 'Erro ao transferir comanda:' + dm.RequestTransferir.Response.StatusCode.ToString;
+  end
+  else
+  begin
+    json := RequestTransferir.Response.JSONValue.ToString;
+    jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
+
+    if (jsonOBJ.GetValue('retorno').value = 'OK') then
+    begin
+      result := true;
+    end
+    else
+    begin
+      result := false;
+      erro := jsonOBJ.GetValue('retorno').value;
+    end;
+
+    jsonOBJ.DisposeOf
   end;
 end;
 
