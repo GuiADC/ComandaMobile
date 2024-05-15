@@ -27,8 +27,10 @@ type
     RequestExcluirProdutoComanda: TRESTRequest;
     RequestEncerrarComanda: TRESTRequest;
     RequestTransferir: TRESTRequest;
+    RequestOpcional: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
+
     { Private declarations }
   public
     { Public declarations }
@@ -42,6 +44,7 @@ type
     function ListarExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out jsonArray: TJSONArray; out erro: string): boolean;
     function EncerrarComanda(id_comanda: string; out erro: string): boolean;
     function TransferirComanda(id_comanda_de, id_comanda_para: string; out erro: string): boolean;
+    function ListarOpcional(id_produto: integer; out jsonArray: TJSONArray; out erro: string): boolean;
   end;
 
 var
@@ -188,6 +191,36 @@ begin
     end;
 
     jsonOBJ.DisposeOf;
+  end;
+end;
+
+function Tdm.ListarOpcional(id_produto: integer; out jsonArray: TJSONArray; out erro: string): boolean;
+var
+  json: string;
+begin
+  erro := '';
+  try
+    RequestOpcional.Params.clear;
+    RequestOpcional.AddParameter('id_produto', id_produto.ToString, TRESTRequestParameterKind.pkGETorPOST);
+    RequestOpcional.Execute;
+  except on ex: exception do
+      begin
+        Result := false;
+        erro := 'Erro ao listar Opcionais:' + ex.message;
+        exit;
+      end;
+  end;
+
+  if dm.RequestOpcional.Response.StatusCode <> 200 then
+  begin
+    result := false;
+    erro := 'Erro ao listar Opcionais:' + dm.RequestOpcional.Response.StatusCode.ToString;
+  end
+  else
+  begin
+    json := RequestOpcional.Response.JSONValue.ToString;
+    jsonArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONArray;
+    result := true;
   end;
 end;
 

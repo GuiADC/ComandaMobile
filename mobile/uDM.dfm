@@ -155,4 +155,19 @@ object dm: Tdm
     Left = 216
     Top = 496
   end
+  object RequestOpcional: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClient
+    Method = rmPOST
+    Params = <
+      item
+        Name = 'usuario'
+        Value = 'Gui'
+      end>
+    Resource = 'ListarOpcional'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 40
+    Top = 488
+  end
 end

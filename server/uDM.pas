@@ -35,6 +35,8 @@ type
       var Result: string);
     procedure DWEventsEventsTransferirComandaReplyEvent(
       var Params: TRESTDWParams; var Result: string);
+    procedure DWEventsEventsListarOpcionalReplyEvent(var Params: TRESTDWParams;
+      var Result: string);
   private
     { Private declarations }
   public
@@ -255,6 +257,40 @@ begin
     qry.DisposeOf;
   end;
 
+end;
+
+procedure Tdm.DWEventsEventsListarOpcionalReplyEvent(var Params: TRESTDWParams;
+  var Result: string);
+var
+  qry: TFDQuery;
+  json: uRESTDWJSONObject.TJSONValue;
+begin
+  try
+    qry := TFDQuery.create(nil);
+    qry.Connection := dm.conn;
+
+    json := uRESTDWJSONObject.TJSONValue.Create;
+
+    qry.Active := false;
+    qry.SQL.clear;
+    qry.SQL.add('select');
+    qry.SQL.add('    *');
+    qry.SQL.add('from');
+    qry.SQL.add('    TAB_PRODUTO_OPCIONAL');
+    qry.SQL.add('where');
+    qry.SQL.add('    ID_PRODUTO = :ID_PRODUTO');
+    qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].asInteger;
+    qry.SQL.add(' ORDER BY DESCRICAO');
+    qry.active := true;
+
+    json.LoadFromDataset('', qry, false, dmRAW);
+
+    result := json.ToJSON;
+
+  finally
+    json.DisposeOf;
+    qry.DisposeOf;
+  end;
 end;
 
 procedure Tdm.DWEventsEventsListarProdutoComandaReplyEvent(

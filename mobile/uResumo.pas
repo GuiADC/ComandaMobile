@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
-  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani, FMX.Edit;
+  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani, FMX.Edit, FMX.TextLayout;
 
 type
   TfrmResumo = class(TForm)
@@ -54,9 +54,13 @@ type
     procedure lblTransferirClick(Sender: TObject);
     procedure imgFecharTransferenciaClick(Sender: TObject);
     procedure rectConfirmarTransfClick(Sender: TObject);
+    procedure lvProdutoUpdateObjects(const Sender: TObject;
+      const AItem: TListViewItem);
   private
     procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
     procedure listarProduto;
+    class function GetTextHeight(const D: TListItemText; const Width: single;
+      const Text: string): Integer; static;
     { Private declarations }
   public
     { Public declarations }
@@ -70,6 +74,42 @@ implementation
 uses uPrincipal, uDM, uAddItem;
 
 {$R *.fmx}
+
+class function TFrmResumo.GetTextHeight(const D: TListItemText; const Width: single; const Text: string): Integer;
+var
+  Layout: TTextLayout;
+begin
+    if Text = '' then
+    begin
+        Result := 0;
+        exit;
+    end;
+
+  // Create a TTextLayout to measure text dimensions
+  Layout := TTextLayoutManager.DefaultTextLayout.Create;
+  try
+    Layout.BeginUpdate;
+    try
+      // Initialize layout parameters with those of the drawable
+      Layout.Font.Assign(D.Font);
+      Layout.VerticalAlign := D.TextVertAlign;
+      Layout.HorizontalAlign := D.TextAlign;
+      Layout.WordWrap := D.WordWrap;
+      Layout.Trimming := D.Trimming;
+      Layout.MaxSize := TPointF.Create(Width, TTextLayout.MaxLayoutSize.Y);
+      Layout.Text := Text;
+    finally
+      Layout.EndUpdate;
+    end;
+    // Get layout height
+    Result := Round(Layout.Height);
+    // Add one em to the height
+    Layout.Text := 'm';
+    Result := Result + Round(Layout.Height);
+  finally
+    Layout.Free;
+  end;
+end;
 
 procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
 begin
@@ -152,6 +192,22 @@ begin
     end;
 
   end;
+end;
+
+procedure TfrmResumo.lvProdutoUpdateObjects(const Sender: TObject;
+  const AItem: TListViewItem);
+var
+  altura: integer;
+  txt: TListItemText;
+begin
+  altura := 0;
+
+  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
+  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
+
+  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
+  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
+
 end;
 
 procedure TfrmResumo.animationMenuFinish(Sender: TObject);
