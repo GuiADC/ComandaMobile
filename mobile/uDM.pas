@@ -26,8 +26,11 @@ type
     RequestListarProdutoComanda: TRESTRequest;
     RequestExcluirProdutoComanda: TRESTRequest;
     RequestEncerrarComanda: TRESTRequest;
+    RequestTransferir: TRESTRequest;
+    RequestOpcional: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
+
     { Private declarations }
   public
     { Public declarations }
@@ -40,6 +43,8 @@ type
     function ExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out erro: string): boolean;
     function ListarExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out jsonArray: TJSONArray; out erro: string): boolean;
     function EncerrarComanda(id_comanda: string; out erro: string): boolean;
+    function TransferirComanda(id_comanda_de, id_comanda_para: string; out erro: string): boolean;
+    function ListarOpcional(id_produto: integer; out jsonArray: TJSONArray; out erro: string): boolean;
   end;
 
 var
@@ -81,8 +86,45 @@ begin
     begin
       result := false;
       erro := jsonOBJ.GetValue('retorno').value;
-
     end;
+
+    jsonOBJ.DisposeOf
+  end;
+end;
+
+function Tdm.TransferirComanda(id_comanda_de: string; id_comanda_para: string; out erro: string): boolean;
+var
+  json: string;
+  jsonOBJ: tjsonObject;
+begin
+  erro := '';
+
+  RequestTransferir.Params.clear;
+  RequestTransferir.AddParameter('id_comanda_de', id_comanda_de, TRESTRequestParameterKind.pkGETorPOST);
+  RequestTransferir.AddParameter('id_comanda_para', id_comanda_para, TRESTRequestParameterKind.pkGETorPOST);
+  RequestTransferir.Execute;
+
+  if dm.RequestTransferir.Response.StatusCode <> 200 then
+  begin
+    result := false;
+    erro := 'Erro ao transferir comanda:' + dm.RequestTransferir.Response.StatusCode.ToString;
+  end
+  else
+  begin
+    json := RequestTransferir.Response.JSONValue.ToString;
+    jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
+
+    if (jsonOBJ.GetValue('retorno').value = 'ok') then
+    begin
+      result := true;
+    end
+    else
+    begin
+      result := false;
+      erro := jsonOBJ.GetValue('retorno').value;
+    end;
+
+    jsonOBJ.DisposeOf
   end;
 end;
 
@@ -149,6 +191,36 @@ begin
     end;
 
     jsonOBJ.DisposeOf;
+  end;
+end;
+
+function Tdm.ListarOpcional(id_produto: integer; out jsonArray: TJSONArray; out erro: string): boolean;
+var
+  json: string;
+begin
+  erro := '';
+  try
+    RequestOpcional.Params.clear;
+    RequestOpcional.AddParameter('id_produto', id_produto.ToString, TRESTRequestParameterKind.pkGETorPOST);
+    RequestOpcional.Execute;
+  except on ex: exception do
+      begin
+        Result := false;
+        erro := 'Erro ao listar Opcionais:' + ex.message;
+        exit;
+      end;
+  end;
+
+  if dm.RequestOpcional.Response.StatusCode <> 200 then
+  begin
+    result := false;
+    erro := 'Erro ao listar Opcionais:' + dm.RequestOpcional.Response.StatusCode.ToString;
+  end
+  else
+  begin
+    json := RequestOpcional.Response.JSONValue.ToString;
+    jsonArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONArray;
+    result := true;
   end;
 end;
 

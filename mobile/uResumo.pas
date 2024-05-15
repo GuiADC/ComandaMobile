@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
-  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani;
+  FMX.ListView, fmx.DialogService, system.JSON, FMX.Ani, FMX.Edit, FMX.TextLayout;
 
 type
   TfrmResumo = class(TForm)
@@ -33,6 +33,14 @@ type
     Line1: TLine;
     labFecharMenu: TLabel;
     animationMenu: TFloatAnimation;
+    layoutTransferir: TLayout;
+    rectFundoOpaco_transf: TRectangle;
+    rectTransfMesa: TRectangle;
+    rectConfirmarTransf: TRectangle;
+    Label5: TLabel;
+    edtComandaPara: TEdit;
+    Label2: TLabel;
+    imgFecharTransferencia: TImage;
     procedure imgFecharClick(Sender: TObject);
     procedure imgAddItemClick(Sender: TObject);
     procedure rectEncerrarClick(Sender: TObject);
@@ -44,9 +52,15 @@ type
     procedure labFecharMenuClick(Sender: TObject);
     procedure rectFundoOpacoClick(Sender: TObject);
     procedure lblTransferirClick(Sender: TObject);
+    procedure imgFecharTransferenciaClick(Sender: TObject);
+    procedure rectConfirmarTransfClick(Sender: TObject);
+    procedure lvProdutoUpdateObjects(const Sender: TObject;
+      const AItem: TListViewItem);
   private
     procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
     procedure listarProduto;
+    class function GetTextHeight(const D: TListItemText; const Width: single;
+      const Text: string): Integer; static;
     { Private declarations }
   public
     { Public declarations }
@@ -60,6 +74,42 @@ implementation
 uses uPrincipal, uDM, uAddItem;
 
 {$R *.fmx}
+
+class function TFrmResumo.GetTextHeight(const D: TListItemText; const Width: single; const Text: string): Integer;
+var
+  Layout: TTextLayout;
+begin
+    if Text = '' then
+    begin
+        Result := 0;
+        exit;
+    end;
+
+  // Create a TTextLayout to measure text dimensions
+  Layout := TTextLayoutManager.DefaultTextLayout.Create;
+  try
+    Layout.BeginUpdate;
+    try
+      // Initialize layout parameters with those of the drawable
+      Layout.Font.Assign(D.Font);
+      Layout.VerticalAlign := D.TextVertAlign;
+      Layout.HorizontalAlign := D.TextAlign;
+      Layout.WordWrap := D.WordWrap;
+      Layout.Trimming := D.Trimming;
+      Layout.MaxSize := TPointF.Create(Width, TTextLayout.MaxLayoutSize.Y);
+      Layout.Text := Text;
+    finally
+      Layout.EndUpdate;
+    end;
+    // Get layout height
+    Result := Round(Layout.Height);
+    // Add one em to the height
+    Layout.Text := 'm';
+    Result := Result + Round(Layout.Height);
+  finally
+    Layout.Free;
+  end;
+end;
 
 procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
 begin
@@ -75,11 +125,12 @@ end;
 procedure TfrmResumo.labFecharMenuClick(Sender: TObject);
 begin
   animationMenu.Start;
-
 end;
 
 procedure TfrmResumo.lblTransferirClick(Sender: TObject);
 begin
+  edtComandaPara.text := '';
+  rectMenu.tag := 1;
   animationMenu.Start;
 end;
 
@@ -143,16 +194,41 @@ begin
   end;
 end;
 
+procedure TfrmResumo.lvProdutoUpdateObjects(const Sender: TObject;
+  const AItem: TListViewItem);
+var
+  altura: integer;
+  txt: TListItemText;
+begin
+  altura := 0;
+
+  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
+  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
+
+  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
+  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
+
+end;
+
 procedure TfrmResumo.animationMenuFinish(Sender: TObject);
 begin
   animationMenu.Inverse := not(animationMenu.Inverse);
 
-  layoutMenu.Visible := rectMenu.Margins.Bottom  <> -100;
+  if (rectMenu.Margins.Bottom = -100) then
+  begin
+    layoutMenu.Visible := false;
+
+    if rectMenu.Tag = 1 then
+      layoutTransferir.Visible := true;
+
+    rectMenu.Tag := 0;
+  end;
 end;
 
 procedure TfrmResumo.FormShow(Sender: TObject);
 begin
   layoutMenu.visible := false;
+  layoutTransferir.Visible := false;
   listarProduto;
 end;
 
@@ -177,12 +253,31 @@ begin
   close;
 end;
 
+procedure TfrmResumo.imgFecharTransferenciaClick(Sender: TObject);
+begin
+  layoutTransferir.Visible := false;
+end;
+
 procedure TfrmResumo.imgOpcoesClick(Sender: TObject);
 begin
   layoutMenu.Visible := true;
   rectMenu.Margins.Bottom := -100;
 
   animationMenu.start;
+end;
+
+procedure TfrmResumo.rectConfirmarTransfClick(Sender: TObject);
+var
+  erro: string;
+begin
+  if not (dm.TransferirComanda(labComanda.text, edtComandaPara.text, erro)) then
+  begin
+    ShowMessage(erro);
+    exit;
+  end;
+
+  layoutTransferir.Visible := false;
+  close;
 end;
 
 procedure TfrmResumo.rectEncerrarClick(Sender: TObject);

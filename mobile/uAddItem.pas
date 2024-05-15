@@ -40,6 +40,7 @@ type
     imgMenos: TImage;
     imgMais: TImage;
     imgFecharQtd: TImage;
+    Edit1: TEdit;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
