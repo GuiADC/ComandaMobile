@@ -36,7 +36,7 @@ type
     layoutTransferir: TLayout;
     rectFundoOpaco_transf: TRectangle;
     rectTransfMesa: TRectangle;
-    rectLogin: TRectangle;
+    rectConfirmarTransf: TRectangle;
     Label5: TLabel;
     edtComandaPara: TEdit;
     Label2: TLabel;
@@ -89,6 +89,7 @@ end;
 
 procedure TfrmResumo.lblTransferirClick(Sender: TObject);
 begin
+  rectMenu.tag := 1;
   animationMenu.Start;
 
 end;
@@ -160,7 +161,11 @@ begin
   if (rectMenu.Margins.Bottom = -100) then
   begin
     layoutMenu.Visible := false;
-    layoutTransferir.Visible := true;
+
+    if rectMenu.Tag = 1 then
+      layoutTransferir.Visible := true;
+
+    rectMenu.Tag := 0;
   end;
 end;
 
