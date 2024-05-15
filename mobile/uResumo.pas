@@ -53,6 +53,7 @@ type
     procedure rectFundoOpacoClick(Sender: TObject);
     procedure lblTransferirClick(Sender: TObject);
     procedure imgFecharTransferenciaClick(Sender: TObject);
+    procedure rectConfirmarTransfClick(Sender: TObject);
   private
     procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
     procedure listarProduto;
@@ -84,14 +85,13 @@ end;
 procedure TfrmResumo.labFecharMenuClick(Sender: TObject);
 begin
   animationMenu.Start;
-
 end;
 
 procedure TfrmResumo.lblTransferirClick(Sender: TObject);
 begin
+  edtComandaPara.text := '';
   rectMenu.tag := 1;
   animationMenu.Start;
-
 end;
 
 procedure TfrmResumo.listarProduto;
@@ -172,6 +172,7 @@ end;
 procedure TfrmResumo.FormShow(Sender: TObject);
 begin
   layoutMenu.visible := false;
+  layoutTransferir.Visible := false;
   listarProduto;
 end;
 
@@ -207,6 +208,20 @@ begin
   rectMenu.Margins.Bottom := -100;
 
   animationMenu.start;
+end;
+
+procedure TfrmResumo.rectConfirmarTransfClick(Sender: TObject);
+var
+  erro: string;
+begin
+  if not (dm.TransferirComanda(labComanda.text, edtComandaPara.text, erro)) then
+  begin
+    ShowMessage(erro);
+    exit;
+  end;
+
+  layoutTransferir.Visible := false;
+  close;
 end;
 
 procedure TfrmResumo.rectEncerrarClick(Sender: TObject);

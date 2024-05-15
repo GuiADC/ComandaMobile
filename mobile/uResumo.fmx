@@ -480,6 +480,7 @@ object frmResumo: TfrmResumo
         Stroke.Kind = None
         XRadius = 4.000000000000000000
         YRadius = 4.000000000000000000
+        OnClick = rectConfirmarTransfClick
         object Label5: TLabel
           Align = Center
           StyledSettings = [Family]

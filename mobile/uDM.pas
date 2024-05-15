@@ -111,7 +111,7 @@ begin
     json := RequestTransferir.Response.JSONValue.ToString;
     jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
 
-    if (jsonOBJ.GetValue('retorno').value = 'OK') then
+    if (jsonOBJ.GetValue('retorno').value = 'ok') then
     begin
       result := true;
     end

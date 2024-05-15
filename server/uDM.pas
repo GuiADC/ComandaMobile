@@ -380,6 +380,16 @@ begin
       qry.Active := false;
       qry.SQL.clear;
       qry.SQL.add('update');
+      qry.SQL.add('    tab_comanda set STATUS = ''A'',');
+      qry.SQL.add('    DT_ABERTURA = COALESCE(DT_ABERTURA, current_timestamp)');
+      qry.SQL.add('WHERE');
+      qry.SQL.add('ID_COMANDA = :ID_COMANDA_PARA');
+      qry.ParamByName('ID_COMANDA_PARA').value := Params.ItemsString['id_comanda_para'].AsString;
+      qry.ExecSQL;
+
+      qry.Active := false;
+      qry.SQL.clear;
+      qry.SQL.add('update');
       qry.SQL.add('    tab_comanda_consumo set id_comanda = :ID_COMANDA_PARA');
       qry.SQL.add('WHERE');
       qry.SQL.add('    ID_COMANDA = :ID_COMANDA_DE');
