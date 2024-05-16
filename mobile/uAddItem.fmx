@@ -786,7 +786,7 @@ object frmAddItem: TfrmAddItem
         Size.PlatformDefault = False
         OnClick = imgFecharQtdClick
       end
-      object Edit1: TEdit
+      object edtObs: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         Align = Bottom
         TabOrder = 2
@@ -818,7 +818,7 @@ object frmAddItem: TfrmAddItem
       Size.Height = 115.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
-      ItemAppearance.ItemHeight = 80
+      ItemAppearance.ItemHeight = 40
       ItemAppearanceObjects.ItemObjects.ObjectsCollection = <
         item
           AppearanceObjectName = 'txtDescricao'
@@ -826,10 +826,10 @@ object frmAddItem: TfrmAddItem
           Appearance.Font.Size = 14.000000000000000000
           Appearance.TextAlign = Leading
           Appearance.TextColor = xFFB0BAC9
-          Appearance.Width = 292.000000000000000000
-          Appearance.Height = 44.000000000000000000
-          Appearance.PlaceOffset.X = 5.000000000000000000
-          Appearance.PlaceOffset.Y = 17.000000000000000000
+          Appearance.Width = 197.000000000000000000
+          Appearance.Height = 38.000000000000000000
+          Appearance.PlaceOffset.X = 83.000000000000000000
+          Appearance.PlaceOffset.Y = 2.000000000000000000
         end
         item
           AppearanceObjectName = 'txtValor'
@@ -840,8 +840,8 @@ object frmAddItem: TfrmAddItem
           Appearance.Width = 112.000000000000000000
           Appearance.Height = 44.000000000000000000
           Appearance.Align = Trailing
-          Appearance.PlaceOffset.X = -5.000000000000000000
-          Appearance.PlaceOffset.Y = 17.000000000000000000
+          Appearance.PlaceOffset.X = -7.000000000000000000
+          Appearance.PlaceOffset.Y = 1.000000000000000000
         end>
       ItemAppearanceObjects.ItemEditObjects.ObjectsCollection = <
         item

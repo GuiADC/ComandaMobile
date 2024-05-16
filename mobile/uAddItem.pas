@@ -40,7 +40,7 @@ type
     imgMenos: TImage;
     imgMais: TImage;
     imgFecharQtd: TImage;
-    Edit1: TEdit;
+    edtObs: TEdit;
     LvOpcional: TListView;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
@@ -254,6 +254,7 @@ begin
 
   listarOpcional(AItem.tag);
 
+  edtObs.Text := '';
   layoutQtd.Visible := true;
 end;
 
