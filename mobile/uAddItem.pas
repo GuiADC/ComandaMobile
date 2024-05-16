@@ -34,7 +34,7 @@ type
     Rectangle3: TRectangle;
     Rectangle5: TRectangle;
     lblDescricao: TLabel;
-    rectEncerrar: TRectangle;
+    rectConfirmar: TRectangle;
     Label4: TLabel;
     lblQtd: TLabel;
     imgMenos: TImage;
@@ -42,6 +42,9 @@ type
     imgFecharQtd: TImage;
     edtObs: TEdit;
     LvOpcional: TListView;
+    imgUnchecked: TImage;
+    imgChecked: TImage;
+    Rectangle7: TRectangle;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -51,8 +54,10 @@ type
     procedure lvProdutoItemClick(const Sender: TObject;
       const AItem: TListViewItem);
     procedure imgFecharQtdClick(Sender: TObject);
-    procedure rectEncerrarClick(Sender: TObject);
+    procedure rectConfirmarClick(Sender: TObject);
     procedure rectBuscaProdutoClick(Sender: TObject);
+    procedure LvOpcionalItemClickEx(const Sender: TObject; ItemIndex: Integer;
+      const LocalClickPos: TPointF; const ItemObject: TListItemDrawable);
   private
     procedure addCategoriaLv(idCategoria: integer; descricao: string; icone: string);
     procedure listarCategoria;
@@ -169,9 +174,11 @@ begin
   with lvOpcional.Items.add do
   begin
     Tag := idOpcao;
-    TagFloat := valor;
     TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
     TListItemText(Objects.FindDrawable('txtValor')).text := FormatFloat('#,##0.00', valor);
+    TListItemImage(Objects.FindDrawable('imgCheckbox')).bitmap := imgUnchecked.Bitmap;
+    TListItemImage(Objects.FindDrawable('imgCheckbox')).TagString := '0';
+    TListItemImage(Objects.FindDrawable('imgCheckbox')).TagFloat := valor;
   end;
 end;
 
@@ -234,6 +241,25 @@ begin
   TabControl.GotoVisibleTab(1, TTabTransition.slide);
 end;
 
+procedure TfrmAddItem.LvOpcionalItemClickEx(const Sender: TObject;
+  ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+  if (tlistview(sender).Selected <> nil) and (ItemObject is TListItemImage) then
+  begin
+    if TListItemImage(ItemObject).tagstring = '0' then
+    begin
+      TListItemImage(ItemObject).Bitmap := imgChecked.Bitmap;
+      TListItemImage(ItemObject).TagString := '1';
+    end
+    else
+    begin
+      TListItemImage(ItemObject).Bitmap := imgUnchecked.Bitmap;
+      TListItemImage(ItemObject).TagString := '0';
+    end;
+  end;
+end;
+
 function TfrmAddItem.converteValor(vl: string): double;
 begin
   try
@@ -263,10 +289,19 @@ begin
   listarProduto(lvProduto.Tag, edtBuscaProduto.text);
 end;
 
-procedure TfrmAddItem.rectEncerrarClick(Sender: TObject);
+procedure TfrmAddItem.rectConfirmarClick(Sender: TObject);
 var
   erro: string;
+  vlOpcional: double;
 begin
+  //verificar os opcionais...
+  vlOpcional := 0;
+
+  for var lintIndex := 0 to LvOpcional.Items.Count -1 do
+  begin
+    if (TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).TagString = '1') then
+      vlOpcional := vlOpcional + TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).tagfloat;
+  end;
 
   if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat, erro)) then
   begin
