@@ -200,13 +200,13 @@ var
   altura: integer;
   txt: TListItemText;
 begin
-  altura := 0;
-
-  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
-  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
-
-  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
-  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
+//  altura := 0;
+//
+//  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
+//  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
+//
+//  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
+//  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
 
 end;
 

@@ -41,6 +41,7 @@ type
     imgMais: TImage;
     imgFecharQtd: TImage;
     Edit1: TEdit;
+    LvOpcional: TListView;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -59,6 +60,8 @@ type
       preco: double);
     procedure listarProduto(idCategoria: integer; busca: string);
     function converteValor(vl: string): double;
+    procedure listarOpcional(idProduto: integer);
+    procedure addOpcionalLv(idOpcao: integer; descricao: string; valor: double);
     { Private declarations }
   public
     { Public declarations }
@@ -161,6 +164,41 @@ begin
 
 end;
 
+procedure TfrmAddItem.addOpcionalLv(idOpcao: integer; descricao: string; valor: double);
+begin
+  with lvOpcional.Items.add do
+  begin
+    Tag := idOpcao;
+    TagFloat := valor;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
+    TListItemText(Objects.FindDrawable('txtValor')).text := FormatFloat('#,##0.00', valor);
+  end;
+end;
+
+procedure TfrmAddItem.listarOpcional(idProduto: integer);
+var
+  x: integer;
+  jsonArray: TJSONArray;
+  erro: string;
+begin
+  try
+    LvOpcional.Items.clear;
+
+    if not (dm.ListarOpcional(idProduto, jsonArray, erro)) then
+    begin
+      ShowMessage(erro);
+      exit;
+    end;
+
+    for x := 0 to jsonArray.size -1 do
+      addOpcionalLv(jsonArray.Get(x).GetValue<integer>('ID_OPCAO'), jsonArray.Get(x).GetValue<string>('DESCRICAO'), jsonArray.Get(x).GetValue<double>('VALOR'));
+
+  finally
+    LvOpcional.Visible := jsonArray.size > 0;
+    jsonArray.DisposeOf;
+  end;
+end;
+
 procedure TfrmAddItem.listarProduto(idCategoria: integer; busca: string);
 var
   x: integer;
@@ -212,8 +250,9 @@ begin
   lblQtd.text := '01';
   lblDescricao.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
   lblDescricao.tag := AItem.tag;
-
   lblDescricao.TagFloat := converteValor(TListItemText(AItem.Objects.FindDrawable('txtPreco')).Text);
+
+  listarOpcional(AItem.tag);
 
   layoutQtd.Visible := true;
 end;
