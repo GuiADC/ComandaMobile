@@ -291,6 +291,7 @@ end;
 
 procedure TfrmAddItem.rectConfirmarClick(Sender: TObject);
 var
+  obs_opcional: string;
   erro: string;
   vlOpcional: double;
 begin
@@ -300,10 +301,21 @@ begin
   for var lintIndex := 0 to LvOpcional.Items.Count -1 do
   begin
     if (TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).TagString = '1') then
+    begin
       vlOpcional := vlOpcional + TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).tagfloat;
+
+      if obs_opcional <> '' then
+        obs_opcional := obs_opcional + ' + ';
+
+      obs_opcional := obs_opcional + TListItemText(lvOpcional.items[lintIndex].Objects.FindDrawable('txtDescricao')).text;
+    end;
   end;
 
-  if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat, erro)) then
+  if vlOpcional > 0 then
+    obs_opcional := obs_opcional + ' = ' + FormatFloat('#,##0.00', vlOpcional);
+
+  if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat,
+                                 edtObs.text, obs_opcional, vlOpcional, erro)) then
   begin
     layoutQtd.Visible := false;
     self.modalResult := mrOk;

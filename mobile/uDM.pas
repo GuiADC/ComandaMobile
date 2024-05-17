@@ -38,7 +38,8 @@ type
     function ListarComanda(out jsonArray: TJSONArray; out erro: string): boolean;
     function ListarProduto(id_categoria: integer; termo_busca: string; pagina: integer; out jsonArray: TJSONArray; out erro: string): boolean;
     function ListarCategoria(out jsonArray: TJSONArray; out erro: string): boolean;
-    function AdicionarProdutoComanda(id_comanda: string; id_produto, qtd: integer; vl_total: double; out erro: string): boolean;
+    function AdicionarProdutoComanda(id_comanda: string; id_produto, qtd: integer; vl_total: double;
+                                      obs, obs_opcional: string; vl_opcional: double; out erro: string): boolean;
     function ListarProdutoComanda(id_comanda: string;  out jsonArray: TJSONArray; out erro: string): boolean;
     function ExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out erro: string): boolean;
     function ListarExcluirProdutoComanda(id_comanda: string; id_consumo: integer; out jsonArray: TJSONArray; out erro: string): boolean;
@@ -158,7 +159,8 @@ begin
 
 end;
 
-function Tdm.AdicionarProdutoComanda(id_comanda: string; id_produto, qtd: integer; vl_total: double; out erro: string): boolean;
+function Tdm.AdicionarProdutoComanda(id_comanda: string; id_produto, qtd: integer; vl_total: double;
+                                      obs, obs_opcional: string; vl_opcional: double; out erro: string): boolean;
 var
   json: string;
   jsonOBJ: TJsonObject;
@@ -170,6 +172,9 @@ begin
   RequestAdicionarProdutoComanda.AddParameter('id_produto', id_produto.ToString, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('qtd', qtd.ToString, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('vl_total', FormatFloat('0,00', vl_total).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('obs_opcional', obs_opcional, TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('vl_opcional', FormatFloat('0,00', vl_opcional).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('obs', obs, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.Execute;
 
   if dm.RequestAdicionarProdutoComanda.Response.StatusCode <> 200 then

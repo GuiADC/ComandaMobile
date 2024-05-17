@@ -129,6 +129,27 @@ object dm: Tdm
             ObjectValue = ovString
             ParamName = 'vl_total'
             Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odIN
+            ObjectValue = ovString
+            ParamName = 'obs_opcional'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odIN
+            ObjectValue = ovString
+            ParamName = 'vl_opcional'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odIN
+            ObjectValue = ovString
+            ParamName = 'obs'
+            Encoded = False
           end>
         DataMode = dmRAW
         Name = 'AdicionarProdutoComanda'

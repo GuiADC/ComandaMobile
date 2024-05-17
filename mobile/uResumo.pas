@@ -57,7 +57,7 @@ type
     procedure lvProdutoUpdateObjects(const Sender: TObject;
       const AItem: TListViewItem);
   private
-    procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
+    procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; obs, obs_opcional: string; preco: double; vl_opcional: double);
     procedure listarProduto;
     class function GetTextHeight(const D: TListItemText; const Width: single;
       const Text: string): Integer; static;
@@ -111,7 +111,7 @@ begin
   end;
 end;
 
-procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
+procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; obs, obs_opcional: string; preco: double; vl_opcional: double);
 begin
   with lvProduto.Items.add do
   begin
@@ -154,7 +154,11 @@ begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_CONSUMO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'));
+                     jsonArray.Get(iIntIndex).GetValue<string>('obs'),
+                     jsonArray.Get(iIntIndex).GetValue<string>('obs_opcional'),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'),
+                     jsonArray.Get(iIntIndex).GetValue<double>('valor_opcional')
+                     );
 
 
     total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL') * jsonArray.Get(iIntIndex).GetValue<integer>('QTD'));
