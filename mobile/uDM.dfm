@@ -121,7 +121,7 @@ object dm: Tdm
         Name = 'usuario'
         Value = 'Gui'
       end>
-    Resource = 'AdicionarProdutoComanda'
+    Resource = 'ExcluirProdutoComanda'
     Response = RESTResponse1
     SynchronizedEvents = False
     Left = 368

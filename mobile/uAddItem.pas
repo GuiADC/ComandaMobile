@@ -66,7 +66,7 @@ type
     procedure listarProduto(idCategoria: integer; busca: string);
     function converteValor(vl: string): double;
     procedure listarOpcional(idProduto: integer);
-    procedure addOpcionalLv(idOpcao: integer; descricao: string; valor: double);
+    procedure addOpcionalLv(idOpcao: integer; descricao: string; valor: currency);
     { Private declarations }
   public
     { Public declarations }
@@ -169,7 +169,7 @@ begin
 
 end;
 
-procedure TfrmAddItem.addOpcionalLv(idOpcao: integer; descricao: string; valor: double);
+procedure TfrmAddItem.addOpcionalLv(idOpcao: integer; descricao: string; valor: currency);
 begin
   with lvOpcional.Items.add do
   begin
@@ -198,7 +198,7 @@ begin
     end;
 
     for x := 0 to jsonArray.size -1 do
-      addOpcionalLv(jsonArray.Get(x).GetValue<integer>('ID_OPCAO'), jsonArray.Get(x).GetValue<string>('DESCRICAO'), jsonArray.Get(x).GetValue<double>('VALOR'));
+      addOpcionalLv(jsonArray.Get(x).GetValue<integer>('ID_OPCAO'), jsonArray.Get(x).GetValue<string>('DESCRICAO'), jsonArray.Get(x).GetValue<Currency>('VALOR'));
 
   finally
     LvOpcional.Visible := jsonArray.size > 0;

@@ -79,7 +79,7 @@ begin
     json := requestLogin.Response.JSONValue.ToString;
     jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
 
-    if (jsonOBJ.GetValue('retorno').value = 'OK') then
+    if (jsonOBJ.GetValue('retorno').value = 'ok') then
     begin
       result := true;
     end
@@ -171,9 +171,9 @@ begin
   RequestAdicionarProdutoComanda.AddParameter('id_comanda', id_comanda, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('id_produto', id_produto.ToString, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('qtd', qtd.ToString, TRESTRequestParameterKind.pkGETorPOST);
-  RequestAdicionarProdutoComanda.AddParameter('vl_total', FormatFloat('0,00', vl_total).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('vl_total', FormatFloat('0.00', vl_total).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('obs_opcional', obs_opcional, TRESTRequestParameterKind.pkGETorPOST);
-  RequestAdicionarProdutoComanda.AddParameter('vl_opcional', FormatFloat('0,00', vl_opcional).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('vl_opcional', FormatFloat('0.00', vl_opcional).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('obs', obs, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.Execute;
 
@@ -187,7 +187,7 @@ begin
     json := RequestAdicionarProdutoComanda.Response.JSONValue.ToString;
     jsonOBJ := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJsonObject;
 
-    if UpperCase(jsonObj.GetValue('retorno').Value) = 'OK' then
+    if (jsonObj.GetValue('retorno').Value = 'ok') then
       result := true
     else
     begin
@@ -330,6 +330,7 @@ begin
 
   RequestExcluirProdutoComanda.Params.clear;
   RequestExcluirProdutoComanda.AddParameter('id_comanda', id_comanda, TRESTRequestParameterKind.pkGETorPOST);
+  RequestExcluirProdutoComanda.AddParameter('id_consumo', id_consumo.ToString, TRESTRequestParameterKind.pkGETorPOST);
   RequestExcluirProdutoComanda.Execute;
 
   if dm.RequestExcluirProdutoComanda.Response.StatusCode <> 200 then
@@ -342,7 +343,7 @@ begin
     json := RequestExcluirProdutoComanda.Response.JSONValue.ToString;
     jsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
 
-    if jsonObj.GetValue('retorno').Value = 'OK' then
+    if jsonObj.GetValue('retorno').Value = 'ok' then
         Result := true
     else
     begin
@@ -376,7 +377,7 @@ begin
     json := RequestEncerrarComanda.Response.JSONValue.ToString;
     jsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
 
-    if jsonObj.GetValue('retorno').Value = 'OK' then
+    if jsonObj.GetValue('retorno').Value = 'ok' then
         Result := true
     else
     begin
