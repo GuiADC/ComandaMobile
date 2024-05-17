@@ -92,7 +92,7 @@ begin
       qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
       qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].AsInteger;
       qry.ParamByName('QTD').value := Params.ItemsString['qtd'].AsInteger;
-      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat;
+      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat + Params.ItemsString['vl_opcional'].Asfloat;
       qry.ParamByName('obs_opcional').value := Params.ItemsString['obs_opcional'].AsString;
       qry.ParamByName('valor_opcional').value := Params.ItemsString['vl_opcional'].Asfloat;
       qry.ParamByName('obs').value := Params.ItemsString['obs'].AsString;
@@ -314,7 +314,7 @@ begin
     qry.SQL.add('select');
     qry.SQL.add('   C.*,');
     qry.SQL.add('   P.ID_PRODUTO,');
-    qry.SQL.add('   P.DESCRICAO,');
+    qry.SQL.add('   P.DESCRICAO');
     qry.SQL.add('from');
     qry.SQL.add('    TAB_COMANDA_CONSUMO C');
     qry.SQL.add('     JOIN TAB_PRODUTO P ON (P.ID_PRODUTO = C.ID_PRODUTO)');

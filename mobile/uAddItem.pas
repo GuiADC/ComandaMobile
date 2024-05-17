@@ -302,7 +302,7 @@ begin
   begin
     if (TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).TagString = '1') then
     begin
-      vlOpcional := vlOpcional + TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).tagfloat;
+      vlOpcional := vlOpcional + (TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).tagfloat * lblQtd.Text.ToInteger);
 
       if obs_opcional <> '' then
         obs_opcional := obs_opcional + ' + ';

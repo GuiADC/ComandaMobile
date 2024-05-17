@@ -117,8 +117,10 @@ begin
   begin
     Tag := idConsumo;
     TListItemText(Objects.FindDrawable('txtDescricao')).text := FormatFloat('00', qtd) + ' x ' + descricao;
-    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00',  qtd * preco);
+    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00', preco);
     TListItemImage(Objects.FindDrawable('imgDelete')).bitmap := imgDelete.bitmap;
+    TListItemText(Objects.FindDrawable('txtObs')).text := obs;
+    TListItemText(Objects.FindDrawable('txtObsOpcional')).text := obs_opcional;
   end;
 end;
 
@@ -154,14 +156,14 @@ begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_CONSUMO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
-                     jsonArray.Get(iIntIndex).GetValue<string>('obs'),
-                     jsonArray.Get(iIntIndex).GetValue<string>('obs_opcional'),
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS'),
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS_OPCIONAL'),
                      jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('valor_opcional')
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_OPCIONAL')
                      );
 
 
-    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL') * jsonArray.Get(iIntIndex).GetValue<integer>('QTD'));
+    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL')); {* jsonArray.Get(iIntIndex).GetValue<integer>('QTD'))}
   end;
 
   lblTotal.text := FormatFloat('#,##0.00', total);
