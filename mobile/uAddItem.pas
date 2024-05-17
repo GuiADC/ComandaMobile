@@ -34,13 +34,17 @@ type
     Rectangle3: TRectangle;
     Rectangle5: TRectangle;
     lblDescricao: TLabel;
-    rectEncerrar: TRectangle;
+    rectConfirmar: TRectangle;
     Label4: TLabel;
     lblQtd: TLabel;
     imgMenos: TImage;
     imgMais: TImage;
     imgFecharQtd: TImage;
-    Edit1: TEdit;
+    edtObs: TEdit;
+    LvOpcional: TListView;
+    imgUnchecked: TImage;
+    imgChecked: TImage;
+    Rectangle7: TRectangle;
     procedure imgFecharClick(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -50,8 +54,10 @@ type
     procedure lvProdutoItemClick(const Sender: TObject;
       const AItem: TListViewItem);
     procedure imgFecharQtdClick(Sender: TObject);
-    procedure rectEncerrarClick(Sender: TObject);
+    procedure rectConfirmarClick(Sender: TObject);
     procedure rectBuscaProdutoClick(Sender: TObject);
+    procedure LvOpcionalItemClickEx(const Sender: TObject; ItemIndex: Integer;
+      const LocalClickPos: TPointF; const ItemObject: TListItemDrawable);
   private
     procedure addCategoriaLv(idCategoria: integer; descricao: string; icone: string);
     procedure listarCategoria;
@@ -59,6 +65,8 @@ type
       preco: double);
     procedure listarProduto(idCategoria: integer; busca: string);
     function converteValor(vl: string): double;
+    procedure listarOpcional(idProduto: integer);
+    procedure addOpcionalLv(idOpcao: integer; descricao: string; valor: currency);
     { Private declarations }
   public
     { Public declarations }
@@ -161,6 +169,43 @@ begin
 
 end;
 
+procedure TfrmAddItem.addOpcionalLv(idOpcao: integer; descricao: string; valor: currency);
+begin
+  with lvOpcional.Items.add do
+  begin
+    Tag := idOpcao;
+    TListItemText(Objects.FindDrawable('txtDescricao')).text := descricao;
+    TListItemText(Objects.FindDrawable('txtValor')).text := FormatFloat('#,##0.00', valor);
+    TListItemImage(Objects.FindDrawable('imgCheckbox')).bitmap := imgUnchecked.Bitmap;
+    TListItemImage(Objects.FindDrawable('imgCheckbox')).TagString := '0';
+    TListItemImage(Objects.FindDrawable('imgCheckbox')).TagFloat := valor;
+  end;
+end;
+
+procedure TfrmAddItem.listarOpcional(idProduto: integer);
+var
+  x: integer;
+  jsonArray: TJSONArray;
+  erro: string;
+begin
+  try
+    LvOpcional.Items.clear;
+
+    if not (dm.ListarOpcional(idProduto, jsonArray, erro)) then
+    begin
+      ShowMessage(erro);
+      exit;
+    end;
+
+    for x := 0 to jsonArray.size -1 do
+      addOpcionalLv(jsonArray.Get(x).GetValue<integer>('ID_OPCAO'), jsonArray.Get(x).GetValue<string>('DESCRICAO'), jsonArray.Get(x).GetValue<Currency>('VALOR'));
+
+  finally
+    LvOpcional.Visible := jsonArray.size > 0;
+    jsonArray.DisposeOf;
+  end;
+end;
+
 procedure TfrmAddItem.listarProduto(idCategoria: integer; busca: string);
 var
   x: integer;
@@ -196,6 +241,25 @@ begin
   TabControl.GotoVisibleTab(1, TTabTransition.slide);
 end;
 
+procedure TfrmAddItem.LvOpcionalItemClickEx(const Sender: TObject;
+  ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+  if (tlistview(sender).Selected <> nil) and (ItemObject is TListItemImage) then
+  begin
+    if TListItemImage(ItemObject).tagstring = '0' then
+    begin
+      TListItemImage(ItemObject).Bitmap := imgChecked.Bitmap;
+      TListItemImage(ItemObject).TagString := '1';
+    end
+    else
+    begin
+      TListItemImage(ItemObject).Bitmap := imgUnchecked.Bitmap;
+      TListItemImage(ItemObject).TagString := '0';
+    end;
+  end;
+end;
+
 function TfrmAddItem.converteValor(vl: string): double;
 begin
   try
@@ -212,9 +276,11 @@ begin
   lblQtd.text := '01';
   lblDescricao.text := TListItemText(AItem.Objects.FindDrawable('txtDescricao')).Text;
   lblDescricao.tag := AItem.tag;
-
   lblDescricao.TagFloat := converteValor(TListItemText(AItem.Objects.FindDrawable('txtPreco')).Text);
 
+  listarOpcional(AItem.tag);
+
+  edtObs.Text := '';
   layoutQtd.Visible := true;
 end;
 
@@ -223,12 +289,33 @@ begin
   listarProduto(lvProduto.Tag, edtBuscaProduto.text);
 end;
 
-procedure TfrmAddItem.rectEncerrarClick(Sender: TObject);
+procedure TfrmAddItem.rectConfirmarClick(Sender: TObject);
 var
+  obs_opcional: string;
   erro: string;
+  vlOpcional: double;
 begin
+  //verificar os opcionais...
+  vlOpcional := 0;
 
-  if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat, erro)) then
+  for var lintIndex := 0 to LvOpcional.Items.Count -1 do
+  begin
+    if (TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).TagString = '1') then
+    begin
+      vlOpcional := vlOpcional + (TListItemImage(lvOpcional.items[lintIndex].Objects.FindDrawable('imgCheckbox')).tagfloat * lblQtd.Text.ToInteger);
+
+      if obs_opcional <> '' then
+        obs_opcional := obs_opcional + ' + ';
+
+      obs_opcional := obs_opcional + TListItemText(lvOpcional.items[lintIndex].Objects.FindDrawable('txtDescricao')).text;
+    end;
+  end;
+
+  if vlOpcional > 0 then
+    obs_opcional := obs_opcional + ' = ' + FormatFloat('#,##0.00', vlOpcional);
+
+  if (dm.AdicionarProdutoComanda(comanda, lblDescricao.Tag, lblQtd.Text.ToInteger, lblQtd.Text.ToInteger * lblDescricao.TagFloat,
+                                 edtObs.text, obs_opcional, vlOpcional, erro)) then
   begin
     layoutQtd.Visible := false;
     self.modalResult := mrOk;

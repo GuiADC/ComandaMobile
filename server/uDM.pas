@@ -66,7 +66,8 @@ begin
     if (Params.itemsString['id_comanda'].AsString = '') or
        (Params.itemsString['id_produto'].AsString = '') or
        (Params.itemsString['qtd'].AsString = '') or
-       (Params.itemsString['vl_total'].AsString = '') then
+       (Params.itemsString['vl_total'].AsString = '') or
+       (Params.itemsString['vl_opcional'].AsString = '') then
     begin
       json.AddPair('retorno', 'Parametros não informados');
       result := json.ToString;
@@ -86,12 +87,15 @@ begin
 
       qry.Active := false;
       qry.SQL.clear;
-      qry.SQL.add('INSERT INTO TAB_COMANDA_CONSUMO(ID_COMANDA, ID_PRODUTO, QTD, VALOR_TOTAL)');
-      qry.SQL.add('VALUES (:ID_COMANDA, :ID_PRODUTO, :QTD, :VALOR_TOTAL)');
+      qry.SQL.add('INSERT INTO TAB_COMANDA_CONSUMO(ID_COMANDA, ID_PRODUTO, QTD, VALOR_TOTAL, obs_opcional, valor_opcional, obs)');
+      qry.SQL.add('VALUES (:ID_COMANDA, :ID_PRODUTO, :QTD, :VALOR_TOTAL, :obs_opcional, :valor_opcional, :obs)');
       qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
       qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].AsInteger;
       qry.ParamByName('QTD').value := Params.ItemsString['qtd'].AsInteger;
-      qry.ParamByName('VALOR_TOTAL').value := Params.ItemsString['vl_total'].Asfloat;
+      qry.ParamByName('VALOR_TOTAL').value := (Params.ItemsString['vl_total'].asfloat / 100) + (Params.ItemsString['vl_opcional'].asfloat / 100) ;
+      qry.ParamByName('obs_opcional').value := Params.ItemsString['obs_opcional'].AsString;
+      qry.ParamByName('valor_opcional').value := Params.ItemsString['vl_opcional'].asfloat / 100;
+      qry.ParamByName('obs').value := Params.ItemsString['obs'].AsString;
       qry.ExecSQL;
 
       json.AddPair('retorno', 'ok');
@@ -138,7 +142,7 @@ begin
       qry.ParamByName('ID_COMANDA').value := Params.ItemsString['id_comanda'].AsString;
       qry.ExecSQL;
 
-      json.addPair('retorno', 'OK');
+      json.addPair('retorno', 'ok');
     except on
       ex: exception do
       json.AddPair('retorno', ex.message);
@@ -240,7 +244,7 @@ begin
     qry.SQL.add('select');
     qry.SQL.add('    C.ID_COMANDA,');
     qry.SQL.add('    C.STATUS,');
-    qry.SQL.add('    coalesce(SUM(O.VALOR_TOTAL * O.QTD), 0) as VALOR_TOTAL');
+    qry.SQL.add('    coalesce(SUM(O.VALOR_TOTAL), 0) as VALOR_TOTAL');
     qry.SQL.add('from');
     qry.SQL.add('    tab_comanda C');
     qry.SQL.add('    left join tab_comanda_consumo O ON (C.id_comanda = O.id_comanda)');
@@ -308,11 +312,9 @@ begin
     qry.Active := false;
     qry.SQL.clear;
     qry.SQL.add('select');
-    qry.SQL.add('   C.ID_CONSUMO,');
+    qry.SQL.add('   C.*,');
     qry.SQL.add('   P.ID_PRODUTO,');
-    qry.SQL.add('   P.DESCRICAO,');
-    qry.SQL.add('   C.QTD,');
-    qry.SQL.add('   C.VALOR_TOTAL');
+    qry.SQL.add('   P.DESCRICAO');
     qry.SQL.add('from');
     qry.SQL.add('    TAB_COMANDA_CONSUMO C');
     qry.SQL.add('     JOIN TAB_PRODUTO P ON (P.ID_PRODUTO = C.ID_PRODUTO)');
@@ -481,7 +483,7 @@ begin
       qryLogin.Active := true;
 
       if qryLogin.RecordCount > 0 then
-        json.AddPair('retorno', 'OK')
+        json.AddPair('retorno', 'ok')
       else
         json.AddPair('retorno', 'Usuário invalido');
 

@@ -57,7 +57,7 @@ type
     procedure lvProdutoUpdateObjects(const Sender: TObject;
       const AItem: TListViewItem);
   private
-    procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
+    procedure addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; obs, obs_opcional: string; preco: double; vl_opcional: double);
     procedure listarProduto;
     class function GetTextHeight(const D: TListItemText; const Width: single;
       const Text: string): Integer; static;
@@ -111,14 +111,16 @@ begin
   end;
 end;
 
-procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; preco: double);
+procedure TfrmResumo.addProdutoResumo(idConsumo: integer; qtd: integer; descricao: string; obs, obs_opcional: string; preco: double; vl_opcional: double);
 begin
   with lvProduto.Items.add do
   begin
     Tag := idConsumo;
     TListItemText(Objects.FindDrawable('txtDescricao')).text := FormatFloat('00', qtd) + ' x ' + descricao;
-    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00',  qtd * preco);
+    TListItemText(Objects.FindDrawable('txtPreco')).text := FormatFloat('#,##0.00', preco);
     TListItemImage(Objects.FindDrawable('imgDelete')).bitmap := imgDelete.bitmap;
+    TListItemText(Objects.FindDrawable('txtObs')).text := obs;
+    TListItemText(Objects.FindDrawable('txtObsOpcional')).text := obs_opcional;
   end;
 end;
 
@@ -154,10 +156,14 @@ begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_CONSUMO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'));
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS'),
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS_OPCIONAL'),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_OPCIONAL')
+                     );
 
 
-    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL') * jsonArray.Get(iIntIndex).GetValue<integer>('QTD'));
+    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL')); {* jsonArray.Get(iIntIndex).GetValue<integer>('QTD'))}
   end;
 
   lblTotal.text := FormatFloat('#,##0.00', total);
@@ -200,13 +206,13 @@ var
   altura: integer;
   txt: TListItemText;
 begin
-  altura := 0;
-
-  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
-  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
-
-  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
-  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
+//  altura := 0;
+//
+//  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
+//  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
+//
+//  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
+//  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
 
 end;
 
