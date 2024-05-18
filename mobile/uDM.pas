@@ -30,6 +30,7 @@ type
     RequestOpcional: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
+    function StringToBase64(const Input: string): string;
 
     { Private declarations }
   public
@@ -159,6 +160,18 @@ begin
 
 end;
 
+function Tdm.StringToBase64(const Input: string): string;
+var
+  Base64: TBase64Encoding;
+begin
+  Base64 := TBase64Encoding.Create;
+  try
+    Result := Base64.Encode(Input);
+  finally
+    freeandnil(Base64);
+  end;
+end;
+
 function Tdm.AdicionarProdutoComanda(id_comanda: string; id_produto, qtd: integer; vl_total: double;
                                       obs, obs_opcional: string; vl_opcional: double; out erro: string): boolean;
 var
@@ -172,9 +185,9 @@ begin
   RequestAdicionarProdutoComanda.AddParameter('id_produto', id_produto.ToString, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('qtd', qtd.ToString, TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('vl_total', FormatFloat('0.00', vl_total).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
-  RequestAdicionarProdutoComanda.AddParameter('obs_opcional', obs_opcional, TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('obs_opcional', StringToBase64(obs_opcional), TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.AddParameter('vl_opcional', FormatFloat('0.00', vl_opcional).Replace(',','').Replace('.', ''), TRESTRequestParameterKind.pkGETorPOST);
-  RequestAdicionarProdutoComanda.AddParameter('obs', obs, TRESTRequestParameterKind.pkGETorPOST);
+  RequestAdicionarProdutoComanda.AddParameter('obs', StringToBase64(obs), TRESTRequestParameterKind.pkGETorPOST);
   RequestAdicionarProdutoComanda.Execute;
 
   if dm.RequestAdicionarProdutoComanda.Response.StatusCode <> 200 then
