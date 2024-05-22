@@ -346,7 +346,7 @@ begin
   if (strtoint(lblQtd.text) = 0) and (TImage(sender).Tag = -1) then
     exit;
 
-  lblQtd.text := formatfloat('00', lblQtd. text.ToInteger + TImage(sender).Tag);
+  lblQtd.text := formatfloat('00', lblQtd.text.ToInteger + TImage(sender).Tag);
 end;
 
 procedure TfrmAddItem.imgVoltarClick(Sender: TObject);
