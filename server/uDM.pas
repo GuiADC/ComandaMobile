@@ -10,7 +10,7 @@ uses
   FireDAC.Phys.FBDef, uRESTDWComponentBase, uRESTDWServerEvents, uRESTDWParams,
   uRESTDWAboutForm, uRESTDWJSONObject, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, system.JSON, uRESTDWConsts,
-  REST.Types, REST.Client, Data.Bind.Components, Data.Bind.ObjectScope;
+  REST.Types, REST.Client, Data.Bind.Components, Data.Bind.ObjectScope, System.NetEncoding;
 
 type
   Tdm = class(TServerMethodDataModule)
@@ -38,6 +38,7 @@ type
     procedure DWEventsEventsListarOpcionalReplyEvent(var Params: TRESTDWParams;
       var Result: string);
   private
+    function Base64ToString(const Base64Input: string): string;
     { Private declarations }
   public
     { Public declarations }
@@ -51,6 +52,20 @@ implementation
 {%CLASSGROUP 'FMX.Controls.TControl'}
 
 {$R *.dfm}
+
+function Tdm.Base64ToString(const Base64Input: string): string;
+var
+  Base64: TBase64Encoding;
+  DecodedBytes: TBytes;
+begin
+  Base64 := TBase64Encoding.Create;
+  try
+    DecodedBytes := Base64.DecodeStringToBytes(Base64Input);
+    Result := TEncoding.UTF8.GetString(DecodedBytes);
+  finally
+    freeandnil(Base64);
+  end;
+end;
 
 procedure Tdm.DWEventsEventsAdicionarProdutoComandaReplyEvent(
   var Params: TRESTDWParams; var Result: string);
@@ -93,9 +108,9 @@ begin
       qry.ParamByName('ID_PRODUTO').value := Params.ItemsString['id_produto'].AsInteger;
       qry.ParamByName('QTD').value := Params.ItemsString['qtd'].AsInteger;
       qry.ParamByName('VALOR_TOTAL').value := (Params.ItemsString['vl_total'].asfloat / 100) + (Params.ItemsString['vl_opcional'].asfloat / 100) ;
-      qry.ParamByName('obs_opcional').value := Params.ItemsString['obs_opcional'].AsString;
+      qry.ParamByName('obs_opcional').value := Base64ToString(Params.ItemsString['obs_opcional'].AsString);
       qry.ParamByName('valor_opcional').value := Params.ItemsString['vl_opcional'].asfloat / 100;
-      qry.ParamByName('obs').value := Params.ItemsString['obs'].AsString;
+      qry.ParamByName('obs').value := Base64ToString(Params.ItemsString['obs'].AsString);
       qry.ExecSQL;
 
       json.AddPair('retorno', 'ok');
