@@ -156,17 +156,21 @@ begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_CONSUMO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
-                     jsonArray.Get(iIntIndex).GetValue<string>('OBS'),
-                     jsonArray.Get(iIntIndex).GetValue<string>('OBS_OPCIONAL'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_OPCIONAL')
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS', ''),
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS_OPCIONAL', ''),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL', 0),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_OPCIONAL', 0)
                      );
 
 
-    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL')); {* jsonArray.Get(iIntIndex).GetValue<integer>('QTD'))}
+    total := total + (jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'));
+
   end;
 
   lblTotal.text := FormatFloat('#,##0.00', total);
+  lvProduto.Margins.Bottom := 1;
+  lvProduto.Margins.Bottom := 0;
+
   jsonArray.DisposeOf;
 end;
 
@@ -205,15 +209,41 @@ procedure TfrmResumo.lvProdutoUpdateObjects(const Sender: TObject;
 var
   altura: integer;
   txt: TListItemText;
+  lcountItems: integer;
 begin
-//  altura := 0;
-//
-//  txt := TListItemText(AItem.Objects.FindDrawable('TxtObs'));
-//  altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
-//
-//  txt := TListItemText(AItem.Objects.FindDrawable('TxtObsOpicional'));
-//  altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
+  altura := 0;
+  lcountItems := 0;
 
+  txt := TListItemText(AItem.Objects.FindDrawable('txtDescricao'));
+
+  if (txt <> nil) and (txt.text <> '') then
+  begin
+    altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
+    lcountItems := lcountItems + 1;
+  end;
+
+  txt := TListItemText(AItem.Objects.FindDrawable('txtObs'));
+
+  if (txt <> nil) and (txt.text <> '') then
+  begin
+    altura := altura + GetTextHeight(txt, txt.Width,txt.Text);
+    lcountItems := lcountItems + 1;
+  end;
+
+  txt := TListItemText(AItem.Objects.FindDrawable('txtObsOpcional'));
+
+  if (txt <> nil) and (altura <= 38) then
+    txt.PlaceOffset.Y := 40;
+
+  if (txt <> nil) and (txt.text <> '') then
+  begin
+    altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
+
+    if lcountItems = 2 then
+      altura := altura - 20;
+  end;
+
+  AItem.Height := altura;
 end;
 
 procedure TfrmResumo.animationMenuFinish(Sender: TObject);
