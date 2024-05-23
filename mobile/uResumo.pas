@@ -156,10 +156,10 @@ begin
     addProdutoResumo(jsonArray.Get(iIntIndex).GetValue<integer>('ID_CONSUMO'),
                      jsonArray.Get(iIntIndex).GetValue<integer>('QTD'),
                      jsonArray.Get(iIntIndex).GetValue<string>('DESCRICAO'),
-                     jsonArray.Get(iIntIndex).GetValue<string>('OBS'),
-                     jsonArray.Get(iIntIndex).GetValue<string>('OBS_OPCIONAL'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL'),
-                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_OPCIONAL')
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS', ''),
+                     jsonArray.Get(iIntIndex).GetValue<string>('OBS_OPCIONAL', ''),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_TOTAL', 0),
+                     jsonArray.Get(iIntIndex).GetValue<double>('VALOR_OPCIONAL', 0)
                      );
 
 
