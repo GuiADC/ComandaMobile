@@ -5,9 +5,6 @@ object dm: Tdm
   Width = 610
   object conn: TFDConnection
     Params.Strings = (
-      
-        'Database=C:\Users\gui-a\Documents\Embarcadero\Studio\Projects\co' +
-        'mandaMobile\server\DB\DBCOMANDA.FDB'
       'User_Name=SYSDBA'
       'Password=masterkey'
       'DriverID=FB')

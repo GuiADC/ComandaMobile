@@ -19,7 +19,7 @@ object dm: Tdm
     Top = 88
   end
   object RESTClient: TRESTClient
-    BaseURL = 'http://localhost:8082'
+    BaseURL = 'http://167.234.242.56:9000'
     Params = <>
     SynchronizedEvents = False
     Left = 32
