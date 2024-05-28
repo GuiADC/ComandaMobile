@@ -35,7 +35,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    function validaLogin(usuario: string; out erro: string): boolean;
+    function validaLogin(usuario: string; senha: string; out erro: string): boolean;
     function ListarComanda(out jsonArray: TJSONArray; out erro: string): boolean;
     function ListarProduto(id_categoria: integer; termo_busca: string; pagina: integer; out jsonArray: TJSONArray; out erro: string): boolean;
     function ListarCategoria(out jsonArray: TJSONArray; out erro: string): boolean;
@@ -58,7 +58,7 @@ implementation
 
 {$R *.dfm}
 
-function Tdm.validaLogin(usuario: string; out erro: string): boolean;
+function Tdm.validaLogin(usuario: string; senha: string; out erro: string): boolean;
 var
   json: string;
   jsonOBJ: tjsonObject;
@@ -67,6 +67,7 @@ begin
 
   RequestLogin.Params.clear;
   RequestLogin.AddParameter('usuario', usuario, TRESTRequestParameterKind.pkGETorPOST);
+  RequestLogin.AddParameter('senha', senha, TRESTRequestParameterKind.pkGETorPOST);
   RequestLogin.Execute;
 
   if dm.RequestLogin.Response.StatusCode <> 200 then

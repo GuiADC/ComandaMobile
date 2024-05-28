@@ -26,6 +26,8 @@ type
     rectSave: TRectangle;
     Label5: TLabel;
     lblConfig: TLabel;
+    edtSenha: TEdit;
+    Label1: TLabel;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
