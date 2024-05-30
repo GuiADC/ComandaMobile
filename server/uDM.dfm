@@ -19,7 +19,7 @@ object dm: Tdm
     IgnoreInvalidParams = False
     Events = <
       item
-        Routes = [crAll]
+        Routes = [crPost]
         NeedAuthorization = True
         Params = <
           item
@@ -27,6 +27,13 @@ object dm: Tdm
             ObjectDirection = odIN
             ObjectValue = ovString
             ParamName = 'usuario'
+            Encoded = False
+          end
+          item
+            TypeObject = toParam
+            ObjectDirection = odIN
+            ObjectValue = ovString
+            ParamName = 'senha'
             Encoded = False
           end>
         DataMode = dmRAW

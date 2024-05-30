@@ -108,7 +108,7 @@ var
 begin
   dm.RequestLogin.Client.BaseURL := edtServidor.text;
 
-  if not dm.validaLogin(edtUsuario.text, erro) then
+  if not dm.validaLogin(edtUsuario.text, edtSenha.text, erro) then
   begin
     ShowMessage(erro);
     exit;

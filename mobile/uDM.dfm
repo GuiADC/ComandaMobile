@@ -28,6 +28,7 @@ object dm: Tdm
   object RequestLogin: TRESTRequest
     AssignedValues = [rvConnectTimeout, rvReadTimeout]
     Client = RESTClient
+    Method = rmPOST
     Params = <
       item
         Name = 'usuario'
