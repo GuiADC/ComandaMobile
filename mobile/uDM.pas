@@ -10,7 +10,8 @@ uses
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, System.IOUtils,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, REST.Types, REST.Client, Data.Bind.Components,
-  Data.Bind.ObjectScope, system.JSON, system.NetEncoding;
+  Data.Bind.ObjectScope, system.JSON, system.NetEncoding,
+  REST.Authenticator.Basic;
 
 type
   Tdm = class(TDataModule)
@@ -28,11 +29,11 @@ type
     RequestEncerrarComanda: TRESTRequest;
     RequestTransferir: TRESTRequest;
     RequestOpcional: TRESTRequest;
+    HTTPBasicAuthenticator1: THTTPBasicAuthenticator;
     procedure DataModuleCreate(Sender: TObject);
   private
-    function StringToBase64(const Input: string): string;
-
     { Private declarations }
+    function StringToBase64(const Input: string): string;
   public
     { Public declarations }
     function validaLogin(usuario: string; senha: string; out erro: string): boolean;
@@ -64,7 +65,6 @@ var
   jsonOBJ: tjsonObject;
 begin
   erro := '';
-
   RequestLogin.Params.clear;
   RequestLogin.AddParameter('usuario', usuario, TRESTRequestParameterKind.pkGETorPOST);
   RequestLogin.AddParameter('senha', senha, TRESTRequestParameterKind.pkGETorPOST);
