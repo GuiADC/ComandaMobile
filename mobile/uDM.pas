@@ -11,7 +11,7 @@ uses
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, REST.Types, REST.Client, Data.Bind.Components,
   Data.Bind.ObjectScope, system.JSON, system.NetEncoding,
-  REST.Authenticator.Basic;
+  REST.Authenticator.Basic, System.IniFiles;
 
 type
   Tdm = class(TDataModule)
@@ -403,16 +403,20 @@ begin
   end;
 end;
 
-
-
 procedure Tdm.DataModuleCreate(Sender: TObject);
+var
+  liniFile: TIniFile;
 begin
+  liniFile := nil;
+
+  liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Comanda.ini');
   with conn do
   begin
     Params.Values['DriverID'] := 'SQLite';
+    RESTClient.BaseURL := liniFile.ReadString('Conexao', 'serverURL', '');
 
     {$ifdef mswindows}
-    Params.Values['DataBase'] := system.SysUtils.GetCurrentDir + '\DB\banco.db';
+    Params.Values['DataBase'] := liniFile.ReadString('Conexao', 'Database', '');
     {$endif}
     {$ifdef ANDROID}
     Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
