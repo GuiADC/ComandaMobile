@@ -37,22 +37,26 @@ var
 begin
   liniFile := nil;
 
-  liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Login.ini');
+  liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Server.ini');
   try
-    RESTDWIdServicePooler.servicePort := liniFile.ReadInteger('Conexao', 'Port', 0);
+    try
+      RESTDWIdServicePooler.servicePort := liniFile.ReadInteger('Conexao', 'Port', 0);
 
-    dm.conn.Params.Values['DriverId'] := 'FB';
-    dm.conn.Params.Values['DataBase'] := liniFile.ReadString('Conexao', 'Database', '');
-    dm.conn.Params.Values['DriverId'] := 'FB';
-    dm.conn.Params.Values['User_Name'] := 'SYSDBA';
-    dm.conn.Params.Values['Password'] := 'masterkey';
-    dm.conn.Connected := true;
-  except on
-    E: Exception do
-    ShowMessage('Erro ao acessar o banco. Erro:' +  E.Message);
+      dm.conn.Params.Values['DriverId'] := 'FB';
+      dm.conn.Params.Values['DataBase'] := liniFile.ReadString('Conexao', 'Database', '');
+      dm.conn.Params.Values['DriverId'] := 'FB';
+      dm.conn.Params.Values['User_Name'] := 'SYSDBA';
+      dm.conn.Params.Values['Password'] := 'masterkey';
+      dm.conn.Connected := true;
+    except on
+      E: Exception do
+      ShowMessage('Erro ao acessar o banco. Erro:' +  E.Message);
+    end
+  finally
+    if liniFile <> nil then
+      freeandnil(liniFile);
   end;
 end;
-
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin

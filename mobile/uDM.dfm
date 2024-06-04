@@ -132,12 +132,13 @@ object dm: Tdm
   object RequestEncerrarComanda: TRESTRequest
     AssignedValues = [rvConnectTimeout, rvReadTimeout]
     Client = RESTClient
+    Method = rmPOST
     Params = <
       item
         Name = 'usuario'
         Value = 'Gui'
       end>
-    Resource = 'AdicionarProdutoComanda'
+    Resource = 'EncerrarComanda'
     Response = RESTResponse1
     SynchronizedEvents = False
     Left = 368

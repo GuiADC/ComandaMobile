@@ -408,25 +408,27 @@ var
   liniFile: TIniFile;
 begin
   liniFile := nil;
+  try
+    liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Comanda.ini');
 
-  liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Comanda.ini');
-  with conn do
-  begin
-    Params.Values['DriverID'] := 'SQLite';
+    conn.Params.Values['DriverID'] := 'SQLite';
     RESTClient.BaseURL := liniFile.ReadString('Conexao', 'serverURL', '');
 
     {$ifdef mswindows}
-    Params.Values['DataBase'] := liniFile.ReadString('Conexao', 'Database', '');
+      conn.params.Values['DataBase'] := system.SysUtils.GetCurrentDir + '\DB\banco.db';
     {$endif}
     {$ifdef ANDROID}
-    Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
+      Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
     {$endif}
 
     try
-      Connected := true;
+      conn.Connected := true;
     except on E: exception do
       raise exception.Create('Erro de conexão com o banco de dados: ' + E.message);
     end;
+  finally
+    if liniFile <> nil then
+      freeandnil(liniFile);
   end;
 end;
 
