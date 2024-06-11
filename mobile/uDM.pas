@@ -10,7 +10,8 @@ uses
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, System.IOUtils,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, REST.Types, REST.Client, Data.Bind.Components,
-  Data.Bind.ObjectScope, system.JSON, system.NetEncoding;
+  Data.Bind.ObjectScope, system.JSON, system.NetEncoding,
+  REST.Authenticator.Basic, System.IniFiles;
 
 type
   Tdm = class(TDataModule)
@@ -28,14 +29,14 @@ type
     RequestEncerrarComanda: TRESTRequest;
     RequestTransferir: TRESTRequest;
     RequestOpcional: TRESTRequest;
+    HTTPBasicAuthenticator1: THTTPBasicAuthenticator;
     procedure DataModuleCreate(Sender: TObject);
   private
-    function StringToBase64(const Input: string): string;
-
     { Private declarations }
+    function StringToBase64(const Input: string): string;
   public
     { Public declarations }
-    function validaLogin(usuario: string; out erro: string): boolean;
+    function validaLogin(usuario: string; senha: string; out erro: string): boolean;
     function ListarComanda(out jsonArray: TJSONArray; out erro: string): boolean;
     function ListarProduto(id_categoria: integer; termo_busca: string; pagina: integer; out jsonArray: TJSONArray; out erro: string): boolean;
     function ListarCategoria(out jsonArray: TJSONArray; out erro: string): boolean;
@@ -58,15 +59,15 @@ implementation
 
 {$R *.dfm}
 
-function Tdm.validaLogin(usuario: string; out erro: string): boolean;
+function Tdm.validaLogin(usuario: string; senha: string; out erro: string): boolean;
 var
   json: string;
   jsonOBJ: tjsonObject;
 begin
   erro := '';
-
   RequestLogin.Params.clear;
   RequestLogin.AddParameter('usuario', usuario, TRESTRequestParameterKind.pkGETorPOST);
+  RequestLogin.AddParameter('senha', senha, TRESTRequestParameterKind.pkGETorPOST);
   RequestLogin.Execute;
 
   if dm.RequestLogin.Response.StatusCode <> 200 then
@@ -402,26 +403,32 @@ begin
   end;
 end;
 
-
-
 procedure Tdm.DataModuleCreate(Sender: TObject);
+var
+  liniFile: TIniFile;
 begin
-  with conn do
-  begin
-    Params.Values['DriverID'] := 'SQLite';
+  liniFile := nil;
+  try
+    liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Comanda.ini');
+
+    conn.Params.Values['DriverID'] := 'SQLite';
+    RESTClient.BaseURL := liniFile.ReadString('Conexao', 'serverURL', '');
 
     {$ifdef mswindows}
-    Params.Values['DataBase'] := system.SysUtils.GetCurrentDir + '\DB\banco.db';
+      conn.params.Values['DataBase'] := system.SysUtils.GetCurrentDir + '\DB\banco.db';
     {$endif}
     {$ifdef ANDROID}
-    Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
+      conn.Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
     {$endif}
 
     try
-      Connected := true;
+      conn.Connected := true;
     except on E: exception do
       raise exception.Create('Erro de conexão com o banco de dados: ' + E.message);
     end;
+  finally
+    if liniFile <> nil then
+      freeandnil(liniFile);
   end;
 end;
 

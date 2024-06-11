@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   uRESTDWComponentBase, uRESTDWBasicDB, FMX.StdCtrls, FMX.Controls.Presentation,
-  uRESTDWBasic, uRESTDWIdBase;
+  uRESTDWBasic, uRESTDWIdBase, System.IniFiles;
 
 type
   TfrmMain = class(TForm)
@@ -16,6 +16,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure SwtichSwitch(Sender: TObject);
   private
+    procedure conectarBanco;
     { Private declarations }
   public
     { Public declarations }
@@ -30,28 +31,38 @@ implementation
 
 uses uDM;
 
-procedure conectarBanco;
+procedure TfrmMain.conectarBanco;
+var
+  liniFile: TIniFile;
 begin
+  liniFile := nil;
+
+  liniFile := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\Server.ini');
   try
-    dm.conn.Params.Values['DriverId'] := 'FB';
-    dm.conn.Params.Values['DataBase'] := 'C:\comandaMobile\DB\DBCOMANDA.FDB';
-    dm.conn.Params.Values['DriverId'] := 'FB';
-    dm.conn.Params.Values['User_Name'] := 'SYSDBA';
-    dm.conn.Params.Values['Password'] := 'masterkey';
-    dm.conn.Connected := true;
-  except on
-    E: Exception do
-    ShowMessage('Erro ao acessar o banco. Erro:' +  E.Message);
+    try
+      RESTDWIdServicePooler.servicePort := liniFile.ReadInteger('Conexao', 'Port', 0);
+
+      dm.conn.Params.Values['DriverId'] := 'FB';
+      dm.conn.Params.Values['DataBase'] := liniFile.ReadString('Conexao', 'Database', '');
+      dm.conn.Params.Values['DriverId'] := 'FB';
+      dm.conn.Params.Values['User_Name'] := 'SYSDBA';
+      dm.conn.Params.Values['Password'] := 'masterkey';
+      dm.conn.Connected := true;
+    except on
+      E: Exception do
+      ShowMessage('Erro ao acessar o banco. Erro:' +  E.Message);
+    end
+  finally
+    if liniFile <> nil then
+      freeandnil(liniFile);
   end;
 end;
 
-
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
+  conectarBanco;
   RESTDWIdServicePooler.ServerMethodClass := TDM;
   RESTDWIdServicePooler.Active := Swtich.IsChecked;
-
-  conectarBanco;
 end;
 
 procedure TfrmMain.SwtichSwitch(Sender: TObject);

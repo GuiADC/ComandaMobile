@@ -10,7 +10,7 @@ uses
   FireDAC.Phys.FBDef, uRESTDWComponentBase, uRESTDWServerEvents, uRESTDWParams,
   uRESTDWAboutForm, uRESTDWJSONObject, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, system.JSON, uRESTDWConsts,
-  REST.Types, REST.Client, Data.Bind.Components, Data.Bind.ObjectScope, System.NetEncoding;
+  REST.Types, REST.Client, Data.Bind.Components, Data.Bind.ObjectScope, System.NetEncoding, System.Hash;
 
 type
   Tdm = class(TServerMethodDataModule)
@@ -39,6 +39,7 @@ type
       var Result: string);
   private
     function Base64ToString(const Base64Input: string): string;
+    function StringToSHA256(const AString: string): string;
     { Private declarations }
   public
     { Public declarations }
@@ -52,6 +53,12 @@ implementation
 {%CLASSGROUP 'FMX.Controls.TControl'}
 
 {$R *.dfm}
+
+function Tdm.StringToSHA256(const AString: string): string;
+begin
+  // Converte a string de entrada para SHA256 e retorna como uma string hexadecimal
+  Result := THashSHA2.GetHashString(AString);
+end;
 
 function Tdm.Base64ToString(const Base64Input: string): string;
 var
@@ -482,9 +489,9 @@ begin
   try
     json := TJSONObject.create;
 
-    if Params.ItemsString['usuario'].AsString = '' then
+    if (Params.ItemsString['usuario'].AsString = '') or (StringToSHA256(Params.ItemsString['senha'].AsString) = '') then
     begin
-      json.AddPair('retorno', 'Usuário nao informado');
+      json.AddPair('retorno', 'Usuário ou senha nao informado(a)');
       Result := json.ToString;
       exit;
     end;
@@ -493,17 +500,19 @@ begin
     begin
       qryLogin.Active := false;
       qryLogin.SQL.Clear;
-      qryLogin.SQL.Add('SELECT * from TAB_USUARIO WHERE COD_USUARIO=:USUARIO');
+      qryLogin.SQL.Add('SELECT * from TAB_USUARIO WHERE COD_USUARIO=:USUARIO AND SENHA = :SENHA');
       qryLogin.ParamByName('USUARIO').Value := Params.ItemsString['usuario'].AsString;
+      qryLogin.ParamByName('SENHA').Value := StringToSHA256(Params.ItemsString['senha'].AsString);
       qryLogin.Active := true;
 
       if qryLogin.RecordCount > 0 then
         json.AddPair('retorno', 'ok')
       else
-        json.AddPair('retorno', 'Usuário invalido');
+        json.AddPair('retorno', 'Usuário ou senha invalido(a)');
 
       Result := json.tostring;
     end;
+
   finally
     json.DisposeOf;
   end;

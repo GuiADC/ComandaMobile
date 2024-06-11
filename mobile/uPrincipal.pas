@@ -243,7 +243,7 @@ end;
 procedure TfrmPrincipal.lbMapaItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
-  if NOT Assigned(frmAddItem) then
+  if NOT Assigned(frmResumo) then
     Application.CreateForm(TfrmResumo, frmResumo);
 
   frmResumo.labComanda.text := item.TagString;

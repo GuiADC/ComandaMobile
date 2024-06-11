@@ -26,10 +26,13 @@ type
     rectSave: TRectangle;
     Label5: TLabel;
     lblConfig: TLabel;
+    edtSenha: TEdit;
+    Label1: TLabel;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -44,6 +47,12 @@ implementation
 {$R *.fmx}
 
 uses uDM;
+
+procedure TfrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := TCloseAction.caFree;
+  frmLogin := nil;
+end;
 
 procedure TfrmLogin.FormShow(Sender: TObject);
 begin
@@ -106,20 +115,20 @@ var
 begin
   dm.RequestLogin.Client.BaseURL := edtServidor.text;
 
-  if not dm.validaLogin(edtUsuario.text, erro) then
+  if not dm.validaLogin(edtUsuario.text, edtSenha.text, erro) then
   begin
     ShowMessage(erro);
     exit;
   end;
 
-  if not Assigned(frmPrincipal) then
+    if not Assigned(frmPrincipal) then
     frmPrincipal := TfrmPrincipal.Create(nil);
 
-    frmPrincipal.Show;
-    Application.MainForm := frmPrincipal;
+  frmPrincipal.Show;
 
-    freeandnil(frmLogin);
+  Application.MainForm := frmPrincipal;
+
+  self.Close;
 end;
-
 
 end.

@@ -10,24 +10,26 @@ object dm: Tdm
       'LockingMode=Normal'
       'DriverID=SQLite')
     LoginPrompt = False
-    Left = 224
-    Top = 72
+    Left = 200
+    Top = 56
   end
   object qry_config: TFDQuery
     Connection = conn
     Left = 320
-    Top = 88
+    Top = 56
   end
   object RESTClient: TRESTClient
-    BaseURL = 'http://167.234.242.56:9000'
+    Authenticator = HTTPBasicAuthenticator1
+    BaseURL = 'http://localhost:8082'
     Params = <>
     SynchronizedEvents = False
-    Left = 32
-    Top = 136
+    Left = 96
+    Top = 144
   end
   object RequestLogin: TRESTRequest
     AssignedValues = [rvConnectTimeout, rvReadTimeout]
     Client = RESTClient
+    Method = rmPOST
     Params = <
       item
         Name = 'usuario'
@@ -40,7 +42,7 @@ object dm: Tdm
     Top = 208
   end
   object RESTResponse1: TRESTResponse
-    Left = 104
+    Left = 200
     Top = 144
   end
   object RequestListarComanda: TRESTRequest
@@ -130,12 +132,13 @@ object dm: Tdm
   object RequestEncerrarComanda: TRESTRequest
     AssignedValues = [rvConnectTimeout, rvReadTimeout]
     Client = RESTClient
+    Method = rmPOST
     Params = <
       item
         Name = 'usuario'
         Value = 'Gui'
       end>
-    Resource = 'AdicionarProdutoComanda'
+    Resource = 'EncerrarComanda'
     Response = RESTResponse1
     SynchronizedEvents = False
     Left = 368
@@ -152,8 +155,8 @@ object dm: Tdm
     Resource = 'TransferirComanda'
     Response = RESTResponse1
     SynchronizedEvents = False
-    Left = 216
-    Top = 496
+    Left = 368
+    Top = 504
   end
   object RequestOpcional: TRESTRequest
     AssignedValues = [rvConnectTimeout, rvReadTimeout]
@@ -167,7 +170,13 @@ object dm: Tdm
     Resource = 'ListarOpcional'
     Response = RESTResponse1
     SynchronizedEvents = False
-    Left = 40
+    Left = 32
     Top = 488
+  end
+  object HTTPBasicAuthenticator1: THTTPBasicAuthenticator
+    Username = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'
+    Password = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'
+    Left = 288
+    Top = 144
   end
 end

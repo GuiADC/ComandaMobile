@@ -325,10 +325,12 @@ begin
   begin
     if AResult = mrYes then
     begin
-      ShowMessage('Encerramento concluido');
 
       if dm.EncerrarComanda(labComanda.text, erro) then
-        close
+      begin
+        ShowMessage('Encerramento concluido');
+        close;
+      end
       else
         ShowMessage(erro);
     end;
