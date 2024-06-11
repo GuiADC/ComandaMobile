@@ -9,6 +9,7 @@ object frmLogin: TfrmLogin
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnClose = FormClose
   OnShow = FormShow
   DesignerMasterStyle = 3
   object Rectangle1: TRectangle

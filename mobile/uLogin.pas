@@ -32,6 +32,7 @@ type
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -46,6 +47,12 @@ implementation
 {$R *.fmx}
 
 uses uDM;
+
+procedure TfrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := TCloseAction.caFree;
+  frmLogin := nil;
+end;
 
 procedure TfrmLogin.FormShow(Sender: TObject);
 begin
@@ -114,14 +121,14 @@ begin
     exit;
   end;
 
-  if not Assigned(frmPrincipal) then
+    if not Assigned(frmPrincipal) then
     frmPrincipal := TfrmPrincipal.Create(nil);
 
-    frmPrincipal.Show;
-    Application.MainForm := frmPrincipal;
+  frmPrincipal.Show;
 
-    freeandnil(frmLogin);
+  Application.MainForm := frmPrincipal;
+
+  self.Close;
 end;
-
 
 end.

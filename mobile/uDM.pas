@@ -418,7 +418,7 @@ begin
       conn.params.Values['DataBase'] := system.SysUtils.GetCurrentDir + '\DB\banco.db';
     {$endif}
     {$ifdef ANDROID}
-      Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
+      conn.Params.Values['DataBase'] := TPath.Combine(TPath.GetDocumentsPath, 'banco.db');
     {$endif}
 
     try
