@@ -4,8 +4,8 @@
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
     <PropertyGroup>
-        <DeviceId Condition="'$(Platform)'=='Android'"/>
-        <DeviceId Condition="'$(Platform)'=='Android64'"/>
+        <DeviceId Condition="'$(Platform)'=='Android'">RXCT500DZRV</DeviceId>
+        <DeviceId Condition="'$(Platform)'=='Android64'">RXCT500DZRV</DeviceId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='OSXARM64'"/>
     <ItemGroup Condition="'$(Platform)'=='Win64'"/>
@@ -204,6 +204,24 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
+        <DeployFile Include="DB\banco.db" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>comanda\assets\internal\</RemoteDir>
+            <RemoteName>banco.db</RemoteName>
+            <DeployClass>File</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="DB\banco.db" Condition="'$(Config)'=='Release'">
+            <RemoteDir>comanda\assets\internal\</RemoteDir>
+            <RemoteName>banco.db</RemoteName>
+            <DeployClass>File</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
         <DeployFile Include="Android64\Debug\styles.xml" Condition="'$(Config)'=='Debug'">
             <RemoteDir>comanda\res\values\</RemoteDir>
             <RemoteName>styles.xml</RemoteName>
@@ -355,6 +373,24 @@
             <RemoteName>ic_launcher.png</RemoteName>
             <DeployClass>Android_LauncherIcon48</DeployClass>
             <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="DB\banco.db" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>comanda\assets\internal\</RemoteDir>
+            <RemoteName>banco.db</RemoteName>
+            <DeployClass>File</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="DB\banco.db" Condition="'$(Config)'=='Release'">
+            <RemoteDir>comanda\assets\internal\</RemoteDir>
+            <RemoteName>banco.db</RemoteName>
+            <DeployClass>File</DeployClass>
+            <Operation>0</Operation>
             <LocalCommand/>
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
