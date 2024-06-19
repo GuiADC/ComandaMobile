@@ -95,7 +95,7 @@ object frmLogin: TfrmLogin
         end
         object rectLogin: TRectangle
           Align = Top
-          Fill.Color = xFFFCDF52
+          Fill.Color = xFF4A70F7
           Margins.Top = 10.000000000000000000
           Position.Y = 128.000000000000000000
           Size.Width = 247.000000000000000000
@@ -115,7 +115,7 @@ object frmLogin: TfrmLogin
             TextSettings.Font.Size = 16.000000000000000000
             TextSettings.FontColor = claWhite
             TextSettings.HorzAlign = Center
-            Text = 'Acessarrr'
+            Text = 'Acessar'
             TabOrder = 0
           end
         end
