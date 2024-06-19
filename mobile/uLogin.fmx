@@ -93,32 +93,6 @@ object frmLogin: TfrmLogin
           TextPrompt = 'digite aqui...'
           StyledSettings = [Family, Size, Style]
         end
-        object rectLogin: TRectangle
-          Align = Top
-          Fill.Color = xFF4A70F7
-          Margins.Top = 10.000000000000000000
-          Position.Y = 128.000000000000000000
-          Size.Width = 247.000000000000000000
-          Size.Height = 50.000000000000000000
-          Size.PlatformDefault = False
-          Stroke.Kind = None
-          XRadius = 4.000000000000000000
-          YRadius = 4.000000000000000000
-          OnClick = rectLoginClick
-          object Label3: TLabel
-            Align = Center
-            StyledSettings = [Family]
-            Locked = True
-            Size.Width = 247.000000000000000000
-            Size.Height = 27.000000000000000000
-            Size.PlatformDefault = False
-            TextSettings.Font.Size = 16.000000000000000000
-            TextSettings.FontColor = claWhite
-            TextSettings.HorzAlign = Center
-            Text = 'Acessar'
-            TabOrder = 0
-          end
-        end
         object lblConfig: TLabel
           Align = Bottom
           StyledSettings = [Family]

@@ -15,8 +15,6 @@ type
     Layout1: TLayout;
     Label2: TLabel;
     edtUsuario: TEdit;
-    rectLogin: TRectangle;
-    Label3: TLabel;
     TabControl: TTabControl;
     tabLogin: TTabItem;
     tabConfig: TTabItem;
