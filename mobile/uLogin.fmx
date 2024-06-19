@@ -115,7 +115,7 @@ object frmLogin: TfrmLogin
             TextSettings.Font.Size = 16.000000000000000000
             TextSettings.FontColor = claWhite
             TextSettings.HorzAlign = Center
-            Text = 'Acessar'
+            Text = 'Acessarr'
             TabOrder = 0
           end
         end
