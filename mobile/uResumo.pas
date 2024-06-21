@@ -239,8 +239,8 @@ begin
   begin
     altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
 
-    if lcountItems = 2 then
-      altura := altura - 20;
+//    if lcountItems = 2 then
+//      altura := altura - 20;
   end;
 
   AItem.Height := altura;
