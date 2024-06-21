@@ -4,7 +4,7 @@
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
     <PropertyGroup>
-        <DeviceId Condition="'$(Platform)'=='Android'">RXCT500DZRV</DeviceId>
+        <DeviceId Condition="'$(Platform)'=='Android'"/>
         <DeviceId Condition="'$(Platform)'=='Android64'">RXCT500DZRV</DeviceId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='OSXARM64'"/>

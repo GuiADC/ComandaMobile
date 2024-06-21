@@ -209,10 +209,22 @@ procedure TfrmResumo.lvProdutoUpdateObjects(const Sender: TObject;
 var
   altura: integer;
   txt: TListItemText;
+  imgDelete: TListItemImage;
+
   lcountItems: integer;
 begin
   altura := 0;
   lcountItems := 0;
+
+
+  txt := TListItemText(AItem.Objects.FindDrawable('txtPreco'));
+  imgDelete := TListItemImage(AItem.Objects.FindDrawable('imgDelete'));
+
+  if (txt <> nil) and (txt.text <> '') and (assigned(imgDelete)) then
+  begin
+    txt.PlaceOffset.X := imgDelete.PlaceOffset.X - imgDelete.width;
+  end;
+
 
   txt := TListItemText(AItem.Objects.FindDrawable('txtDescricao'));
 
@@ -239,8 +251,11 @@ begin
   begin
     altura := altura + GetTextHeight(txt, txt.Width, txt.Text);
 
-//    if lcountItems = 2 then
-//      altura := altura - 20;
+    {$ifdef mswindows}
+      if lcountItems = 2 then
+        altura := altura - 20;
+    {$endif}
+
   end;
 
   AItem.Height := altura;
