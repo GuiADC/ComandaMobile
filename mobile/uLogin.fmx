@@ -3,7 +3,7 @@ object frmLogin: TfrmLogin
   Top = 0
   Caption = 'Acesso'
   ClientHeight = 480
-  ClientWidth = 442
+  ClientWidth = 350
   Fill.Color = xFFF2F4FC
   Fill.Kind = Solid
   FormFactor.Width = 320
@@ -16,7 +16,7 @@ object frmLogin: TfrmLogin
     Align = Top
     Fill.Color = claWhite
     Sides = [Bottom]
-    Size.Width = 442.000000000000000000
+    Size.Width = 350.000000000000000000
     Size.Height = 50.000000000000000000
     Size.PlatformDefault = False
     Stroke.Color = xFFCFCFCF
@@ -36,7 +36,7 @@ object frmLogin: TfrmLogin
   end
   object TabControl: TTabControl
     Align = Client
-    Size.Width = 442.000000000000000000
+    Size.Width = 350.000000000000000000
     Size.Height = 430.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
@@ -44,9 +44,9 @@ object frmLogin: TfrmLogin
     TabOrder = 1
     TabPosition = None
     Sizes = (
-      442s
+      350s
       430s
-      442s
+      350s
       430s)
     object tabLogin: TTabItem
       CustomIcon = <
@@ -237,10 +237,10 @@ object frmLogin: TfrmLogin
   end
   object LayoutCircle: TLayout
     Align = Contents
-    Size.Width = 442.000000000000000000
+    Size.Width = 350.000000000000000000
     Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 3
+    TabOrder = 2
     object circle: TCircle
       Align = Center
       Fill.Color = xFF566BEF
@@ -249,11 +249,14 @@ object frmLogin: TfrmLogin
       Size.Height = 900.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
-      object FloatAnimation1: TFloatAnimation
-        Duration = 0.200000002980232200
-        PropertyName = 'Height'
-        StartValue = 0.000000000000000000
-        StopValue = 0.000000000000000000
+      object AnimationCircle: TFloatAnimation
+        AnimationType = InOut
+        Duration = 0.400000005960464500
+        Interpolation = Cubic
+        OnFinish = AnimationCircleFinish
+        PropertyName = 'Margins.Right'
+        StartValue = -800.000000000000000000
+        StopValue = 800.000000000000000000
       end
     end
   end

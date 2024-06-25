@@ -30,13 +30,16 @@ type
     Label1: TLabel;
     LayoutCircle: TLayout;
     circle: TCircle;
-    FloatAnimation1: TFloatAnimation;
+    AnimationCircle: TFloatAnimation;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure AnimationCircleFinish(Sender: TObject);
   private
+    procedure posicionaObjetos;
+    procedure animar;
     { Private declarations }
   public
     { Public declarations }
@@ -51,14 +54,26 @@ implementation
 
 uses uDM;
 
+procedure TfrmLogin.AnimationCircleFinish(Sender: TObject);
+begin
+  AnimationCircle.Inverse := not(AnimationCircle.Inverse);
+end;
+
 procedure TfrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := TCloseAction.caFree;
   frmLogin := nil;
 end;
 
+procedure TfrmLogin.animar;
+begin
+  AnimationCircle.Start;
+end;
+
 procedure TfrmLogin.FormShow(Sender: TObject);
 begin
+  animar;
+
   dm.qry_config.Active := false;
   dm.qry_config.SQL.clear;
   dm.qry_config.SQL.add('SELECT * FROM TAB_USUARIO');
@@ -79,6 +94,7 @@ end;
 
 procedure TfrmLogin.lblConfigClick(Sender: TObject);
 begin
+  animar;
   tabControl.GotoVisibleTab(1, TTabTransition.Slide);
 
   lblTitulo.Text := 'Configurações';
@@ -86,6 +102,8 @@ end;
 
 procedure TfrmLogin.rectSaveClick(Sender: TObject);
 begin
+  animar;
+
   if edtServidor.text = '' then
   begin
     ShowMessage('Informe o servidor');
@@ -132,6 +150,25 @@ begin
   Application.MainForm := frmPrincipal;
 
   self.Close;
+end;
+
+procedure TfrmLogin.posicionaObjetos;
+begin
+  if LayoutCircle.Width >= layoutcircle.Height then
+  begin
+    circle.Width := circle.Width * 1.5;
+    circle.Height := circle.Width;
+    //circle.Margins.Bottom := circle.Width * 0.30;
+
+    AnimationCircle.PropertyName := 'Margins.Right';
+    AnimationCircle.StartValue := circle.Width;
+    AnimationCircle.StopValue := -circle.Width;
+  end
+  else
+  begin
+
+  end;
+
 end;
 
 end.
