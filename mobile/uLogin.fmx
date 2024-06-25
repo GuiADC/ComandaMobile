@@ -235,4 +235,26 @@ object frmLogin: TfrmLogin
       end
     end
   end
+  object LayoutCircle: TLayout
+    Align = Contents
+    Size.Width = 442.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object circle: TCircle
+      Align = Center
+      Fill.Color = xFF566BEF
+      Margins.Right = 800.000000000000000000
+      Size.Width = 777.000000000000000000
+      Size.Height = 900.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      object FloatAnimation1: TFloatAnimation
+        Duration = 0.200000002980232200
+        PropertyName = 'Height'
+        StartValue = 0.000000000000000000
+        StopValue = 0.000000000000000000
+      end
+    end
+  end
 end

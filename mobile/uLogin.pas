@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.Edit, FMX.TabControl,
-  uPrincipal, REST.types;
+  uPrincipal, REST.types, FMX.Ani;
 
 type
   TfrmLogin = class(TForm)
@@ -28,6 +28,9 @@ type
     lblConfig: TLabel;
     edtSenha: TEdit;
     Label1: TLabel;
+    LayoutCircle: TLayout;
+    circle: TCircle;
+    FloatAnimation1: TFloatAnimation;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
