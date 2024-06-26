@@ -10,9 +10,7 @@ uses
 
 type
   TfrmLogin = class(TForm)
-    Rectangle1: TRectangle;
-    lblTitulo: TLabel;
-    Layout1: TLayout;
+    layLogin: TLayout;
     Label2: TLabel;
     edtUsuario: TEdit;
     rectLogin: TRectangle;
@@ -20,7 +18,7 @@ type
     TabControl: TTabControl;
     tabLogin: TTabItem;
     tabConfig: TTabItem;
-    Layout2: TLayout;
+    layServidor: TLayout;
     Label4: TLabel;
     edtServidor: TEdit;
     rectSave: TRectangle;
@@ -31,12 +29,15 @@ type
     LayoutCircle: TLayout;
     circle: TCircle;
     AnimationCircle: TFloatAnimation;
+    layContainerLogin: TLayout;
+    layContainerServidor: TLayout;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure AnimationCircleFinish(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     procedure posicionaObjetos;
     procedure animar;
@@ -65,6 +66,11 @@ begin
   frmLogin := nil;
 end;
 
+procedure TfrmLogin.FormResize(Sender: TObject);
+begin
+  posicionaObjetos;
+end;
+
 procedure TfrmLogin.animar;
 begin
   AnimationCircle.Start;
@@ -86,7 +92,6 @@ begin
   end
   else
   begin
-    lblTitulo.Text := 'Configurações';
     TabControl.ActiveTab := tabConfig;
   end;
 
@@ -96,8 +101,6 @@ procedure TfrmLogin.lblConfigClick(Sender: TObject);
 begin
   animar;
   tabControl.GotoVisibleTab(1, TTabTransition.Slide);
-
-  lblTitulo.Text := 'Configurações';
 end;
 
 procedure TfrmLogin.rectSaveClick(Sender: TObject);
@@ -127,7 +130,6 @@ begin
 
   tabControl.GotoVisibleTab(0, TTabTransition.Slide);
 
-  lblTitulo.Text := 'Acesso';
 end;
 
 procedure TfrmLogin.rectLoginClick(Sender: TObject);
@@ -156,16 +158,33 @@ procedure TfrmLogin.posicionaObjetos;
 begin
   if LayoutCircle.Width >= layoutcircle.Height then
   begin
-    circle.Width := circle.Width * 1.5;
+    circle.Width := LayoutCircle.Width * 1.5;
     circle.Height := circle.Width;
-    //circle.Margins.Bottom := circle.Width * 0.30;
+    circle.Margins.Bottom := circle.Width * 0.30;
 
     AnimationCircle.PropertyName := 'Margins.Right';
-    AnimationCircle.StartValue := circle.Width;
-    AnimationCircle.StopValue := -circle.Width;
+    AnimationCircle.StartValue := -circle.Width;
+    AnimationCircle.StopValue := circle.Width;
+
+    if not AnimationCircle.Inverse then
+      circle.Margins.Right := AnimationCircle.startValue
+    else
+      circle.Margins.Right := AnimationCircle.stopValue;
   end
   else
   begin
+    circle.height := LayoutCircle.height * 1.5;
+    circle.width := circle.height;
+    circle.Margins.right := 0;
+
+    AnimationCircle.PropertyName := 'Margins.Bottom';
+    AnimationCircle.StartValue := circle.Width;
+    AnimationCircle.StopValue := -circle.Width;
+
+    if not AnimationCircle.Inverse then
+      circle.Margins.bottom := AnimationCircle.StartValue
+    else
+      circle.Margins.bottom := AnimationCircle.StopValue;
 
   end;
 
