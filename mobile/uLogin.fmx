@@ -13,6 +13,31 @@ object frmLogin: TfrmLogin
   OnResize = FormResize
   OnShow = FormShow
   DesignerMasterStyle = 3
+  object LayoutCircle: TLayout
+    Align = Contents
+    Size.Width = 1039.000000000000000000
+    Size.Height = 643.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object circle: TCircle
+      Align = Center
+      Fill.Color = xFF4A70F7
+      Margins.Right = 800.000000000000000000
+      Size.Width = 777.000000000000000000
+      Size.Height = 900.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      object AnimationCircle: TFloatAnimation
+        AnimationType = InOut
+        Duration = 0.400000005960464500
+        Interpolation = Cubic
+        OnFinish = AnimationCircleFinish
+        PropertyName = 'Margins.Right'
+        StartValue = 800.000000000000000000
+        StopValue = -800.000000000000000000
+      end
+    end
+  end
   object TabControl: TTabControl
     Align = Client
     Size.Width = 1039.000000000000000000
@@ -52,7 +77,7 @@ object frmLogin: TfrmLogin
           Align = Center
           Margins.Bottom = 100.000000000000000000
           Size.Width = 247.000000000000000000
-          Size.Height = 225.000000000000000000
+          Size.Height = 274.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
           object Label2: TLabel
@@ -67,30 +92,17 @@ object frmLogin: TfrmLogin
             Text = 'Usu'#225'rio'
             TabOrder = 2
           end
-          object edtUsuario: TEdit
-            Touch.InteractiveGestures = [LongTap, DoubleTap]
-            Align = Top
-            StyleLookup = 'transparentedit'
-            TabOrder = 4
-            TextSettings.FontColor = xFFB0BAC9
-            Position.Y = 27.000000000000000000
-            Size.Width = 247.000000000000000000
-            Size.Height = 32.000000000000000000
-            Size.PlatformDefault = False
-            TextPrompt = 'digite aqui...'
-            StyledSettings = [Family, Size, Style]
-          end
           object rectLogin: TRectangle
             Align = Top
             Fill.Color = xFF4A70F7
             Margins.Top = 10.000000000000000000
-            Position.Y = 128.000000000000000000
+            Position.Y = 184.000000000000000000
             Size.Width = 247.000000000000000000
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
-            XRadius = 4.000000000000000000
-            YRadius = 4.000000000000000000
+            XRadius = 20.000000000000000000
+            YRadius = 20.000000000000000000
             OnClick = rectLoginClick
             object Label3: TLabel
               Align = Center
@@ -108,36 +120,25 @@ object frmLogin: TfrmLogin
           end
           object lblConfig: TLabel
             Align = Top
-            StyledSettings = [Family]
+            StyledSettings = []
             HitTest = True
-            Position.Y = 178.000000000000000000
+            Position.Y = 234.000000000000000000
             Size.Width = 247.000000000000000000
-            Size.Height = 31.000000000000000000
+            Size.Height = 39.000000000000000000
             Size.PlatformDefault = False
-            TextSettings.Font.Size = 14.000000000000000000
+            TextSettings.Font.Family = 'Default'
+            TextSettings.Font.Size = 16.000000000000000000
+            TextSettings.Font.StyleExt = {00070000000000000004000000}
             TextSettings.FontColor = xFFB0BAC9
             TextSettings.HorzAlign = Center
             Text = 'Configura'#231#245'es'
             TabOrder = 0
             OnClick = lblConfigClick
           end
-          object edtSenha: TEdit
-            Touch.InteractiveGestures = [LongTap, DoubleTap]
-            Align = Top
-            StyleLookup = 'transparentedit'
-            TabOrder = 3
-            TextSettings.FontColor = xFFB0BAC9
-            Position.Y = 86.000000000000000000
-            Size.Width = 247.000000000000000000
-            Size.Height = 32.000000000000000000
-            Size.PlatformDefault = False
-            TextPrompt = 'digite aqui...'
-            StyledSettings = [Family, Size, Style]
-          end
           object Label1: TLabel
             Align = Top
             StyledSettings = [Family]
-            Position.Y = 59.000000000000000000
+            Position.Y = 147.000000000000000000
             Size.Width = 247.000000000000000000
             Size.Height = 27.000000000000000000
             Size.PlatformDefault = False
@@ -146,6 +147,64 @@ object frmLogin: TfrmLogin
             TextSettings.FontColor = xFFB0BAC9
             Text = 'Senha'
             TabOrder = 1
+          end
+          object rectEdtUsuario: TRectangle
+            Align = Top
+            Fill.Color = xFFCDCDCD
+            HitTest = False
+            Margins.Top = 10.000000000000000000
+            Position.Y = 97.000000000000000000
+            Size.Width = 247.000000000000000000
+            Size.Height = 50.000000000000000000
+            Size.PlatformDefault = False
+            Stroke.Kind = None
+            XRadius = 10.000000000000000000
+            YRadius = 10.000000000000000000
+            OnClick = rectLoginClick
+            object edtSenha: TEdit
+              Touch.InteractiveGestures = [LongTap, DoubleTap]
+              Align = Client
+              StyleLookup = 'transparentedit'
+              TabOrder = 4
+              TextSettings.Font.Size = 20.000000000000000000
+              TextSettings.FontColor = claWhite
+              Margins.Left = 10.000000000000000000
+              Margins.Right = 10.000000000000000000
+              Size.Width = 227.000000000000000000
+              Size.Height = 32.000000000000000000
+              Size.PlatformDefault = False
+              TextPrompt = 'digite aqui...'
+              StyledSettings = [Family, Style]
+            end
+          end
+          object rectEdtSenha: TRectangle
+            Align = Top
+            Fill.Color = xFFCDCDCD
+            HitTest = False
+            Margins.Top = 10.000000000000000000
+            Position.Y = 37.000000000000000000
+            Size.Width = 247.000000000000000000
+            Size.Height = 50.000000000000000000
+            Size.PlatformDefault = False
+            Stroke.Kind = None
+            XRadius = 10.000000000000000000
+            YRadius = 10.000000000000000000
+            OnClick = rectLoginClick
+            object edtUsuario: TEdit
+              Touch.InteractiveGestures = [LongTap, DoubleTap]
+              Align = Client
+              StyleLookup = 'transparentedit'
+              TabOrder = 3
+              TextSettings.Font.Size = 20.000000000000000000
+              TextSettings.FontColor = claWhite
+              Margins.Left = 10.000000000000000000
+              Margins.Right = 10.000000000000000000
+              Size.Width = 227.000000000000000000
+              Size.Height = 32.000000000000000000
+              Size.PlatformDefault = False
+              TextPrompt = 'digite aqui...'
+              StyledSettings = [Family, Style]
+            end
           end
         end
       end
@@ -229,31 +288,6 @@ object frmLogin: TfrmLogin
             end
           end
         end
-      end
-    end
-  end
-  object LayoutCircle: TLayout
-    Align = Contents
-    Size.Width = 1039.000000000000000000
-    Size.Height = 643.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    object circle: TCircle
-      Align = Center
-      Fill.Color = xFF4A70F7
-      Margins.Right = 800.000000000000000000
-      Size.Width = 777.000000000000000000
-      Size.Height = 900.000000000000000000
-      Size.PlatformDefault = False
-      Stroke.Kind = None
-      object AnimationCircle: TFloatAnimation
-        AnimationType = InOut
-        Duration = 0.400000005960464500
-        Interpolation = Cubic
-        OnFinish = AnimationCircleFinish
-        PropertyName = 'Margins.Right'
-        StartValue = 800.000000000000000000
-        StopValue = -800.000000000000000000
       end
     end
   end

@@ -12,7 +12,7 @@ type
   TfrmLogin = class(TForm)
     layLogin: TLayout;
     Label2: TLabel;
-    edtUsuario: TEdit;
+    edtSenha: TEdit;
     rectLogin: TRectangle;
     Label3: TLabel;
     TabControl: TTabControl;
@@ -24,13 +24,15 @@ type
     rectSave: TRectangle;
     Label5: TLabel;
     lblConfig: TLabel;
-    edtSenha: TEdit;
+    edtUsuario: TEdit;
     Label1: TLabel;
     LayoutCircle: TLayout;
     circle: TCircle;
     AnimationCircle: TFloatAnimation;
     layContainerLogin: TLayout;
     layContainerServidor: TLayout;
+    rectEdtUsuario: TRectangle;
+    rectEdtSenha: TRectangle;
     procedure rectLoginClick(Sender: TObject);
     procedure lblConfigClick(Sender: TObject);
     procedure rectSaveClick(Sender: TObject);
@@ -41,6 +43,7 @@ type
   private
     procedure posicionaObjetos;
     procedure animar;
+    procedure resizeContainerInfosLogin(playContainer: TLayout; pintMarginValue: integer; pstrTypeMargins: string = '');
     { Private declarations }
   public
     { Public declarations }
@@ -78,6 +81,7 @@ end;
 
 procedure TfrmLogin.FormShow(Sender: TObject);
 begin
+  LayoutCircle.BringToFront;
   animar;
 
   dm.qry_config.Active := false;
@@ -100,6 +104,8 @@ end;
 procedure TfrmLogin.lblConfigClick(Sender: TObject);
 begin
   animar;
+
+  resizeContainerInfosLogin(layContainerServidor, self.Height div 2, 'top');
   tabControl.GotoVisibleTab(1, TTabTransition.Slide);
 end;
 
@@ -154,6 +160,25 @@ begin
   self.Close;
 end;
 
+procedure TfrmLogin.resizeContainerInfosLogin(playContainer: TLayout; pintMarginValue: integer; pstrTypeMargins: string = '');
+begin
+  playContainer.Margins.right := 0;
+  playContainer.Align := TAlignLayout.Center;
+
+  if pstrTypeMargins = 'bottom' then
+  begin
+    playContainer.Margins.Bottom := pintMarginValue;
+    playContainer.Margins.top := 0;
+  end
+  else
+  if pstrTypeMargins = 'top' then
+  begin
+    playContainer.Margins.Bottom := 0;
+    playContainer.Margins.top := pintMarginValue;
+  end;
+
+end;
+
 procedure TfrmLogin.posicionaObjetos;
 begin
   if LayoutCircle.Width >= layoutcircle.Height then
@@ -185,6 +210,8 @@ begin
       circle.Margins.bottom := AnimationCircle.StartValue
     else
       circle.Margins.bottom := AnimationCircle.StopValue;
+
+    resizeContainerInfosLogin(layContainerLogin, self.Height div 2 - 110, 'bottom');
 
   end;
 
