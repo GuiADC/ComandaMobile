@@ -1,6 +1,7 @@
 \__Android
 \__Android64
 \__release
+
 # Delphi compiler-generated binaries (safe to delete)
 *.exe
 *.dll
