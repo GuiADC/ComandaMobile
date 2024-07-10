@@ -7,7 +7,8 @@ uses
   uPrincipal in 'uPrincipal.pas' {frmPrincipal},
   uResumo in 'uResumo.pas' {frmResumo},
   uAddItem in 'uAddItem.pas' {frmAddItem},
-  uDM in 'uDM.pas' {dm: TDataModule};
+  uDM in 'uDM.pas' {dm: TDataModule},
+  utils in 'utils.pas';
 
 {$R *.res}
 

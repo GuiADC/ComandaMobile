@@ -3,7 +3,7 @@ object frmLogin: TfrmLogin
   Top = 0
   Caption = 'Acesso'
   ClientHeight = 643
-  ClientWidth = 1039
+  ClientWidth = 935
   Fill.Color = xFFF2F4FC
   Fill.Kind = Solid
   FormFactor.Width = 320
@@ -15,7 +15,7 @@ object frmLogin: TfrmLogin
   DesignerMasterStyle = 3
   object LayoutCircle: TLayout
     Align = Contents
-    Size.Width = 1039.000000000000000000
+    Size.Width = 935.000000000000000000
     Size.Height = 643.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
@@ -40,23 +40,23 @@ object frmLogin: TfrmLogin
   end
   object TabControl: TTabControl
     Align = Client
-    Size.Width = 1039.000000000000000000
+    Size.Width = 935.000000000000000000
     Size.Height = 643.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     TabPosition = None
     Sizes = (
-      1039s
+      935s
       643s
-      1039s
+      935s
       643s)
     object tabLogin: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -68,7 +68,7 @@ object frmLogin: TfrmLogin
       object layContainerLogin: TLayout
         Align = Right
         Margins.Right = 30.000000000000000000
-        Position.X = 751.000000000000000000
+        Position.X = 647.000000000000000000
         Size.Width = 258.000000000000000000
         Size.Height = 643.000000000000000000
         Size.PlatformDefault = False
@@ -213,7 +213,7 @@ object frmLogin: TfrmLogin
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -270,8 +270,8 @@ object frmLogin: TfrmLogin
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
-            XRadius = 4.000000000000000000
-            YRadius = 4.000000000000000000
+            XRadius = 20.000000000000000000
+            YRadius = 20.000000000000000000
             OnClick = rectSaveClick
             object Label5: TLabel
               Align = Center

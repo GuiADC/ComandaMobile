@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.Edit, FMX.TabControl,
-  uPrincipal, REST.types, FMX.Ani;
+  uPrincipal, REST.types, FMX.Ani, StrUtils;
 
 type
   TfrmLogin = class(TForm)
@@ -43,7 +43,8 @@ type
   private
     procedure posicionaObjetos;
     procedure animar;
-    procedure resizeContainerInfosLogin(playContainer: TLayout; pintMarginValue: integer; pstrTypeMargins: string = '');
+    procedure resizeContainerInfosLogin(playContainer: TLayout; pintMarginValue: integer);
+
     { Private declarations }
   public
     { Public declarations }
@@ -56,7 +57,7 @@ implementation
 
 {$R *.fmx}
 
-uses uDM;
+uses uDM, utils;
 
 procedure TfrmLogin.AnimationCircleFinish(Sender: TObject);
 begin
@@ -71,6 +72,7 @@ end;
 
 procedure TfrmLogin.FormResize(Sender: TObject);
 begin
+  resizeContainerInfosLogin(IfThenn(TabControl.ActiveTab = tabconfig, layContainerServidor, layContainerLogin), self.Height div 2 - 110);
   posicionaObjetos;
 end;
 
@@ -105,12 +107,13 @@ procedure TfrmLogin.lblConfigClick(Sender: TObject);
 begin
   animar;
 
-  resizeContainerInfosLogin(layContainerServidor, self.Height div 2, 'top');
+  resizeContainerInfosLogin(layContainerServidor, self.Height div 2);
   tabControl.GotoVisibleTab(1, TTabTransition.Slide);
 end;
 
 procedure TfrmLogin.rectSaveClick(Sender: TObject);
 begin
+  resizeContainerInfosLogin(IfThenn(TabControl.ActiveTab = tabconfig, layContainerLogin, layContainerLogin), self.Height div 2 - 110);
   animar;
 
   if edtServidor.text = '' then
@@ -160,23 +163,41 @@ begin
   self.Close;
 end;
 
-procedure TfrmLogin.resizeContainerInfosLogin(playContainer: TLayout; pintMarginValue: integer; pstrTypeMargins: string = '');
+procedure TfrmLogin.resizeContainerInfosLogin(playContainer: TLayout; pintMarginValue: integer);
 begin
-  playContainer.Margins.right := 0;
-  playContainer.Align := TAlignLayout.Center;
+  resetMargins(playContainer);
 
-  if pstrTypeMargins = 'bottom' then
+  if self.Width >= Self.Height then
   begin
-    playContainer.Margins.Bottom := pintMarginValue;
-    playContainer.Margins.top := 0;
+    if playContainer.name = 'layContainerServidor' then
+    begin
+      playContainer.Align := TAlignLayout.left;
+      layServidor.Margins.bottom := 0;
+      playContainer.Margins.right := 0;
+      playContainer.Margins.left := 20;
+    end
+    else
+    begin
+      playContainer.Align := TAlignLayout.right;
+      playContainer.Margins.right := 20;
+      playContainer.Margins.left := 0;
+    end;
   end
   else
-  if pstrTypeMargins = 'top' then
   begin
-    playContainer.Margins.Bottom := 0;
-    playContainer.Margins.top := pintMarginValue;
-  end;
+    playContainer.Align := TAlignLayout.center;
 
+    if playContainer.name = 'layContainerServidor' then
+    begin
+      playContainer.Margins.Bottom := 0;
+      playContainer.Margins.top := pintMarginValue;
+    end
+    else
+    begin
+      playContainer.Margins.Bottom := pintMarginValue;
+      playContainer.Margins.top := 0;
+    end;
+  end;
 end;
 
 procedure TfrmLogin.posicionaObjetos;
@@ -195,6 +216,7 @@ begin
       circle.Margins.Right := AnimationCircle.startValue
     else
       circle.Margins.Right := AnimationCircle.stopValue;
+
   end
   else
   begin
@@ -210,9 +232,6 @@ begin
       circle.Margins.bottom := AnimationCircle.StartValue
     else
       circle.Margins.bottom := AnimationCircle.StopValue;
-
-    resizeContainerInfosLogin(layContainerLogin, self.Height div 2 - 110, 'bottom');
-
   end;
 
 end;
