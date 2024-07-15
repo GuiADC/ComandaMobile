@@ -100,7 +100,6 @@ begin
   begin
     TabControl.ActiveTab := tabConfig;
   end;
-
 end;
 
 procedure TfrmLogin.lblConfigClick(Sender: TObject);
@@ -138,7 +137,6 @@ begin
   end;
 
   tabControl.GotoVisibleTab(0, TTabTransition.Slide);
-
 end;
 
 procedure TfrmLogin.rectLoginClick(Sender: TObject);
@@ -153,7 +151,7 @@ begin
     exit;
   end;
 
-    if not Assigned(frmPrincipal) then
+  if not Assigned(frmPrincipal) then
     frmPrincipal := TfrmPrincipal.Create(nil);
 
   frmPrincipal.Show;
@@ -216,7 +214,6 @@ begin
       circle.Margins.Right := AnimationCircle.startValue
     else
       circle.Margins.Right := AnimationCircle.stopValue;
-
   end
   else
   begin
@@ -233,7 +230,6 @@ begin
     else
       circle.Margins.bottom := AnimationCircle.StopValue;
   end;
-
 end;
 
 end.
